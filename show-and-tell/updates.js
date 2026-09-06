@@ -14,10 +14,7 @@
   The register display defaults to PROCESSING. To announce something specific,
   use: { mode: "queued", project: "Project name", text: "Short description" }
 */
-window.NOOK_NEXT = {
-  mode: "queued",
-  text: "OEI STAFF SUITE"
-};
+window.NOOK_NEXT = { mode: "processing" };
 
 window.NOOK_PROJECTS = {
   "Operational Entropy Index": { shortName: "OEI", stampColor: "#3D5368" },
@@ -32,6 +29,78 @@ window.NOOK_PROJECTS = {
 };
 
 window.NOOK_UPDATES = [
+  {
+    id: "oei-institute-website-rebuild",
+    date: "2026-09-06",
+    project: "Operational Entropy Index",
+    title: "Started rebuilding the website around the new OEI",
+    body: "Moved the public site away from treating OEI, the methodology, and the consulting business as the same thing. The Institute now sits above the Index, while unresolved services and pricing are explicitly transitional.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Visit the OEI website"
+  },
+  {
+    id: "oei-institute-identity-system",
+    date: "2026-09-06",
+    project: "Operational Entropy Index",
+    title: "Rebuilt the OEI identity around the Institute",
+    body: "Evolved the existing OEI mark into an Institute identity system, keeping the entropy-to-structure visual language while making Operational Forensics for Growing Teams the disciplinary positioning.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-institute-definition",
+    date: "2026-09-06",
+    project: "Operational Entropy Index",
+    title: "Defined what OEI Institute actually is",
+    body: "Landed on the missing institutional definition: OEI Institute is the governing institution for the Operational Entropy Index methodology, responsible for maintaining its canon and standards and developing the infrastructure for competent practice.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-knowledge-base-curator",
+    date: "2026-09-06",
+    project: "Operational Entropy Index",
+    title: "Gave the knowledge base a curator",
+    body: "Built a weekly AI-assisted curation system that detects changes, refreshes safe classifications, quarantines ambiguity, preserves provenance, and sends semantic changes that could rewrite institutional meaning back for human review.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-institutional-knowledge-architecture",
+    date: "2026-09-06",
+    project: "Operational Entropy Index",
+    title: "Gave OEI its own knowledge architecture",
+    body: "Turned the existing methodology, training, certification, delivery, governance, product, and historical material into a structured institutional knowledge layer without replacing the original sources.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-institution-over-consultancy-scale",
+    date: "2026-09-02",
+    project: "Operational Entropy Index",
+    title: "Chose institution over consultancy scale",
+    body: "Stopped pursuing a collaboration built around scaling OEI as a replicable consulting offer and kept the useful question underneath it: what if OEI itself becomes the institution instead?",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-institutional-direction",
+    date: "2026-09-01",
+    project: "Operational Entropy Index",
+    title: "Started treating OEI like an institution",
+    body: "Began restructuring OEI around something bigger than founder-delivered consulting: an institution that can maintain the methodology, develop practitioners, assess competence, and preserve standards as the practice spreads.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
+  {
+    id: "oei-practitioner-assessment",
+    date: "2026-09-01",
+    project: "Operational Entropy Index",
+    title: "Built an assessment for OEI practitioners",
+    body: "Turned practitioner certification into a full investigation environment where candidates scope cases, request and evaluate evidence, test explanations, reach findings, and leave an auditable reasoning trail for assessors.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
   {
     id: "invisible-load-desktop-app",
     date: "2026-08-30",
