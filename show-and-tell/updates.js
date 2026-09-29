@@ -17,6 +17,7 @@
 window.NOOK_NEXT = { mode: "processing" };
 
 window.NOOK_PROJECTS = {
+  "OEI Institute": { shortName: "OEI", stampColor: "#3D5368" },
   "Operational Entropy Index": { shortName: "OEI", stampColor: "#3D5368" },
   "Entropy Compatible Hiring": { shortName: "ECH", stampColor: "#112638" },
   "The Stuff I Have Online": { shortName: "TSHO", stampColor: "#171b1a" },
@@ -29,6 +30,42 @@ window.NOOK_PROJECTS = {
 };
 
 window.NOOK_UPDATES = [
+  {
+    id: "oei-commercial-pathways-capability-intervention",
+    date: "2026-09-25",
+    project: "OEI Institute",
+    title: "Reframed OEI’s commercial pathways around capability and intervention",
+    body: "Services and pricing now explain engagement choices through who develops and applies OEI capability, and whether an AI intervention is warranted. AI Enablement is optional, not an OEI pillar, while the broader practitioner and commercial structure continues to develop.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI services and pricing"
+  },
+  {
+    id: "oei-focused-investigations-pricing-update",
+    date: "2026-09-24",
+    project: "Operational Entropy Index",
+    title: "Revised pricing for Focused Operational Investigations",
+    body: "The published typical investment is now $1,000–$4,000 USD. The updated range appears across the investigation overview, individual investigation pages, and OEI information packets.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore Focused Operational Investigations"
+  },
+  {
+    id: "oei-institute-public-identity",
+    date: "2026-09-06",
+    project: "OEI Institute",
+    title: "Applied the OEI Institute identity across the public site",
+    body: "The site adopted the OEI Institute logo, favicon, and Institute-level imagery while keeping the established OEI visual language. Operational Forensics for Growing Teams now serves as the Institute’s disciplinary positioning.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Visit the OEI website"
+  },
+  {
+    id: "oei-institute-methodology-governance",
+    date: "2026-09-06",
+    project: "OEI Institute",
+    title: "Established the Institute as the home of the OEI methodology",
+    body: "The OEI Institute now governs the Operational Entropy Index methodology, maintains its practice standards, and develops practitioner capability. The Index remains the methodology, with its own educational journey beneath the Institute identity.",
+    url: "https://operationalentropy.com",
+    linkLabel: "Explore the OEI website"
+  },
   {
     id: "oei-institute-website-rebuild",
     date: "2026-09-06",
