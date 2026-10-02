@@ -14,7 +14,7 @@
   The register display defaults to PROCESSING. To announce something specific,
   use: { mode: "queued", project: "Project name", text: "Short description" }
 */
-window.NOOK_NEXT = { mode: "processing" };
+window.NOOK_NEXT = { mode: "queued", project: "The Lemonade Economy", text: "PENDING" };
 
 window.NOOK_PROJECTS = {
   "OEI Institute": { shortName: "OEI", stampColor: "#3D5368" },
