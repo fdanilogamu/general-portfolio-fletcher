@@ -16,7 +16,31 @@ window.RESIDENT_INVENTOR_PATHS = [
     insight: "This shows one active loop, not a timetable or a required sequence for every invention."
   },
   {
+    id: "lemonade-economy",
+    label: "The Lemonade Economy",
+    title: "The Lemonade Economy",
+    updatedAt: "2026-10-02",
+    summary: "Years of private executive-function adaptations acquire an audience, then a form. Each container exposes another constraint until a two-sided, living reference system emerges.",
+    loops: [{
+      label: "Private adaptations → living reference system",
+      nodes: [
+        { kind: "field", title: "Years of private executive-function adaptations", text: "Long before the project existed, I was inventing around ADHD: ways to start tasks, preserve context, externalize memory, recover after failures, borrow momentum, and make ordinary life require less brute-force executive function. These were not products or named methods. They were part of how I operated." },
+        { kind: "collision", title: "October 2026 · a coworker asks for the systems", text: "A coworker suspects her stepsons may have ADHD. A conversation about my own experience becomes a request for the tips, tricks, and strategies I have accumulated, including what might help the people living alongside someone with ADHD. Something private suddenly has an audience." },
+        { kind: "ding", title: "The world runs on a lemonade economy", quote: "When life refuses to give you lemons, but the world runs on a lemonade economy.", text: "The paired perspective is “I live with a lemonless person, now what?” A pile of personal adaptations becomes a coherent subject: the mismatch between executive dysfunction and environments built around assumed executive function." },
+        { kind: "form", title: "A two-part written guide", text: "The first obvious form is a document: one part for the ADHD-haver, another for the people living with them. It makes the paired perspective visible, but almost immediately exposes another problem." },
+        { kind: "collision", title: "The format contradicts the audience", text: "A long linear document asks an ADHD reader to sustain attention, retain context, navigate information sequentially, and find the relevant intervention inside it—the same demands the resource is supposed to help with. The content makes sense. The container does not." },
+        { kind: "form", title: "A two-sided web reference", text: "The document becomes a web app/reference system organized around recognizable problems rather than diagnostic terminology. Every problem has two linked perspectives, stable URLs, immediate help, recovery, principles, glossary concepts, and connections to recurring household systems. The information architecture has changed; this is more than putting the document online." },
+        { kind: "reality", title: "Even good web pages can become too long", text: "The first real problem pages reveal that a 13-section article remains a 13-section article, even with cards, accordions, and nice colors. The Lemonless reader may be inside the failure right now. The Support reader is more likely to be trying to understand, respond, or build a shared system. Those are different cognitive jobs." },
+        { kind: "form", title: "Two perspectives, two interaction models", text: "The Lemonless Side becomes a visual choice map: “Try something now,” with routes for “Still stuck?”, “Want to understand it?”, “Want to make next time easier?”, and “Already went wrong?” The Support Side becomes a structured reference path with a concise landing page and deeper subpages. The material stays paired while each interface adapts to the cognitive job of its reader." },
+        { kind: "reality", title: "The taxonomy has to emerge from the work", text: "Early attempts to pre-populate principles and methodologies create maintenance debt and make the knowledge system look more settled than it is. Glossary terms, principles, and household-system connections are instead allowed to emerge from actual articles. The reference system grows organically from evidence inside itself." },
+        { kind: "reality", title: "A deployed, evolving reference system", text: "The site is deployed before the library is finished, allowing its interaction model, visual language, paired-page architecture, and content rules to encounter real use while the resource grows. It has become a living reference system for debugging the mismatch between executive dysfunction and the environments people have to operate in." }
+      ]
+    }],
+    insight: "A form can solve the problem that created it and still expose the next problem. The invention keeps changing until the container fits the thing it’s trying to carry."
+  },
+  {
     id: "oei",
+    updatedAt: "2026-09-25",
     label: "OEI",
     title: "Operational Entropy Index",
     summary: "A pattern preserved by a life and body of work became a diagnostic framework, then a practice. A later decision changed its form again: an institution to maintain the methodology and develop practitioners.",
@@ -113,6 +137,7 @@ window.RESIDENT_INVENTOR_PATHS = [
   },
   {
     id: "ech",
+    updatedAt: "2026-08-28",
     label: "ECH",
     title: "Entropy-Compatible Hiring",
     summary: "Two active loops, separated by a return to the Field. The second became possible when cheap, fast software building changed the surroundings.",

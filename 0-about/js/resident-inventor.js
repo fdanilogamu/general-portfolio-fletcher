@@ -2,8 +2,15 @@
   "use strict";
 
   const explorer = document.querySelector("[data-invention-explorer]");
-  const paths = window.RESIDENT_INVENTOR_PATHS;
-  if (!explorer || !Array.isArray(paths)) return;
+  const sourcePaths = window.RESIDENT_INVENTOR_PATHS;
+  if (!explorer || !Array.isArray(sourcePaths)) return;
+
+  // Keep the model first; dated projects run newest to oldest. Undated
+  // histories retain their existing relative order after dated projects.
+  const paths = sourcePaths.slice().sort((a, b) => {
+    if (Boolean(a.base) !== Boolean(b.base)) return a.base ? -1 : 1;
+    return (b.updatedAt || "").localeCompare(a.updatedAt || "");
+  });
 
   const tabs = explorer.querySelector(".ri-tabs");
   const panel = explorer.querySelector(".ri-panel");
