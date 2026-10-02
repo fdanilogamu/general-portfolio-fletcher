@@ -27,8 +27,11 @@
 .aic-example-selector select { min-width: 0; width: 100%; min-height: 32px; max-width: 15rem; padding: .38rem 1.8rem .38rem .35rem; border: 0; background: var(--bg); color: var(--accent-light); font: inherit; cursor: pointer; }
 .aic-example-selector:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
 .aic-window .aic-run { border-color: var(--accent); color: var(--accent-light); }
-.aic-workbench { display: grid; grid-template-columns: 195px minmax(210px, .85fr) minmax(270px, 1.15fr); min-height: 560px; }
-.aic-palette, .aic-sequence-pane, .aic-code-pane { min-width: 0; padding: 1rem; }
+.aic-workbench { display: flex; flex-wrap: wrap; min-width: 0; min-height: 560px; }
+.aic-palette, .aic-sequence-pane, .aic-code-pane { min-width: 0; max-width: 100%; padding: 1rem; }
+.aic-palette { flex: 1 1 195px; }
+.aic-sequence-pane { flex: .85 1 210px; }
+.aic-code-pane { flex: 1.15 1 270px; }
 .aic-palette, .aic-sequence-pane { border-right: 1px solid var(--border-color); }
 .aic-palette h3, .aic-pane-heading h3 { margin: 0; color: var(--fg); font: 700 .7rem/1.3 ui-monospace, Consolas, monospace; letter-spacing: .06em; text-transform: uppercase; }
 .aic-pane-guidance { margin: .55rem 0 0; color: var(--text-muted); font: .58rem/1.45 Inter, sans-serif; }
@@ -48,7 +51,7 @@
 .aic-action-help span { display: block; color: var(--text-muted); font-size: .55rem; letter-spacing: .06em; }
 .aic-actor { display: inline-block; margin-left: .45rem; color: var(--text-muted); font-size: .5rem; letter-spacing: .06em; vertical-align: middle; }
 .aic-actor--ai { color: var(--aic-ai); } .aic-actor--fletcher { color: var(--aic-human); } .aic-actor--both { color: var(--aic-ding); }
-.aic-pane-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding-bottom: .75rem; border-bottom: 1px solid var(--border-color); }
+.aic-pane-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; align-items: center; min-width: 0; padding-bottom: .75rem; border-bottom: 1px solid var(--border-color); }
 .aic-pane-heading span { color: var(--text-muted); font-size: .58rem; text-transform: uppercase; }
 .aic-sequence { margin: 0; padding: 0; list-style: none; }
 .aic-step { display: grid; grid-template-columns: 1.7rem minmax(0, 1fr) auto; gap: .5rem; padding: .7rem .3rem; border-bottom: 1px solid var(--border-color); transition: background-color .12s ease, box-shadow .12s ease; }
@@ -60,6 +63,7 @@
 .aic-window .aic-step-controls button { width: 25px; min-height: 23px; padding: 0; }
 .aic-empty { margin: 1rem 0; color: var(--text-muted); font-size: .68rem; }
 .aic-code-pane pre { max-width: 100%; margin: 0; padding: 1rem 0; overflow: auto; color: var(--fg); font: .68rem/1.65 ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.aic-code-pane code { white-space: inherit; overflow-wrap: inherit; }
 .aic-code-line { display: block; min-height: 1.65em; padding: 0 .25rem; }
 .aic-code-line.is-executing { background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 2px 0 0 var(--accent); color: var(--accent-light); }
 .aic-console { display: grid; grid-template-columns: auto 1fr; gap: .8rem; min-height: 48px; padding: .65rem 1rem; border-top: 1px solid var(--border-color); background: var(--bg); font-size: .63rem; }
@@ -95,7 +99,8 @@
 /* The sidebar changes the space available independently of viewport width. */
 @container ai-collaboration (max-width: 740px) {
   .aic-section-heading { grid-template-columns: 1fr; gap: 1rem; }
-  .aic-workbench { grid-template-columns: 1fr; }
+  .aic-workbench { flex-direction: column; }
+  .aic-palette, .aic-sequence-pane, .aic-code-pane { flex: 0 1 auto; width: 100%; }
   .aic-palette, .aic-sequence-pane { border-right: 0; border-bottom: 1px solid var(--border-color); }
   .aic-action-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .aic-code-pane pre { max-height: 440px; }
