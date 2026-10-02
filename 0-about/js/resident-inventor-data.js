@@ -19,19 +19,38 @@ window.RESIDENT_INVENTOR_PATHS = [
     id: "oei",
     label: "OEI",
     title: "Operational Entropy Index",
-    summary: "A pattern preserved by a life and body of work became visible while I was writing about my books.",
+    summary: "A pattern preserved by a life and body of work became a diagnostic framework, then a practice. A later decision changed its form again: an institution to maintain the methodology and develop practitioners.",
     loops: [{
       label: "Recognition across domains",
       nodes: [
         { kind: "field", title: "The Field", text: "Very different books; roughly 15 years in systems and operations; repeated attention to systems that cost the people inside them." },
         { kind: "collision", title: "March 2026 · writing a Substack post", text: "While drafting “I May Have Typecast Myself,” the books became comparable with one another and with my professional work." },
         { kind: "ding", title: "The pattern names itself", quote: "I’m someone who notices entropy.", text: "Creative output and professional systems work suddenly described the same concern." },
-        { kind: "form", title: "Operational entropy", text: "The recognition became a professional concept, then the Operational Entropy Index: a diagnostic framework and business for operational drag." },
+        { kind: "form", title: "Operational entropy", text: "The recognition became a professional concept, then the Operational Entropy Index: a diagnostic framework for operational drag, initially offered through a consulting practice." },
         { kind: "note", title: "What the form was for", text: "The framework gave professional structure to identifying where systems degrade, stop serving people, or begin working against them." },
         { kind: "field", title: "A professional concept and framework", text: "Operational entropy now names the concern recognized across my creative and professional work." }
       ]
+    }, {
+      label: "Loop two · building a practice",
+      nodes: [
+        { kind: "field", title: "A diagnostic framework", text: "The recognized pattern is now available as a methodology that can take concrete operational forms." },
+        { kind: "form", title: "May 30, 2026 · a public diagnostic system", text: "OEI launches with five diagnostic dimensions, a staged intervention model, pricing, and its own visual identity." },
+        { kind: "form", title: "June 20 · findings become hiring material", text: "The Hiring Archetype Map translates OEI findings into the contribution patterns needed from future hires. One invention supplies material for another: ECH." },
+        { kind: "form", title: "June–August · ways to apply the method", text: "A methodology library, focused investigations, and modular engagements give the framework several practical forms. An internal practitioner workspace supports intake, evidence collection, scoring, and report exports." },
+        { kind: "form", title: "August 29–September 1 · demonstrate competent practice", text: "Certification becomes an investigation environment where candidates scope cases, evaluate evidence, test explanations, and reach findings. Assessors can reconstruct an auditable reasoning trail." },
+        { kind: "field", title: "A methodology and infrastructure for practice", text: "OEI now includes tools for applying the method and assessing practitioners, alongside the original framework and its growing body of material." }
+      ]
+    }, {
+      label: "Loop three · practice → institution",
+      nodes: [
+        { kind: "form", title: "September 1 · an institutional direction", text: "OEI begins restructuring beyond founder-delivered consulting, toward maintaining the methodology, developing practitioners, assessing competence, and preserving standards." },
+        { kind: "reality", title: "September 2 · a scaling route is set aside", text: "A proposed collaboration around scaling OEI as a replicable consulting offer is abandoned. The useful question underneath it remains: could OEI itself become the institution?" },
+        { kind: "form", title: "September 6 · OEI Institute", text: "The Institute becomes the governing home of the Operational Entropy Index methodology, responsible for its canon, practice standards, and the infrastructure for competent practice. The Index remains the methodology." },
+        { kind: "form", title: "Preserving institutional meaning", text: "A knowledge architecture organizes methodology, training, certification, delivery, governance, and historical material while preserving original sources. An AI-assisted curator preserves provenance, quarantines ambiguity, and sends changes that could rewrite institutional meaning for human review." },
+        { kind: "field", title: "An institution with a methodology to steward", text: "The framework, practitioner infrastructure, and institutional knowledge now form material for further development. The commercial structure continues to evolve around who develops and applies OEI capability." }
+      ]
     }],
-    insight: "Sometimes the Field preserves a pattern before I recognize that it is one."
+    insight: "Sometimes the Field preserves a pattern before I recognize it. Giving that pattern form can change what kind of thing it becomes: a diagnostic framework, a practice, then an institution to preserve it."
   },
   {
     id: "dream-machine",
@@ -119,11 +138,14 @@ window.RESIDENT_INVENTOR_PATHS = [
           { kind: "reality", title: "Inspection corrects the premise", text: "The software should conduct the interviewer, not replace the human interviewer." },
           { kind: "ding", title: "Invariant meets variable", quote: "Fixed methodology + variable company context + bounded generative AI → bespoke candidate exercise." },
           { kind: "form", title: "Clarity Creator MVP", text: "The packets function as specifications for a generator, then expand into a broader catalog of interview instruments." },
-          { kind: "field", title: "A working generator and instrument catalog", text: "The Clarity Creator MVP preserves the corrected role of software and expands the methodology into reusable interview instruments." }
+          { kind: "note", title: "OEI supplies contribution patterns", text: "The June 20, 2026 Hiring Archetype Map translates OEI findings into the contribution patterns needed from future hires. This connects the newer methodology to the older question about gathering observable evidence of human capabilities." },
+          { kind: "form", title: "August 20 · Windows desktop beta", text: "ECH is presented as a separately purchasable Windows desktop beta with ten OEI-derived assessment instruments, versioning, beta pricing, and documented limitations." },
+          { kind: "form", title: "August 28 · beyond candidates", text: "An exploratory module extends the contribution question to existing employees, mapping how they may help reduce operational entropy." },
+          { kind: "field", title: "Software and a broader contribution question", text: "The generator and instrument catalog have acquired a desktop product form. Hiring is one application of the contribution question; existing-employee mapping is an exploratory extension." }
         ]
       }
     ],
-    insight: "An invention can return to the Field and ring again when its technological environment changes."
+    insight: "An invention can return to the Field and ring again when its technological environment changes. Another invention can supply new material, and the resulting contribution question can reach beyond hiring."
   },
   {
     id: "porpoise",
