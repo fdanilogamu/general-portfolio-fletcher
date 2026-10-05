@@ -34,7 +34,7 @@
 .ri-hero h1 {
   max-width: 780px;
   margin: 0 0 2rem;
-  font-size: clamp(4.4rem, 12vw, 8.4rem);
+  font-size: clamp(3.74rem, 10.2vw, 7.14rem);
   line-height: .78;
   letter-spacing: -.065em;
 }
@@ -43,7 +43,7 @@
   max-width: 690px;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-size: clamp(1.0625rem, 2.55vw, 1.4025rem);
   line-height: 1.48;
 }
 
@@ -322,7 +322,7 @@
 
 @media (max-width: 650px) {
   .ri-hero { min-height: 0; }
-  .ri-hero h1 { font-size: clamp(4rem, 20vw, 6rem); }
+  .ri-hero h1 { font-size: clamp(3.4rem, 17vw, 5.1rem); }
   .ri-section-heading, .ri-panel-intro { grid-template-columns: 1fr; }
   .ri-section-heading > p:last-child { max-width: 520px; }
   .ri-panel-intro { gap: 1rem; }
@@ -358,8 +358,8 @@
 }
 
 @media (max-width: 430px) {
-  .ri-hero h1 { font-size: 3.8rem; }
-  .ri-deck { font-size: 1.18rem; }
+  .ri-hero h1 { font-size: 3.23rem; }
+  .ri-deck { font-size: 1.003rem; }
   .ri-field-environment { margin-right: 0; margin-left: 0; padding: 1.5rem 1rem; }
   .ri-field-environment::before { right: .5rem; left: .5rem; }
   .ri-base-collision > .ri-base-phase { width: min(245px, 100%); }
@@ -370,3 +370,14 @@
 @media (prefers-reduced-motion: reduce) {
   .ri-tabs, .ri-sequence { scroll-behavior: auto; }
 }
+
+/* Optional loop emphasis and separate-project continuation use the map's existing palette. */
+.ri-loop--featured { background: var(--blockquote-bg); border-top: 3px double var(--accent); }
+.ri-loop-caption { margin: 1rem 0 0; color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.08rem; }
+.ri-branch { margin-top: 1rem; padding: 1rem 0 0 1.25rem; border-left: 1px dashed var(--accent); }
+.ri-branch-control { margin-top: .75rem; padding: .6rem 0; border: 0; background: transparent; color: var(--accent-light); font: inherit; text-align: left; cursor: pointer; }
+.ri-branch-control:hover { color: var(--fg); background: transparent; }
+.ri-branch-control:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.ri-loop-number { display: block; margin-bottom: .35rem; font-size: 1rem; line-height: 1.25; }
+.ri-loop-name { display: block; font-size: .7rem; line-height: 1.5; }

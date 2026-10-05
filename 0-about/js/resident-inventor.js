@@ -39,7 +39,7 @@
     const marker = element("span", "ri-node-marker", String(index + 1).padStart(2, "0"));
     marker.setAttribute("aria-hidden", "true");
     const body = element("div", "ri-node-body");
-    body.append(element("p", "ri-node-kind", kindNames[item.kind] || item.kind));
+    body.append(element("p", "ri-node-kind", item.stateLabel || kindNames[item.kind] || item.kind));
     body.append(element("h4", "ri-node-title", item.title));
     if (item.quote) body.append(element("blockquote", "ri-node-quote", `“${item.quote.replace(/^“|”$/g, "")}”`));
     if (item.text) body.append(element("p", "ri-node-text", item.text));
@@ -111,12 +111,34 @@
 
   function renderLoops(path) {
     path.loops.forEach((loop, loopIndex) => {
-      const section = element("section", "ri-loop");
+      const section = element("section", `ri-loop${loop.featured ? " ri-loop--featured" : ""}`);
       section.setAttribute("aria-labelledby", `${path.id}-loop-${loopIndex}`);
-      const heading = element("h3", "ri-loop-label", loop.label);
+      const heading = element("h3", "ri-loop-label");
+      const numberedLoop = loop.label.match(/^(Loop \w+)\s*·\s*(.+)$/i);
+      if (numberedLoop) {
+        heading.append(element("span", "ri-loop-number", numberedLoop[1]), document.createTextNode(" "));
+        heading.append(element("span", "ri-loop-name", numberedLoop[2]));
+      } else heading.textContent = loop.label;
       heading.id = `${path.id}-loop-${loopIndex}`;
       section.append(heading, renderSequence(loop.nodes));
-      if (loopIndex < path.loops.length - 1) {
+      if (loop.caption) section.append(element("p", "ri-loop-caption", loop.caption));
+      if (loop.branch) {
+        const targetIndex = paths.findIndex((candidate) => candidate.id === loop.branch.project);
+        const branch = element("div", "ri-branch");
+        branch.append(element("p", "ri-node-text", loop.branch.text));
+        if (targetIndex !== -1) {
+          const control = element("button", "ri-branch-control", loop.branch.label);
+          control.type = "button";
+          control.setAttribute("aria-label", `Switch to ${paths[targetIndex].title}, a separate invention`);
+          control.addEventListener("click", () => {
+            selectPath(targetIndex, true);
+            panel.scrollIntoView({ block: "start" });
+          });
+          branch.append(control);
+        } else branch.append(element("p", "ri-node-title", loop.branch.label));
+        section.append(branch);
+      }
+      if (path.implicitReturns !== false && loopIndex < path.loops.length - 1) {
         const recur = element("div", "ri-recursion");
         recur.innerHTML = '<span aria-hidden="true">↩</span><strong>Back in the Field</strong><span>Later, a different collision begins another active loop.</span>';
         section.append(recur);

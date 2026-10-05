@@ -631,13 +631,13 @@ p { margin-bottom: 1.1rem; }
   padding: .5rem 0 1.5rem;
 }
 
-.hero h1 { max-width: 600px; font-size: clamp(4rem, 9vw, 6.4rem); }
+.hero h1 { max-width: 600px; font-size: clamp(3.4rem, 7.65vw, 5.44rem); }
 
 .subtitle {
   max-width: 610px;
   margin: 1.2rem 0 1.8rem;
   color: var(--text-muted);
-  font-size: .95rem;
+  font-size: 0.8075rem;
   line-height: 1.55;
 }
 
@@ -645,7 +645,7 @@ p { margin-bottom: 1.1rem; }
   max-width: 620px;
   margin-bottom: 1.5rem;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-size: clamp(1.1475rem, 2.55vw, 1.445rem);
   line-height: 1.4;
 }
 
@@ -666,7 +666,7 @@ p { margin-bottom: 1.1rem; }
 
 .intro-page-title {
   margin-bottom: 1.75rem;
-  font-size: clamp(4rem, 9vw, 6.4rem);
+  font-size: clamp(3.4rem, 7.65vw, 5.44rem);
   line-height: .98;
 }
 
@@ -691,12 +691,12 @@ p { margin-bottom: 1.1rem; }
 
 .tldr-header h1 {
   margin-bottom: 1.5rem;
-  font-size: clamp(4rem, 9vw, 6.4rem);
+  font-size: clamp(3.4rem, 7.65vw, 5.44rem);
 }
 
 .tldr-header p:first-of-type {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-size: clamp(1.1475rem, 2.55vw, 1.445rem);
   line-height: 1.4;
 }
 
@@ -775,10 +775,13 @@ p { margin-bottom: 1.1rem; }
 .writing-samples-intro h1 {
   max-width: 720px;
   margin-bottom: 1.35rem;
-  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-size: clamp(2.975rem, 6.8vw, 5.1rem);
 }
 
+.intro-page-title + p { font-size: .85rem; }
+
 .writing-samples-intro > p:last-child {
+  font-size: .85rem;
   max-width: 650px;
   margin: 0;
   color: var(--text-muted);
@@ -859,7 +862,7 @@ p { margin-bottom: 1.1rem; }
 .prison-planet-hero h1 {
   max-width: 720px;
   margin: .6rem 0 1.25rem;
-  font-size: clamp(3.3rem, 8vw, 6.2rem);
+  font-size: clamp(2.805rem, 6.8vw, 5.27rem);
   line-height: .92;
 }
 
@@ -867,7 +870,7 @@ p { margin-bottom: 1.1rem; }
   max-width: 610px;
   margin-bottom: 2.5rem;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-size: clamp(1.0625rem, 2.55vw, 1.4025rem);
   line-height: 1.4;
 }
 
@@ -1034,7 +1037,7 @@ footer a { color: var(--accent); }
   .header-actions { gap: .5rem; }
   .knowledge-architect-prompt { font-size: .58rem; }
   .photo-container { float: none; margin: 0 0 2rem; }
-  .hero h1 { font-size: 3.7rem; }
+  .hero h1 { font-size: 3.145rem; }
   .nav-links ul { display: block; }
   .writing-sample { grid-template-columns: 1fr; gap: .65rem; }
   .prison-planet-meta { grid-template-columns: 1fr; }

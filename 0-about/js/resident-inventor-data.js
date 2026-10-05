@@ -39,42 +39,168 @@ window.RESIDENT_INVENTOR_PATHS = [
     insight: "A form can solve the problem that created it and still expose the next problem. The invention keeps changing until the container fits the thing it’s trying to carry."
   },
   {
-    id: "oei",
-    updatedAt: "2026-09-25",
-    label: "OEI",
-    title: "Operational Entropy Index",
-    summary: "A pattern preserved by a life and body of work became a diagnostic framework, then a practice. A later decision changed its form again: an institution to maintain the methodology and develop practitioners.",
-    loops: [{
-      label: "Recognition across domains",
-      nodes: [
-        { kind: "field", title: "The Field", text: "Very different books; roughly 15 years in systems and operations; repeated attention to systems that cost the people inside them." },
-        { kind: "collision", title: "March 2026 · writing a Substack post", text: "While drafting “I May Have Typecast Myself,” the books became comparable with one another and with my professional work." },
-        { kind: "ding", title: "The pattern names itself", quote: "I’m someone who notices entropy.", text: "Creative output and professional systems work suddenly described the same concern." },
-        { kind: "form", title: "Operational entropy", text: "The recognition became a professional concept, then the Operational Entropy Index: a diagnostic framework for operational drag, initially offered through a consulting practice." },
-        { kind: "note", title: "What the form was for", text: "The framework gave professional structure to identifying where systems degrade, stop serving people, or begin working against them." },
-        { kind: "field", title: "A professional concept and framework", text: "Operational entropy now names the concern recognized across my creative and professional work." }
-      ]
-    }, {
-      label: "Loop two · building a practice",
-      nodes: [
-        { kind: "field", title: "A diagnostic framework", text: "The recognized pattern is now available as a methodology that can take concrete operational forms." },
-        { kind: "form", title: "May 30, 2026 · a public diagnostic system", text: "OEI launches with five diagnostic dimensions, a staged intervention model, pricing, and its own visual identity." },
-        { kind: "form", title: "June 20 · findings become hiring material", text: "The Hiring Archetype Map translates OEI findings into the contribution patterns needed from future hires. One invention supplies material for another: ECH." },
-        { kind: "form", title: "June–August · ways to apply the method", text: "A methodology library, focused investigations, and modular engagements give the framework several practical forms. An internal practitioner workspace supports intake, evidence collection, scoring, and report exports." },
-        { kind: "form", title: "August 29–September 1 · demonstrate competent practice", text: "Certification becomes an investigation environment where candidates scope cases, evaluate evidence, test explanations, and reach findings. Assessors can reconstruct an auditable reasoning trail." },
-        { kind: "field", title: "A methodology and infrastructure for practice", text: "OEI now includes tools for applying the method and assessing practitioners, alongside the original framework and its growing body of material." }
-      ]
-    }, {
-      label: "Loop three · practice → institution",
-      nodes: [
-        { kind: "form", title: "September 1 · an institutional direction", text: "OEI begins restructuring beyond founder-delivered consulting, toward maintaining the methodology, developing practitioners, assessing competence, and preserving standards." },
-        { kind: "reality", title: "September 2 · a scaling route is set aside", text: "A proposed collaboration around scaling OEI as a replicable consulting offer is abandoned. The useful question underneath it remains: could OEI itself become the institution?" },
-        { kind: "form", title: "September 6 · OEI Institute", text: "The Institute becomes the governing home of the Operational Entropy Index methodology, responsible for its canon, practice standards, and the infrastructure for competent practice. The Index remains the methodology." },
-        { kind: "form", title: "Preserving institutional meaning", text: "A knowledge architecture organizes methodology, training, certification, delivery, governance, and historical material while preserving original sources. An AI-assisted curator preserves provenance, quarantines ambiguity, and sends changes that could rewrite institutional meaning for human review." },
-        { kind: "field", title: "An institution with a methodology to steward", text: "The framework, practitioner infrastructure, and institutional knowledge now form material for further development. The commercial structure continues to evolve around who develops and applies OEI capability." }
-      ]
-    }],
-    insight: "Sometimes the Field preserves a pattern before I recognize it. Giving that pattern form can change what kind of thing it becomes: a diagnostic framework, a practice, then an institution to preserve it."
+    "id": "oei",
+    "updatedAt": "2026-09-25",
+    "label": "OEI",
+    "title": "Operational Entropy Index",
+    "summary": "Irregular invention loops: recognition, methodology, a separate hiring invention, evidence, boundaries, transferability, and institution. Overlapping dates preserve concurrent work; each section follows its own causal thread.",
+    "loops": [
+      {
+        "label": "Loop one · the thing gets a name",
+        "nodes": [
+          {
+            "kind": "field",
+            "title": "Pre-March 2026 · Years of noticing systems under strain",
+            "text": "Around 15 years in systems and operations, alongside a recurring interest in systems that impose hidden costs on the people inside them."
+          },
+          {
+            "kind": "collision",
+            "title": "March 2026 · Separate observations suddenly looked related",
+            "text": "While writing “I May Have Typecast Myself,” ideas from books and professional experience became comparable instead of remaining separate observations."
+          },
+          {
+            "kind": "ding",
+            "title": "March 2026 · “I’m someone who notices entropy.”",
+            "text": "The common pattern became visible. These were no longer unrelated dysfunctional systems, but instances of the same phenomenon."
+          },
+          {
+            "kind": "form",
+            "title": "March 2026 · Operational Entropy Index",
+            "text": "The observation became a named phenomenon and a four-day diagnostic framework for operational drag."
+          }
+        ]
+      },
+      {
+        "label": "Loop two · diagnosis becomes methodology",
+        "nodes": [
+          {
+            "kind": "form",
+            "title": "April–May 2026 · From diagnosis to intervention",
+            "text": "OEI grew into five dimensions, scoring, a 30-day audit, intervention sprints and resets, and longitudinal measurement."
+          },
+          {
+            "kind": "form",
+            "title": "May 27–28, 2026 · The methodology produces a real-shaped artifact",
+            "text": "The Traze mock diagnosis, a simulation based on knowledge of a former employer rather than a client engagement, forced OEI into an actual report architecture: findings, scores, interpretation, diagnostic language, and intervention logic.",
+            "stateLabel": "Form / Reality simulation"
+          },
+          {
+            "kind": "ding",
+            "title": "May 28, 2026 · The Mitigation Trap",
+            "text": "A system can appear functional because people are compensating for structural weakness. Meetings, oversight, shadowing, emergency documentation, and context switching can hide entropy instead of eliminating it."
+          },
+          {
+            "kind": "reality",
+            "title": "June 2, 2026 · OEI meets a potential first client",
+            "text": "A real prospect discussed a possible four-day OEI Diagnosis. The encounter did not produce a recoverable methodological change.",
+            "stateLabel": "Meet Reality"
+          }
+        ]
+      },
+      {
+        "label": "Branch · OEI produces another invention",
+        "nodes": [
+          {
+            "kind": "ding",
+            "title": "June 20 / clarified July 21, 2026 · People can reintroduce entropy",
+            "text": "Improving the operating system is not necessarily durable if a new person can destabilize it again — “like a domino.” This produced the idea of systemic fit.",
+            "stateLabel": "Collision → Ding 💡"
+          }
+        ],
+        "branch": {
+          "project": "ech",
+          "label": "Branch becomes Entropy Compatible Hiring →",
+          "text": "This realization branches from OEI into a separate invention. Explore its continuation in the ECH tab."
+        }
+      },
+      {
+        "label": "Loop three · the methodology learns to distrust its own evidence",
+        "nodes": [
+          {
+            "kind": "ding",
+            "title": "June 25, 2026 · Don’t leave the workbench",
+            "text": "A concrete experience of work stalling while waiting for SME input sharpened Workflow Velocity into Execution Readiness, Execution Continuity, and Execution Completion. The dimensions began becoming field-manual methodology.",
+            "stateLabel": "Ding 💡 / Form"
+          },
+          {
+            "kind": "form",
+            "title": "August 11–15, 2026 · The public diagnostic system",
+            "text": "Assessment, six outcomes, Focused Investigations, and persistent recommendation routing let someone navigate OEI without Fletcher manually explaining the service tree."
+          },
+          {
+            "kind": "collision",
+            "title": "August 18–21, 2026 · Not all evidence deserves equal trust",
+            "text": "Building the diagnostic workspace exposed a methodological problem: founder claims, staff reports, and direct operational evidence could not simply become equivalent facts."
+          },
+          {
+            "kind": "form",
+            "title": "August 18–21, 2026 · Evidence before interpretation",
+            "text": "Founder claims became hypotheses and validation leads. Sources, contradictions, uncertainty, and missing evidence remained visible through the chain: Context → Evidence → Validation → Synthesis → Diagnosis"
+          }
+        ]
+      },
+      {
+        "label": "Loop four · OEI learns where its boundary is",
+        "nodes": [
+          {
+            "kind": "ding",
+            "title": "August 21, 2026 · The client is an external sensor",
+            "text": "Client experience is not a sixth OEI dimension. Customers experience downstream consequences of entropy in the existing five dimensions."
+          }
+        ]
+      },
+      {
+        "label": "Loop five · OEI diagnoses itself",
+        "nodes": [
+          {
+            "kind": "collision",
+            "title": "August 29, 2026 · OEI has Founder Dependency",
+            "text": "OEI could diagnose organizations, route investigations, produce evidence, and prescribe interventions, but ultimately Fletcher was still required to execute and interpret it.",
+            "quote": "How does OEI become deliverable by people other than its inventor?"
+          },
+          {
+            "kind": "form",
+            "title": "August 29–September 1, 2026 · Build the machinery for OEI without Fletcher",
+            "text": "Practitioner documentation, Diagnosis and investigation methodology, competency models, assessment, certification infrastructure, authority boundaries, QA and escalation, canon governance, and Propagation began making OEI transferable."
+          }
+        ],
+        "featured": true,
+        "caption": "OEI diagnosed itself."
+      },
+      {
+        "label": "Loop six · from consulting methodology to institution",
+        "nodes": [
+          {
+            "kind": "collision",
+            "title": "August 28–September 2, 2026 · Replicable consulting isn’t enough",
+            "text": "The Accelerah collaboration explored turning OEI into replicable IP and service delivery, then ended. The underlying problem remained: what kind of thing should own and perpetuate OEI if it was not simply Fletcher’s consulting practice? Institutional machinery was already forming; this collision helped crystallize the distinction between replicating consulting and governing a methodology."
+          },
+          {
+            "kind": "ding",
+            "title": "September 2, 2026 · “Train specific consultant types.”",
+            "text": "Don’t simply scale Fletcher’s delivery. Define the methodology, define roles, teach it, establish competency expectations, assess them, and certify bounded practice. This is the conceptual Institute Ding."
+          },
+          {
+            "kind": "form",
+            "title": "September 3, 2026 · OEI Institute",
+            "text": "The canon, practitioner systems, competency model, and certification machinery acquired a coherent institutional container."
+          },
+          {
+            "kind": "reality",
+            "title": "September 4–6, 2026 · The old business no longer fits",
+            "text": "Once OEI was treated as an institution, the existing consulting website, pricing, provider language, service architecture, and assumptions about delivery became visibly inconsistent with the new identity.",
+            "stateLabel": "Meet Reality / Collision"
+          },
+          {
+            "kind": "form",
+            "title": "September 6, 2026 onward · A governing institution",
+            "text": "OEI Institute became the steward of the methodology: maintaining canon and standards, developing practitioners, assessing competence, certifying bounded scopes of practice, and maintaining the infrastructure that allows OEI to exist beyond its inventor."
+          }
+        ]
+      }
+    ],
+    "implicitReturns": false,
+    "insight": "Recognition can name a phenomenon; practice can expose hidden evidence, define boundaries, and reveal its own dependency on the inventor. OEI continues while one realization branches into a separate invention."
   },
   {
     id: "dream-machine",
