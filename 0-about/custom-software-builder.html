@@ -1,0 +1,23 @@
+---
+layout: default
+title: Custom Software Builder
+---
+
+<article class="tldr-page">
+  <header class="tldr-header">
+    <h1>I can build custom software for you</h1>
+    <p>We can all relate to needing software that is designed to adapt to our exact needs, plus the way we work and think. But...why would you do that when you've got access to Codex?</p>
+  </header>
+
+  <div>
+    {% capture software_body %}{% include custom-software-body.md %}{% endcapture %}
+    {{ software_body | markdownify }}
+  </div>
+
+  <section>
+    <h2>Have a problem you want to discuss?</h2>
+    <p>If you have a household, personal, workflow, or other custom-software problem, let's talk.</p>
+    <p><a href="{{ site.data.contact.booking_url }}">Book a conversation <span aria-hidden="true">→</span></a></p>
+    <p>Or email me: {% include contact-emails.html %}</p>
+  </section>
+</article>

@@ -1,0 +1,1 @@
+{% for email in site.data.contact.emails %}<a href="mailto:{{ email }}">{{ email }}</a>{% unless forloop.last %} &middot; {% endunless %}{% endfor %}
