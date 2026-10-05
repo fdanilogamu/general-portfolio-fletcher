@@ -1,5 +1,3 @@
-### Why should I let you build me something with Codex when I could use Codex myself?
-
 You absolutely can.
 
 What I bring is the ability to figure out what the software should actually do, how it should behave once real people start using it, what could go wrong around the edges, and what the system itself can handle so the user doesn’t have to.
