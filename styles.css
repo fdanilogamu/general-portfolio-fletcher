@@ -778,8 +778,6 @@ p { margin-bottom: 1.1rem; }
   font-size: clamp(2.975rem, 6.8vw, 5.1rem);
 }
 
-.intro-page-title + p { font-size: .85rem; }
-
 .writing-samples-intro > p:last-child {
   font-size: .85rem;
   max-width: 650px;
