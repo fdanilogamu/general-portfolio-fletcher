@@ -838,6 +838,63 @@ p { margin-bottom: 1.1rem; }
 }
 
 /* Prison Planet */
+/* Editorial case-study structures; shared portfolio typography and theme tokens. */
+.software-case-study > header > h1 {
+  margin-bottom: 1.75rem;
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+}
+.software-case-study h2 { font-size: clamp(1.75rem, 3.5vw, 2.35rem); }
+.software-case-study h3 {
+  margin: 0 0 .75rem;
+  font-size: .78rem;
+  font-weight: 650;
+  letter-spacing: .06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.case-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.case-comparison dt {
+  margin-bottom: .5rem;
+  color: var(--accent);
+  font-size: .75rem;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.case-comparison dd { margin: 0; }
+.case-comparison p:last-child { margin-bottom: 0; }
+.case-note { color: var(--text-muted); }
+.case-example-list { margin: 1.5rem 0; padding: 0; list-style: none; }
+.case-example-list li { padding: .65rem 0; border-bottom: 1px solid var(--border-color); }
+.case-hierarchy { padding: 1rem 0; color: var(--accent); font-weight: 600; }
+.case-rule-block { margin: 1.5rem 0 0; padding-left: 1.25rem; border-left: 2px solid var(--accent); }
+.case-rule-block li { padding-bottom: .5rem; }
+.case-deletion { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center; margin: 1.5rem 0; }
+.case-deletion > div { border-left: 1px solid var(--border-color); padding-left: 1.5rem; }
+.case-deletion p { margin-bottom: .5rem; color: var(--text-muted); font-size: .8rem; }
+.case-interface-example { margin-top: 2rem; }
+.case-interface-example .case-comparison { margin-top: .75rem; }
+.case-validation { padding: 1.5rem; margin: 1.5rem 0; background: var(--blockquote-bg); border-top: 2px solid var(--accent); }
+.case-scales { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; list-style: none; padding: 0; margin: 1.5rem 0; color: var(--text-muted); font-size: .8rem; }
+.case-scales strong { display: block; color: var(--fg); font-size: 1.75rem; font-weight: 500; }
+.case-validation > p:last-child { margin-bottom: 0; }
+.case-return { margin-top: 2rem; font-size: .85rem; }
+@media (max-width: 800px) {
+  .case-comparison, .case-deletion { grid-template-columns: 1fr; }
+  .case-deletion { gap: .5rem; }
+  .case-validation { padding: 1.25rem; }
+}
+
 .prison-planet-page {
   --pp-accent: #d94b36;
   max-width: 760px;

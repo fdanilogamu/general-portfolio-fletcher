@@ -1,0 +1,132 @@
+---
+layout: default
+title: What building custom software actually looks like
+---
+
+<article class="tldr-page software-case-study">
+  <header>
+    <p class="writing-samples-kicker">LemonlessTMS case study</p>
+    <h1>What building custom software actually looks like</h1>
+    <p>LemonlessTMS is task-management software I built as part of The Lemonade Economy. It handles work at different levels, scheduling, support between users, completed-work momentum, calendar views, history, and local profiles.</p>
+    <p>During release preparation, I tested the software through ordinary exploratory use, larger workspaces, and a designed multi-user journey through the desktop application. This identified issues ranging from straightforward interaction problems to deeper questions about hierarchy, support, data relationships, cognitive load, and how features behave together.</p>
+    <p>The resulting changes are a useful example of the work that happens around the code itself.</p>
+  </header>
+
+  <section>
+    <h2>Reusing context the software already has</h2>
+    <dl class="case-comparison">
+      <div><dt>Problem</dt><dd>Selecting “Create child item” from an existing work item opened the creation form without automatically selecting that item as the parent.</dd></div>
+      <div><dt>Result</dt><dd>The selected item now carries forward automatically as the intended parent.</dd></div>
+    </dl>
+    <p class="case-note"><strong>Reasoning:</strong> The user had already provided that context by choosing the action.</p>
+    <ul class="case-example-list">
+      <li>Heaviness is entered once and reused by downstream systems.</li>
+      <li>Timezone setup uses a searchable selector rather than requiring an exact timezone string.</li>
+      <li>Completing linked support work automatically resolves the corresponding support request instead of asking the original user to confirm the same event again.</li>
+    </ul>
+    <p>These are small changes individually, but they reduce the amount of information and system state the user has to manage themselves.</p>
+  </section>
+
+  <section>
+    <h2>Treating hierarchy as guidance where possible</h2>
+    <p>Lemonless organizes work using:</p>
+    <p class="case-hierarchy">Big-picture goal → Project → Task → Subtask → Tiny Nudge</p>
+    <p>The original implementation enforced this as a rigid hierarchy. That prevented arrangements outside the expected structure even when they were technically coherent and useful to the person creating them.</p>
+    <p>The hierarchy now provides guidance rather than enforcing a single way to organize work.</p>
+    <dl class="case-comparison">
+      <div><dt>Guidance / warning</dt><dd>Unusual but structurally valid parent relationships.</dd></div>
+      <div><dt>Hard invalid states</dt><dd><ul><li>Self-parenting</li><li>Cycles</li></ul></dd></div>
+    </dl>
+    <p>Parent selection is searchable, keyboard-accessible, contextual, and prioritizes recent items so the interaction remains usable as the workspace grows.</p>
+  </section>
+
+  <section>
+    <h2>Modeling support as work</h2>
+    <p>An early implementation treated a request for help primarily as metadata associated with the original work item. That didn't adequately represent what happens when another person becomes responsible for doing something.</p>
+    <p>A support request now creates linked work assigned to the support person, including context about what is being requested. Pending support is visible to the relevant user, and completing the linked work automatically resolves the original request.</p>
+    <div class="case-rule-block">
+      <h3>Support rules</h3>
+      <ul>
+        <li>Support tasks cannot recursively create another support request.</li>
+        <li>Users cannot request support from themselves.</li>
+        <li>Only the designated main user initiates the support workflow.</li>
+        <li>Self-coordinated outside help becomes ordinary child work owned by the main user.</li>
+        <li>Removing a support user requires pending support work to be reassigned or cancelled.</li>
+        <li>Historical attribution is preserved.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Designing features around their relationships</h2>
+    <div class="case-deletion">
+      <h3>Deleting a work item</h3>
+      <div><p>Connected considerations</p><ul><li>Children</li><li>Support relationships</li><li>Calendar data</li><li>Momentum consequences</li><li>History</li></ul></div>
+    </div>
+    <p>Deleting a parent leaves its children intact as independent work rather than silently destroying them. Linked relationships are handled explicitly, and historical information remains meaningful after the current item is gone.</p>
+    <ul class="case-example-list">
+      <li>Completing support work → affects the originating request</li>
+      <li>Removing a collaborator → affects assigned work</li>
+      <li>Changing work state → affects history and Momentum</li>
+      <li>Scheduling work → must remain coherent between the work item and Calendar</li>
+    </ul>
+    <p>Testing those relationships matters because a feature can behave correctly in isolation while creating inconsistent state elsewhere in the application.</p>
+  </section>
+
+  <section>
+    <h2>Matching the interface to the information</h2>
+    <div class="case-interface-example">
+      <h3>Calendar</h3>
+      <dl class="case-comparison">
+        <div><dt>Before</dt><dd>Scheduled work was presented only as a list.</dd></div>
+        <div><dt>After</dt><dd>Lemonless also provides a month grid so dates can be understood spatially. List and Month are grouped under a shared View control.</dd></div>
+      </dl>
+    </div>
+    <div class="case-interface-example">
+      <h3>Child work</h3>
+      <dl class="case-comparison">
+        <div><dt>Before</dt><dd>Work-item detail had a separate Tiny Nudges section alongside the existing child-work section.</dd></div>
+        <div><dt>After</dt><dd>Child work is represented through one “Steps within this work” surface.</dd></div>
+      </dl>
+    </div>
+    <div class="case-interface-example">
+      <h3>Momentum</h3>
+      <dl class="case-comparison">
+        <div><dt>Problem</dt><dd>Directly scaling the snowball with accumulated completed mass eventually overwhelms the interface.</dd></div>
+        <div><dt>Result</dt><dd>Numeric mass remains authoritative while the visual uses bounded, nonlinear scaling.</dd></div>
+      </dl>
+    </div>
+    <p>Large amounts of incoming work use a bounded visible set with navigation rather than stacking indefinitely.</p>
+  </section>
+
+  <section>
+    <h2>Testing beyond the clean workspace</h2>
+    <div class="case-validation">
+      <h3>Work-item scales used during release-candidate testing</h3>
+      <ul class="case-scales"><li><strong>100+</strong> work items</li><li><strong>500</strong> work items</li><li><strong>~800</strong> work items</li></ul>
+      <p>Testing covered Kanban, Calendar, parent search, editing, support relationships, persistence, and backup.</p>
+      <div class="case-comparison">
+        <div><h3>Designed two-user journey</h3><p>Tested together: local profiles, actor attribution, assignment, support requests, state changes, completion, and persistence.</p></div>
+        <div><h3>Persistence validation</h3><ul><li>Renderer reload</li><li>Full Electron restart</li></ul></div>
+      </div>
+      <p>Also tested: responsive behavior at narrower layouts, large individual Momentum completions, and large accumulated Momentum totals.</p>
+    </div>
+    <p>This complements isolated automated tests by checking whether the application's features continue to behave coherently when they are used together and under less convenient conditions.</p>
+  </section>
+
+  <section>
+    <h2>Where Codex fits</h2>
+    <p>Codex handled a substantial amount of LemonlessTMS implementation and assisted with testing. My role includes deciding what the software should represent, identifying friction and inconsistent behavior, tracing changes across connected features, and determining whether the resulting interaction still makes sense for the person using it.</p>
+    <p>Not every requirement can be specified correctly before implementation. Building the software makes assumptions visible and creates new information about how features interact. I use that information to revise the model and then use Codex to implement and test the next version.</p>
+    <p>For LemonlessTMS, that process changed interaction details, hierarchy rules, the support data model, deletion behavior, visual representations, multi-user behavior, and release validation.</p>
+    <p>That combination of systems analysis, interaction design, information architecture, contingency reasoning, implementation, and iterative testing is what I mean when I offer to build custom software.</p>
+  </section>
+
+  <section>
+    <h2>Have a problem you want to discuss?</h2>
+    <p>I build custom software around household, personal, workflow, and other specific problems. Let's talk about yours.</p>
+    <p><a href="{{ site.data.contact.booking_url }}">Book a conversation <span aria-hidden="true">→</span></a></p>
+    <p>Or email me: {% include contact-emails.html %}</p>
+    <p class="case-return"><a href="{{ '/0-about/custom-software-builder.html' | relative_url }}">← Back to Custom Software Builder</a></p>
+  </section>
+</article>
