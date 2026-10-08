@@ -69,6 +69,36 @@ function overlaps(a, b) {
     assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),1);
     await tab.reload();
     assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),1);
+    if (process.argv.includes('--session-only')) {
+      const selected = [new URL(tab.url()).pathname + new URL(tab.url()).search];
+      for (let index = 1; index < 17; index++) {
+        if (index % 2 === 0) await tab.goto(origin+routes[0]);
+        const oldURL = tab.url();
+        const control = index % 2 === 0 ? '[aria-label="Enter the Rabbit Hole"]' : '.rabbit-hole-nav';
+        await tab.locator(control).focus();
+        await tab.keyboard.press('Enter');
+        await tab.waitForURL(url=>url.href!==oldURL);
+        await tab.waitForLoadState('load');
+        const destination = new URL(tab.url()).pathname+new URL(tab.url()).search;
+        assert.ok(!selected.includes(destination));
+        selected.push(destination);
+        await tab.reload();
+        const state = await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')));
+        assert.equal(state.visited.length,index+1);
+      }
+      assert.deepEqual(selected.slice().sort(),routes.slice(1).sort());
+      const previous = tab.url();
+      await tab.evaluate(()=>{window.RabbitHole.navigate();window.RabbitHole.navigate();});
+      await tab.waitForURL(url=>url.href!==previous);
+      await tab.waitForLoadState('load');
+      assert.equal(await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),1);
+      const newTab = await context.newPage();
+      await newTab.goto(origin+routes[0]);
+      assert.equal(await newTab.locator('.rabbit-hole-nav:visible').count(),1);
+      assert.equal(await newTab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),0);
+      console.log('PASS browser session cycle: all 17 once, both controls, refreshes, reset, boundary exclusion, fresh-tab history and permanent unlock. Source-preview mode: '+preview);
+      return;
+    }
     const artifacts = path.resolve('tests/.qa');
     fs.mkdirSync(artifacts,{recursive:true});
     let checked = 0;
@@ -76,6 +106,9 @@ function overlaps(a, b) {
       await tab.setViewportSize({width,height:900});
       for (let index=0;index<routes.length;index++) {
         const route = routes[index];
+        // The layout audit tests each route independently. Use --session-only
+        // for complete-cycle coverage, including manual visits to the entry page.
+        await tab.evaluate(()=>sessionStorage.removeItem('rabbit-hole-session'));
         const response = await tab.goto(origin+route);
         assert.equal(response.status(),200,route);
         const nav = tab.locator('.rabbit-hole-nav');

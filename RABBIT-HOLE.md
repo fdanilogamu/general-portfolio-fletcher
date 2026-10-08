@@ -44,6 +44,16 @@ Run `node --test tests/rabbit-hole.test.cjs`. CI also runs these checks alongsid
 the Jekyll build. Desktop/mobile visual verification requires a rendered Jekyll
 site; local Ruby/Jekyll is unavailable in the current development environment.
 
+Session-memory regression results: 17 tests pass, with the production Jekyll
+output check skipped locally. The optional browser regression
+`node tests/rabbit-hole-browser.cjs --source-preview --session-only` also passed
+in Chrome: all 17 selections, alternating entry controls, refresh after each
+arrival, cycle reset, rapid repeated activation, and fresh-tab session history
+with permanent unlock retained. This source preview uses real CSS/JavaScript,
+but does not verify production Jekyll output. The browser module/executable may
+be supplied through PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE without adding a
+project dependency.
+
 Changed files: `_layouts/default.html`, `_includes/rabbit-hole.html`,
 `_includes/rabbit-hole-standalone.html`, `static/js/rabbit-hole.js`, `styles.css`,
 `0-about/ideas.html`, `0-about/js/resident-inventor.js`,
