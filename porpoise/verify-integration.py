@@ -43,6 +43,13 @@ assert 'name="viewport"' in html and '@media (max-width:' in html
 if options.site:
     assert (root / 'porpoise/index.html').read_bytes() == (source / 'porpoise/index.html').read_bytes()
     assert not (root / 'Porpoise AI').exists()
+    assert not (root / 'porpoise-api').exists()
+
+assert 'statistics.html' in page.links
+stats = Links((root / 'porpoise/statistics.html').read_text(encoding='utf-8'))
+assert 'stats-status' in stats.ids and 'stats-total' in stats.ids
+for slug in ('archivist', 'challenger', 'confidante', 'drafter', 'explorer', 'panic-room'):
+    assert f'count-{slug}' in stats.ids and f'bar-{slug}' in stats.ids
 
 server = ThreadingHTTPServer(('127.0.0.1', 0), partial(SimpleHTTPRequestHandler, directory=str(root)))
 Thread(target=server.serve_forever, daemon=True).start()

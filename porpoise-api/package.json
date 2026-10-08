@@ -1,0 +1,8 @@
+{
+  "name": "porpoise-download-api",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.x" },
+  "scripts": { "build": "node scripts/prepare.mjs", "test": "node --test", "verify:deployment": "node scripts/verify-deployment.mjs" },
+  "dependencies": { "@neondatabase/serverless": "1.0.2" }
+}
