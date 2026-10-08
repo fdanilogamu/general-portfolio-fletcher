@@ -4,7 +4,7 @@
   <div class="ri-node-body">
     <p class="ri-node-kind">{% if node.stateLabel %}{{ node.stateLabel | escape }}{% else %}{% case node.kind %}{% when 'field' %}Field{% when 'collision' %}Collision{% when 'ding' %}Ding 💡{% when 'form' %}Form{% when 'reality' %}Reality{% when 'dormant' %}Dormant{% when 'note' %}Record note{% else %}{{ node.kind | escape }}{% endcase %}{% endif %}</p>
     <h3 class="ri-node-title">{{ node.title | escape }}</h3>
-    {% if node.quote %}<blockquote class="ri-node-quote">“{{ node.quote | remove_first: '“' | remove: '”' | escape }}”</blockquote>{% endif %}
+    {% if node.quote %}{% assign quote = node.quote %}{% assign first_character = quote | slice: 0, 1 %}{% assign last_character = quote | slice: -1, 1 %}{% if first_character == '“' %}{% assign quote = quote | remove_first: '“' %}{% endif %}{% if last_character == '”' %}{% assign quote_size = quote.size | minus: 1 %}{% assign quote = quote | slice: 0, quote_size %}{% endif %}<blockquote class="ri-node-quote">“{{ quote | escape }}”</blockquote>{% endif %}
     {% if node.text %}<p class="ri-node-text">{{ node.text | escape }}</p>{% endif %}
   </div>
 </li>
