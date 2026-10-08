@@ -1,0 +1,12 @@
+{% assign history = include.history %}
+{% if history.id == 'oei' %}
+<nav class="ri-section-nav" aria-label="Sections in the OEI history"><ol>
+  {% for loop in history.loops %}<li><a href="#{{ history.id }}-loop-{{ forloop.index0 }}">{{ loop.label | escape }}</a></li>{% endfor %}
+</ol></nav>
+{% endif %}
+<div class="ri-graph">
+  {% for loop in history.loops %}
+  {% include resident-inventor/loop.html history=history loop=loop index=forloop.index0 last=forloop.last %}
+  {% endfor %}
+</div>
+<p class="ri-insight"><span class="ri-insight-label">What this path showed: </span>{{ history.insight | escape }}</p>

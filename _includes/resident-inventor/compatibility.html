@@ -1,0 +1,5 @@
+{% assign history_pages = site.pages | where_exp: 'item', 'item.history_id != nil' %}
+<script id="ri-history-routes" type="application/json">{
+{% for history_page in history_pages %}{% assign entry = site.data.resident_inventor | where: 'id', history_page.history_id | first %}{% unless forloop.first %},{% endunless %}{{ history_page.history_id | jsonify }}: {"url": {{ history_page.url | relative_url | jsonify }}, "sections": {{ entry.loops.size | jsonify }}}{% endfor %}
+}</script>
+<script src="{{ '/0-about/js/resident-inventor-compatibility.js' | relative_url }}" defer></script>

@@ -1,0 +1,26 @@
+---
+layout: default
+---
+{% assign history = site.data.resident_inventor | where: "id", page.history_id | first %}
+<link rel="stylesheet" href="{{ '/resident-inventor.css' | relative_url }}">
+<article class="resident-inventor-page ri-history-page" data-history-id="{{ history.id | escape }}">
+  <header class="ri-history-header">
+    <nav class="ri-breadcrumb" aria-label="Breadcrumb"><a href="{{ '/0-about/resident-inventor.html' | relative_url }}">Resident Inventor</a> <span aria-hidden="true">/</span> <span>Invention history</span></nav>
+    <p class="ri-kicker">The evidence · invention history</p>
+    <h1>{{ history.title | escape }}</h1>
+    <p class="ri-deck">{{ history.summary | escape }}</p>
+    <a class="ri-model-link" href="{{ '/0-about/resident-inventor.html#invention-model' | relative_url }}">Understand the invention model →</a>
+  </header>
+  {% include resident-inventor/history.html history=history %}
+  {% if page.history_id == 'porpoise' %}
+  <nav class="ri-related" aria-label="Related Porpoise exhibits"><a href="{{ '/porpoise/' | relative_url }}">Use the Porpoise stance library →</a><a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Read the Porpoise case study →</a></nav>
+  {% elsif page.history_id == 'lemonade-economy' %}
+  <nav class="ri-related" aria-label="Related software"><a href="{{ '/0-about/lemonless-tms-case-study.html' | relative_url }}">LemonlessTMS: a related software case study →</a></nav>
+  {% endif %}
+  <footer class="ri-history-footer">
+    <h2>Explore other invention histories</h2>
+    {% include resident-inventor/history-directory.html exclude=page.history_id %}
+    <p><a href="{{ '/0-about/resident-inventor.html#invention-paths' | relative_url }}">← All histories and the Resident Inventor model</a></p>
+  </footer>
+</article>
+<script src="{{ '/0-about/js/resident-inventor.js' | relative_url }}" defer></script>

@@ -1,0 +1,21 @@
+{% assign model = site.data.resident_inventor | where: 'id', 'base' | first %}
+<div class="ri-graph ri-graph--base">
+  <section class="ri-field-environment" aria-label="The Field and an emerging active invention path">
+    <div class="ri-field-environment-header"><h3>The Field</h3><p>Most of what is here may never need to leave.</p></div>
+    <ul class="ri-field-fragments"><li>observation</li><li>old idea</li><li>question</li><li>experience</li><li>unfinished project</li><li>learned skill</li><li>constraint</li><li>strange connection</li></ul>
+    <div class="ri-emergence">
+      <article class="ri-base-collision">
+        <div class="ri-collision-inputs"><span>something retained</span><span>something newly available</span></div>
+        <div class="ri-base-phase"><p class="ri-node-kind">Event within the Field</p><h4>{{ model.nodes[1].title | escape }}</h4><p>{{ model.nodes[1].text | escape }}</p></div>
+      </article>
+      <p class="ri-active-label">A temporary active path becomes perceptible</p>
+      <div class="ri-base-active-path">
+        {% for phase in model.nodes offset:2 limit:3 %}
+        <article class="ri-base-phase ri-base-phase--{{ phase.kind }}"><p class="ri-node-kind">{% case phase.kind %}{% when 'ding' %}Detected signal{% when 'form' %}Form{% when 'reality' %}Reality{% endcase %}</p><h4>{{ phase.title | escape }}</h4><p>{{ phase.text | escape }}</p></article>
+        {% endfor %}
+      </div>
+      <div class="ri-base-return"><span aria-hidden="true">↘</span><div><strong>Joins the Field again</strong><p>Changed, redirected, dormant, expanded, or available for another collision.</p></div></div>
+    </div>
+  </section>
+</div>
+<p class="ri-insight"><span class="ri-insight-label">What this path showed: </span>{{ model.insight | escape }}</p>

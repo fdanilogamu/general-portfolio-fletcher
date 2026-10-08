@@ -1,0 +1,10 @@
+{% assign node = include.node %}
+<li class="ri-node ri-node--{{ node.kind | escape }}" data-node-kind="{{ node.kind | escape }}">
+  <span class="ri-node-marker" aria-hidden="true">{{ include.index }}</span>
+  <div class="ri-node-body">
+    <p class="ri-node-kind">{% if node.stateLabel %}{{ node.stateLabel | escape }}{% else %}{% case node.kind %}{% when 'field' %}Field{% when 'collision' %}Collision{% when 'ding' %}Ding 💡{% when 'form' %}Form{% when 'reality' %}Reality{% when 'dormant' %}Dormant{% when 'note' %}Record note{% else %}{{ node.kind | escape }}{% endcase %}{% endif %}</p>
+    <h3 class="ri-node-title">{{ node.title | escape }}</h3>
+    {% if node.quote %}<blockquote class="ri-node-quote">“{{ node.quote | remove_first: '“' | remove: '”' | escape }}”</blockquote>{% endif %}
+    {% if node.text %}<p class="ri-node-text">{{ node.text | escape }}</p>{% endif %}
+  </div>
+</li>

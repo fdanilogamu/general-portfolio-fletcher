@@ -14,26 +14,24 @@ description: "A model of invention derived from the origin histories of nine rea
     <a class="ri-jump" href="#invention-paths">Inspect the paths <span aria-hidden="true">↓</span></a>
   </header>
 
-  <section class="ri-directory-section" id="invention-paths" aria-labelledby="histories-title">
-    <p class="ri-kicker">Nine invention histories</p>
-    <h2 id="histories-title">Explore the evidence</h2>
-    {% include resident-inventor/history-directory.html %}
-  </section>
-
-  <section class="ri-directory-section" id="invention-paths" aria-labelledby="histories-title">
-    <p class="ri-kicker">Nine invention histories</p>
-    <h2 id="histories-title">Explore the evidence</h2>
-    {% include resident-inventor/history-directory.html %}
-  </section>
-
-  <section class="ri-diagram-section" id="invention-model" aria-labelledby="paths-title">
+  <section class="ri-diagram-section" id="invention-paths" aria-labelledby="paths-title">
     <div class="ri-section-heading">
       <p class="ri-kicker">The model, then the evidence</p>
       <h2 id="paths-title">A single model<br>with no standard route.</h2>
       <p>The model is retrospective. Each project preserves its actual sequence, including dormancy, repeated collisions, returns to the Field, and missing parts of the record.</p>
     </div>
-    <div class="ri-panel-intro"><h3>The smallest model</h3><p>{{ site.data.resident_inventor[0].summary | escape }}</p></div>
-    {% include resident-inventor/model.html %}
+
+    <div class="ri-explorer" data-invention-explorer>
+      <div class="ri-tabs-wrap">
+        <div class="ri-tabs" role="tablist" aria-label="Invention paths"></div>
+      </div>
+      <div class="ri-panel" role="tabpanel" tabindex="0" aria-live="polite">
+        <div class="ri-panel-intro"></div>
+        <div class="ri-graph"></div>
+        <p class="ri-insight"></p>
+      </div>
+      <noscript><p class="ri-noscript">The interactive paths require JavaScript. The five sections below explain the complete model.</p></noscript>
+    </div>
     <p><a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Porpoise: read the project case study <span aria-hidden="true">→</span></a></p>
   </section>
 
@@ -97,5 +95,5 @@ description: "A model of invention derived from the origin histories of nine rea
   </footer>
 </article>
 
-{% include resident-inventor/compatibility.html %}
+<script src="{{ '/0-about/js/resident-inventor-data.js' | relative_url }}"></script>
 <script src="{{ '/0-about/js/resident-inventor.js' | relative_url }}"></script>

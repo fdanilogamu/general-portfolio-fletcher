@@ -1,0 +1,11 @@
+{% assign history_pages = site.pages | where_exp: "item", "item.history_id != nil" | sort: "history_order" %}
+<nav aria-label="Invention histories">
+  <ul class="ri-history-directory">
+    {% for history_page in history_pages %}
+    {% unless history_page.history_id == include.exclude %}
+    {% assign entry = site.data.resident_inventor | where: "id", history_page.history_id | first %}
+    <li><a href="{{ history_page.url | relative_url }}">{{ entry.title | escape }}</a><p>{{ entry.summary | escape }}</p></li>
+    {% endunless %}
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,0 +1,18 @@
+{% assign loop = include.loop %}
+<section class="ri-loop{% if loop.featured %} ri-loop--featured{% endif %}" aria-labelledby="{{ include.history.id }}-loop-{{ include.index }}">
+  <h2 class="ri-loop-label" id="{{ include.history.id }}-loop-{{ include.index }}">{% assign label_parts = loop.label | split: ' · ' %}{% assign label_start = loop.label | slice: 0, 5 %}{% if label_start == 'Loop ' and label_parts.size == 2 %}<span class="ri-loop-number">{{ label_parts[0] | escape }}</span><span class="ri-loop-name">{{ label_parts[1] | escape }}</span>{% else %}{{ loop.label | escape }}{% endif %}</h2>
+  <div class="ri-sequence-shell">
+    <p class="ri-scroll-hint" aria-hidden="true">History continues → scroll</p>
+    <ol class="ri-sequence" tabindex="0" role="region" aria-labelledby="{{ include.history.id }}-loop-{{ include.index }}">
+      {% for node in loop.nodes %}{% include resident-inventor/node.html node=node index=forloop.index %}{% endfor %}
+    </ol>
+  </div>
+  {% if loop.caption %}<p class="ri-loop-caption">{{ loop.caption | escape }}</p>{% endif %}
+  {% if loop.branch %}
+  {% assign branch_page = site.pages | where: 'history_id', loop.branch.project | first %}
+  <div class="ri-branch"><p class="ri-node-text">{{ loop.branch.text | escape }}</p><a class="ri-branch-control" href="{{ branch_page.url | relative_url }}">{{ loop.branch.label | escape }}</a></div>
+  {% endif %}
+  {% if include.history.implicitReturns != false and include.last != true %}
+  <div class="ri-recursion"><span aria-hidden="true">↩</span><strong>Back in the Field</strong><span>Later, a different collision begins another active loop.</span></div>
+  {% endif %}
+</section>

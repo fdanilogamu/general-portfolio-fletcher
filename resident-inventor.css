@@ -301,7 +301,7 @@
 .ri-base-return p { margin: .25rem 0 0; color: var(--text-muted); font-size: .72rem; line-height: 1.45; }
 
 .ri-insight { margin: 0; padding: 1.4rem clamp(1rem, 3vw, 1.5rem); border-top: 1px solid var(--border-color); color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.08rem; line-height: 1.5; }
-.ri-insight::before { color: var(--accent); content: "What this path showed: "; }
+.ri-insight-label { color: var(--accent); }
 .ri-noscript { padding: 1rem; }
 
 .ri-articles { padding: 0; }
@@ -381,3 +381,28 @@
 
 .ri-loop-number { display: block; margin-bottom: .35rem; font-size: 1rem; line-height: 1.25; }
 .ri-loop-name { display: block; font-size: .7rem; line-height: 1.5; }
+
+/* Static destinations retain the explorer's sequences and visual vocabulary. */
+.ri-directory-section { padding: 0 0 2.5rem; border-bottom: 1px solid var(--border-color); }
+.ri-directory-section h2, .ri-history-footer h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+.ri-history-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2rem; list-style: none; padding: 0; }
+.ri-history-directory li { min-width: 0; padding: 1rem 0; border-top: 1px solid var(--border-color); }
+.ri-history-directory a { color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; }
+.ri-history-directory p { margin: .6rem 0 0; color: var(--text-muted); font-size: .85rem; line-height: 1.6; }
+.ri-history-header { padding: 2rem 0; }
+.ri-history-header h1 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.05; overflow-wrap: anywhere; }
+.ri-breadcrumb { margin-bottom: 2rem; font-size: .8rem; }
+.ri-model-link { display: inline-block; margin-top: 1.2rem; }
+.ri-history-footer { padding: 2rem 0; }
+.ri-related { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding: 1.5rem 0; }
+.ri-section-nav { margin-bottom: 2rem; padding: 1rem; border: 1px solid var(--border-color); }
+.ri-section-nav ol { padding-left: 1.5rem; }
+.ri-section-nav li + li { margin-top: .6rem; }
+.ri-history-page .ri-loop-label { font-size: .7rem; }
+.ri-sequence:focus-visible, .ri-history-directory a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.ri-branch-control { display: inline-block; }
+.ri-loop-label { scroll-margin-top: 1rem; }
+@media (max-width: 650px) {
+  .ri-history-directory { grid-template-columns: 1fr; }
+  .ri-history-header h1 { font-size: clamp(2rem, 8vw, 3rem); }
+}
