@@ -7,27 +7,50 @@ title: "About"
 
   <h1 class="intro-page-title">What's this all about?</h1>
 
-  <p>I’m a <a href="/0-about/resident-inventor.html">Resident Inventor</a>. I retain a lot of material from the places I’ve worked, the things I’ve made, and the questions I haven’t finished with. When pieces of it connect in a way that matters, I give that connection a form and test it against reality.</p>
+  <p>Hi! I'm Fletcher, and I make things...apparently, quite a lot of things.</p>
 
-  <p>I’m also a published author, an English teacher, and someone who has been building and breaking systems his whole life: in kitchens, classrooms, and companies. The same pattern recognition travels across those domains, even when the output looks completely different.</p>
+  <p>I've written books, built software, developed operational methodologies, created educational resources, and come up with inventions that probably shouldn't be left unsupervised.</p>
 
-  <h2>One deep vertical: operations</h2>
+  <p>There's a cookbook in here. There's a fictional software bug report about the human body. I once started turning <em>Portal</em> into a choose-your-own-adventure book because playing 3D video games makes me sick, and I still wanted to experience the puzzles.</p>
 
-  <p>Operations problems accumulate in the recurring questions that always land on the same desk, the processes that work until they suddenly don't, and the decisions that should have a clear owner but somehow still default to the founder. By the time the symptoms become obvious, the systems causing them have usually been load-bearing for a while.</p>
+  <p>Then there's the Operational Entropy Index, an entire methodology that I developed to investigate why companies become increasingly difficult to operate as they grow.</p>
 
-  <p>I've spent several years inside that specific gap, in SaaS companies, fast-growth environments, and organizations with strong momentum and brittle infrastructure underneath it.</p> 
+  <p>Sometimes I look at the inventory and wonder how in the world all of this happened.</p>
 
-  <p>Operations became an unusually rich source of material because it made hidden structures consequential. I spent years watching information move, work change hands, temporary fixes harden, and people compensate for systems around them. That experience became the <a href="https://operationalentropy.com">Operational Entropy Index</a>: a framework for diagnosing the distance between how an organization is supposed to run and what its people must do to keep it moving.</p>
-   <h2>How I think</h2>
-  <p>The founders I work with usually feel the problem before they can see it clearly from inside the system. Structural problems need structural solutions.</p>
- 
+  <h2>A little about me</h2>
 
-  <p>I see situations as they are and name the problem the evidence supports. If your processes have never been documented, the diagnosis is missing documentation.</p>
- 
- <p>I also have a low tolerance for theater: no three-month discovery phases, nor a slide deck that tells you what you already know. You'll have a diagnosis before most consultants have finished their intake form.</p>
+  <p>I've spent about fifteen years working in operations and related fields. I've worked with documentation, knowledge systems, processes, and the strange arrangements that people develop to keep companies functioning.</p>
 
-  <hr style="border: none; border-top: 1px solid #ddd; margin: 1.5rem 0;">
+  <p>I've seen important information live exclusively in a single person's head, temporary fixes become permanent infrastructure, and teams work around problems so consistently that the workarounds eventually become the process (oh no!).</p>
 
-  
+  <p>I find these things fascinating, which probably explains a good portion of my career.</p>
+
+  <p>I've also been an English teacher, written books, and spent a considerable amount of time building things that have nothing to do with my professional background.</p>
+
+  <p>Sometimes I notice a problem and want to solve it, or I have a question that I wanna investigate. Other times I just think something would be fun to make.</p>
+
+  <p>The last category has gotten me into quite a bit of trouble, in the cumbersome sense.</p>
+
+  <h2>How I ended up with all this</h2>
+
+  <p>I didn't plan the portfolio around a particular discipline or career trajectory. I followed my interests, made things, and kept going. Some projects grew into substantial bodies of work. Others remained experiments, prototypes, and ideas waiting for their turn.</p>
+
+  <p>I do however tend to get interested in the machinery behind things: why something works, what happens when it doesn't, and what might change if you approached it differently.</p>
+
+  <p>That curiosity shows up in my professional work, but it also takes me into places where nobody particularly needs a new methodology. Sometimes I just want to see whether an idea works at all.</p>
+
+  <h2>So why is all of this in one place?</h2>
+
+  <p>Because I made all of it.</p>
+
+  <p>Some projects are connected, while others have absolutely nothing to do with each other. And, well, I don't think they need to.</p>
+
+  <p><em>The Stuff I Have Online</em> is where I've put the stuff I've written, invented, built, and experimented with. There's finished work, unfinished work, serious work, ridiculous work, and a fair amount that doesn't fit neatly into any of those categories.</p>
+
+  <p>Feel free to wander around.</p>
+
+  <p>You can start with whatever catches your attention, follow a rabbit hole, or simply browse freely until something makes you curious. Yes, there are easter eggs.</p>
+
+  <p>And if you find yourself wondering what kind of person makes all this stuff, well...Hi again.</p>
 
 </article>
