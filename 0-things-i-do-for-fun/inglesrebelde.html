@@ -1,9 +1,6 @@
 ---
 rabbit_hole: true
 ---
----
-rabbit_hole: true
----
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -85,10 +82,6 @@ rabbit_hole: true
         }
 
         .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 20;
             min-width: 118px;
             padding: 10px 16px;
             border: 2px solid var(--neon-blue);
@@ -575,8 +568,6 @@ rabbit_hole: true
 
         @media (max-width: 480px) {
             .language-toggle {
-                top: 12px;
-                right: 12px;
                 min-width: 102px;
                 padding: 8px 12px;
                 font-size: 12px;
@@ -603,9 +594,9 @@ rabbit_hole: true
     </style>
 </head>
 <body>
-{% include rabbit-hole-standalone.html %}
+{% capture page_controls %}<button class="language-toggle" type="button" aria-label="Read this page in English" aria-pressed="false">English</button>{% endcapture %}
+{% include rabbit-hole-standalone.html controls=page_controls %}
     <a class="standalone-return" href="/index.html">Return to The Stuff I Have Online</a>
-    <button class="language-toggle" type="button" aria-label="Read this page in English" aria-pressed="false">English</button>
     <header>
         <div class="container">
             <div class="logo-container">
