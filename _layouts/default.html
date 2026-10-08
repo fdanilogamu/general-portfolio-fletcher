@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="portfolio-version" content="{{ site.data.release.current_version }}">
+  {% comment %}A nil where-filter value matches records with a truthy id; never look up an absent history ID.{% endcomment %}
   {% assign history_metadata = nil %}
   {% if page.history_id and page.history_id != '' and page.history_id != 'base' %}
     {% assign history_metadata = site.data.resident_inventor | where: 'id', page.history_id | first %}

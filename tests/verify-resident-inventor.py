@@ -115,6 +115,22 @@ def read(url):
     return html, Document(html).root
 
 
+def metadata(root, title, description=None, canonical=None, keywords=None):
+    """Assert actual document metadata, including its absence where convention requires it."""
+    titles = root.all(lambda item: item.tag == 'title')
+    assert [item.text() for item in titles] == [title], ('titles', title, [item.text() for item in titles])
+    for name, expected_value in [('description', description), ('keywords', keywords)]:
+        values = [item.attrs.get('content') for item in root.all(
+            lambda item: item.tag == 'meta' and item.attrs.get('name') == name)]
+        assert values == ([] if expected_value is None else [expected_value]), (title, name, values)
+    canonicals = [item.attrs.get('href') for item in root.all(
+        lambda item: item.tag == 'link' and item.attrs.get('rel') == 'canonical')]
+    assert canonicals == ([] if canonical is None else [canonical]), (title, 'canonical', canonicals)
+    # The shared layout has no social metadata convention; do not silently introduce it.
+    assert not root.all(lambda item: item.tag == 'meta' and (
+        item.attrs.get('property', '').startswith('og:') or item.attrs.get('name', '').startswith('twitter:'))), title
+
+
 def controls(root, entry_count=0, document_ids=False):
     assert len(root.all(lambda node: 'data-rabbit-hole' in node.attrs)) == entry_count + 1
     assert len(nodes(root, 'rabbit-hole-nav')) == 1
@@ -159,12 +175,8 @@ for history in histories:
     equivalent(article.all(lambda item: item.tag == 'h1')[0].text(), history['title'])
     equivalent(one(article, 'ri-deck').text(), history['summary'])
     equivalent(one(article, 'ri-insight').text(), 'What this path showed: ' + history['insight'])
-    title = root.all(lambda item: item.tag == 'title')[0].text()
-    assert history['title'] in title and 'Invention History' in title
-    meta = root.all(lambda item: item.tag == 'meta' and item.attrs.get('name') == 'description')
-    assert len(meta) == 1 and meta[0].attrs['content'] == history['summary']
-    canonical = root.all(lambda item: item.tag == 'link' and item.attrs.get('rel') == 'canonical')
-    assert len(canonical) == 1 and canonical[0].attrs['href'] == 'https://thestuffihave.online' + url
+    metadata(root, history['title'] + ' — Invention History · Resident Inventor',
+             history['summary'], 'https://thestuffihave.online' + url)
     loops = nodes(article, 'ri-loop')
     assert len(loops) == len(history['loops'])
     for i, (actual_loop, loop) in enumerate(zip(loops, history['loops'])):
@@ -214,6 +226,9 @@ for history in histories:
 
 index_url = base + '/0-about/resident-inventor.html'
 html, index = read(index_url)
+metadata(index, 'Resident Inventor',
+         'A model of invention derived from the origin histories of nine real projects by Fletcher Galeano.',
+         'https://thestuffihave.online' + index_url)
 controls(index, document_ids=True)
 original = Document((source / 'tests/fixtures/resident-inventor/original-index.html.txt').read_text(encoding='utf-8')).root
 for class_name in ['ri-hero', 'ri-articles', 'ri-ending', 'ri-section-heading']:
@@ -243,6 +258,32 @@ _, entry_root = read(base + '/0-about/ideas.html')
 controls(entry_root, 1)
 assert not (site / '0-about/js/resident-inventor-data.js').exists()
 navigation_html, navigation = read(base + '/site-navigation.html')
+metadata(navigation, 'Site Navigation')
+_, homepage = read(base + '/')
+metadata(homepage, 'Home',
+         'Fletcher Galeano is a Resident Inventor who retains, connects, shapes, and tests ideas across operations, knowledge systems, teaching, software, writing, and other forms.',
+         'https://thestuffihave.online' + base + '/',
+         'COO consultant, Director of Operations, Operations Leader, Systems Design, Fletcher Galeano, Documentation, Workflow Optimization, Colombia, Operational Entropy Index, OEI, Founder transition')
+
+# Scan every generated HTML document, not only the pages that exposed the regression.
+# Includes can mention histories in body content; only head metadata must be isolated.
+history_files = {file_for(base + entry['url']).resolve() for entry in history_entries.values()}
+record_titles = {item['title'] + ' — Invention History · Resident Inventor' for item in data}
+record_summaries = {item['summary'] for item in data}
+checked = 0
+for target in site.rglob('*.html'):
+    if target.resolve() in history_files:
+        continue
+    root = Document(target.read_text(encoding='utf-8')).root
+    for item in root.all(lambda node: node.tag in {'title', 'meta', 'link'}):
+        if item.tag == 'title':
+            assert item.text() not in record_titles and 'Invention History · Resident Inventor' not in item.text(), target
+        elif item.tag == 'meta':
+            assert item.attrs.get('content') not in record_summaries | record_titles, (target, item.attrs)
+        elif item.attrs.get('rel') == 'canonical':
+            assert urlsplit(item.attrs.get('href', '')).path not in {base + entry['url'] for entry in history_entries.values()}, target
+    checked += 1
+print(f'PASS: homepage, Site Navigation, Resident Inventor index and nine histories resolve independent metadata; no history metadata leaked into {checked} unrelated HTML documents.')
 assert 'Choose a tab' not in navigation_html
 assert len(one(navigation, 'ri-history-directory').all(lambda item: item.tag == 'a')) == 9
 print('PASS: exact nested parity; 9 static histories / 16 sections / 89 nodes; 6 model nodes; original introduction, diagram and five articles; metadata, links and headings; exactly 18 registry destinations and single shared controls on every exhibit.')
