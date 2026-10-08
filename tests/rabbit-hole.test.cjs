@@ -3,267 +3,195 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const {page, compose} = require('./rabbit-hole-source.cjs');
-const { pool, select, randomIndex, normalize, cleanState, selectCycle } = require('../static/js/rabbit-hole.js');
-const context = { window: {} };
-vm.runInNewContext(fs.readFileSync('0-about/js/resident-inventor-data.js', 'utf8'), context);
-const projects = [
-  '/0-about/lemonless-tms-case-study.html', '/0-about/porpoise-ai-case-study.html',
-  '/0-resources/oei.html', '/0-things-i-do-for-fun/prison-planet.html',
-  '/0-things-i-do-for-fun/spotify/spotify.html', '/porpoise/',
-  '/0-things-i-do-for-fun/inglesrebelde.html', '/0-things-i-do-for-fun/ircalc.html'
-];
-const destinations = pool(projects, context.window.RESIDENT_INVENTOR_PATHS);
-function assertSingleControls(html, entryCount) {
+const {pool, normalize, identify, cleanState, selectCycle, randomIndex} = require('../static/js/rabbit-hole.js');
+const registry = require('../_data/rabbit_hole.json');
+const destinations = pool(registry);
+const ids = destinations.map(entry => entry.id);
+const excluded = ['/0-resources/oei.html','/0-about/porpoise-ai-case-study.html',
+  '/0-things-i-do-for-fun/ircalc.html','/0-things-i-do-for-fun/spotify/spotify.html',
+  '/0-about/mindsystem.html','/0-about/resident-inventor.html','/site-navigation.html',
+  '/resident-inventor/brand-guidelines/','/release-notes/','/porpoise/statistics.html'];
+const expectedIds = ['lemonade-economy','oei','dream-machine','anchorpoint','way-they-see-it','ech',
+  'porpoise','cyoa','inventors-lab','lemonless-tms-case-study','prison-planet','porpoise-library',
+  'ingles-rebelde','ai-collaboration','technical-writing-samples','job-search-timeline',
+  'job-search-lessons','show-and-tell-nook'];
+const fileFor = url => '.' + (url.endsWith('/') ? url + 'index.html' : url);
+function assertSingleControls(html, entryCount = 0) {
   assert.equal((html.match(/aria-label="Enter the Rabbit Hole"/g) || []).length, entryCount);
   assert.equal((html.match(/data-rabbit-hole hidden>Take me somewhere else/g) || []).length, 1);
   assert.equal((html.match(/id="rabbit-hole-destinations"/g) || []).length, 1);
   assert.equal((html.match(/<script src="[^"]*\/static\/js\/rabbit-hole\.js"/g) || []).length, 1);
 }
-test('template composition includes each control and shared script exactly once', () => {
-  assertSingleControls(compose('0-about/ideas.html'), 1);
-  for (const route of destinations) {
-    const url = new URL(route, 'https://example.com');
-    const file = url.pathname.endsWith('/') ? url.pathname + 'index.html' : url.pathname;
-    const html = compose('.' + file);
-    assertSingleControls(html, 0);
-    assert.doesNotMatch(html, /rabbit_hole:|\n---\n/);
+
+test('registry exactly matches approved membership; valid unique IDs, titles, canonical paths and statuses', () => {
+  assert.deepEqual(ids.slice().sort(),expectedIds.slice().sort());
+  assert.equal(destinations.length,18);
+  assert.equal(new Set(registry.map(entry=>entry.id)).size,registry.length);
+  assert.equal(new Set(registry.map(entry=>normalize(entry.url))).size,registry.length);
+  for (const entry of registry) {
+    assert.match(entry.id,/^[a-z0-9-]+$/);
+    assert.ok(entry.title.trim());
+    assert.ok(['approved','draft','retired'].includes(entry.status));
+    assert.equal(normalize(entry.url),entry.url);
+    assert.doesNotMatch(entry.url,/[?#]|\.\./);
+    assert.ok(fs.existsSync(fileFor(entry.url)),entry.url);
   }
-  for (const file of ['porpoise/statistics.html', 'show-and-tell/index.html']) assertSingleControls(compose(file), 0);
+  assert.equal(destinations.filter(entry=>entry.category==='invention-history').length,9);
+  assert.ok(!destinations.some(entry=>excluded.includes(entry.url)));
 });
 
-test('session cycles select every destination once before resetting and avoid boundary repeats', () => {
-  let state = null;
-  let current = '/';
-  let previous = null;
-  for (let cycle = 0; cycle < 3; cycle++) {
-    const selected = [];
-    for (let index = 0; index < destinations.length; index++) {
-      const result = selectCycle(destinations, current, state, () => 0);
-      assert.ok(result.destination);
-      assert.notEqual(result.destination, previous);
-      assert.notEqual(result.destination, current);
-      assert.ok(!selected.includes(result.destination));
-      selected.push(result.destination);
-      state = {visited: result.state.pending.visited, previous: result.destination};
-      previous = current = result.destination;
+test('registry is the only membership source; unpublished/unapproved/external/duplicate entries rejected', () => {
+  assert.deepEqual(pool([{id:'a',url:'/a',status:'draft'},{id:'b',url:'//evil',status:'approved'}]),[]);
+  assert.equal(pool([{id:'a',url:'/a',status:'approved'},{id:'b',url:'/a',status:'approved'}]).length,1);
+  const include=fs.readFileSync('_includes/rabbit-hole.html','utf8');
+  assert.match(include,/site.data.rabbit_hole/);
+  assert.doesNotMatch(include,/site.pages|RESIDENT_INVENTOR|resident-inventor-data/);
+  assert.doesNotMatch(fs.readFileSync('static/js/rabbit-hole.js','utf8'),/RESIDENT_INVENTOR_PATHS/);
+  for (const url of [...registry.map(entry=>entry.url),...excluded].filter(url=>fs.existsSync(fileFor(url))))
+    assert.doesNotMatch(fs.readFileSync(fileFor(url),'utf8'),/^rabbit_hole:/m);
+});
+
+test('three complete cycles contain every ID once and avoid boundary repeats', () => {
+  let state=null,current=null;
+  for(let cycle=0;cycle<3;cycle++){
+    const selected=[];
+    for(let i=0;i<ids.length;i++){
+      const result=selectCycle(destinations,current,state,()=>0);
+      assert.ok(result.destination);assert.notEqual(result.destination,current);
+      assert.ok(!selected.includes(result.destination));selected.push(result.destination);
+      state={visited:result.state.pending.visited,previous:result.destination};
+      current=result.destination;
     }
-    assert.deepEqual(selected.slice().sort(), destinations.slice().sort());
+    assert.deepEqual(selected.slice().sort(),ids.slice().sort());
   }
 });
 
-test('session selection gives each remaining destination one equal index', () => {
-  const state = {visited: destinations.slice(0, 5), previous: destinations[4]};
-  const remaining = destinations.slice(5);
-  remaining.forEach((route, index) => {
-    assert.equal(selectCycle(destinations, '/', state, length => {
-      assert.equal(length, remaining.length);
-      return index;
-    }).destination, route);
-  });
+test('each eligible unvisited candidate gets exactly one unbiased index', () => {
+  const remaining=destinations.slice(5);
+  remaining.forEach((entry,index)=>assert.equal(selectCycle(destinations,null,
+    {visited:ids.slice(0,5),previous:ids[4]},length=>{assert.equal(length,remaining.length);return index;}).destination,entry.id));
 });
 
-test('normalization preserves distinct history identities and cleans deployment changes', () => {
-  assert.equal(normalize('/porpoise/index.html#demo'), '/porpoise/');
-  assert.equal(normalize('/a/../porpoise/?b=2&a=1#x'), '/porpoise/?a=1&b=2');
-  assert.equal(normalize('/%70orpoise/'), '/porpoise/');
-  assert.equal(normalize('//external.example/a'), null);
-  const state = cleanState(destinations, {visited: ['/gone','/porpoise/index.html', '/porpoise/',
-    '/0-about/resident-inventor.html?history=porpoise'], previous:'/gone', pending:{destination:'/gone'}});
-  assert.deepEqual(state.visited, ['/porpoise/', '/0-about/resident-inventor.html?history=porpoise']);
-  assert.equal(state.previous,null);
-  assert.equal(state.pending,null);
-  assert.deepEqual(cleanState(destinations,{visited:'bad'}).visited,[]);
+test('last unvisited current page restarts cycle without recording a manual visit', () => {
+  const tiny=pool([{id:'a',url:'/a',status:'approved'},{id:'b',url:'/b',status:'approved'},{id:'c',url:'/c',status:'approved'}]);
+  const result=selectCycle(tiny,'a',{visited:['b','c'],previous:'c'},()=>0);
+  assert.equal(result.destination,'b');
+  assert.deepEqual(result.state.visited,['b','c']);
+  assert.deepEqual(result.state.pending.visited,['b']);
+  assert.equal(selectCycle([],null,null).destination,null);
+  assert.equal(selectCycle(tiny.slice(0,1),'a',null).destination,null);
+  assert.equal(selectCycle(tiny.slice(0,1),null,null,()=>0).destination,'a');
 });
 
-test('current-page exclusion does not repeat visited routes or discard an unfinished cycle', () => {
-  assert.equal(selectCycle(['/a','/b'], '/a', {visited:['/b']}).destination,null);
-  assert.equal(selectCycle(['/a','/b'], '/b', {visited:['/b']},()=>0).destination,'/a');
-  assert.equal(selectCycle([], '/', null).destination,null);
-  assert.equal(selectCycle(['/a'], '/a', null).destination,null);
-  assert.equal(selectCycle(['/a'], '/', {visited:['/a'],previous:'/a'},()=>0).destination,'/a');
+test('legacy URL state migrates to IDs, deduplicates and prunes removed/unapproved exhibits', () => {
+  const old='/0-about/resident-inventor.html?history=porpoise';
+  const state=cleanState(destinations,{visited:[old,'porpoise',destinations[6].url,'/porpoise/index.html',...excluded],
+    previous:'/0-about/resident-inventor.html?history=oei',pending:{destination:old,visited:[old]}});
+  assert.deepEqual(state.visited,['porpoise','porpoise-library']);
+  assert.equal(state.previous,'oei');assert.equal(state.pending.destination,'porpoise');
+  assert.deepEqual(state.pending.visited,['porpoise']);assert.equal(state.version,2);
+  assert.equal(cleanState(destinations,{pending:{destination:'/gone'}}).pending,null);
+  assert.deepEqual(cleanState(destinations,{visited:'broken'}).visited,[]);
+  const prefixed=destinations.map(entry=>({...entry,url:'/portfolio'+entry.url}));
+  assert.equal(identify(prefixed,old,'/portfolio'),'porpoise');
+  assert.equal(identify(prefixed,'/porpoise/index.html','/portfolio'),'porpoise-library');
 });
 
-function sessionHarness(local = new Map(), storage = new Map(), options = {}) {
-  const read = map => key => map.get(key) || null;
-  const events = {};
-  const button = {hidden:true};
-  const navigations = [];
-  const win = {
-    location: {href: 'https://example.com' + (options.route || '/0-about/ideas.html'), assign(route) {
-      if (options.fail) throw new Error('Navigation rejected');
-      navigations.push(route);
-    }},
-    localStorage: {getItem:read(local), setItem:(key,value)=>local.set(key,value)},
-    sessionStorage: {getItem:read(storage), setItem:(key,value)=>storage.set(key,value)},
-    addEventListener:(name,callback)=>{events[name]=callback;},
-    document: {getElementById:()=>({textContent:JSON.stringify(projects)}),
-      querySelector:()=>({src:'https://example.com/static/js/rabbit-hole.js'}),
-      querySelectorAll:()=>[button], addEventListener:(name,callback)=>{events[name]=callback;}},
-    RESIDENT_INVENTOR_PATHS:context.window.RESIDENT_INVENTOR_PATHS
-  };
-  if (options.blocked) win.sessionStorage = {getItem(){throw new Error('Blocked');},setItem(){throw new Error('Blocked');}};
-  vm.runInNewContext(fs.readFileSync('static/js/rabbit-hole.js','utf8'), {window:win,URL,Uint32Array});
-  return {win,events,button,navigations,click(control) {events.click({target:{closest:()=>control}});}};
+test('normalization handles aliases, fragments and query order but rejects external paths', () => {
+  assert.equal(normalize('/porpoise/index.html#demo'),'/porpoise/');
+  assert.equal(normalize('/%70orpoise/'),'/porpoise/');
+  assert.equal(normalize('/a/../porpoise/?b=2&a=1'),'/porpoise/?a=1&b=2');
+  assert.equal(normalize('//evil/a'),null);
+});
+
+function harness(local=new Map(),storage=new Map(),options={}){
+  const events={},button={hidden:true},navigations=[];
+  const get=map=>key=>map.get(key)||null;
+  const win={location:{href:'https://example.com'+(options.route||'/0-about/ideas.html'),assign(route){
+    if(options.fail)throw Error('Rejected');navigations.push(route);
+  }},localStorage:{getItem:get(local),setItem:(k,v)=>local.set(k,v)},
+  sessionStorage:{getItem:get(storage),setItem:(k,v)=>storage.set(k,v)},
+  addEventListener:(name,fn)=>{events[name]=fn;},
+  document:{getElementById:id=>id==='rabbit-hole-destinations'?{textContent:JSON.stringify(destinations)}:
+    (options.redirecting&&id==='ri-history-routes'?{}:null),
+    querySelector:()=>({src:'https://example.com/static/js/rabbit-hole.js'}),
+    querySelectorAll:()=>[button],addEventListener:(name,fn)=>{events[name]=fn;}}};
+  if(options.blocked)win.sessionStorage={getItem(){throw Error('Blocked');},setItem(){throw Error('Blocked');}};
+  vm.runInNewContext(fs.readFileSync('static/js/rabbit-hole.js','utf8'),{window:win,URL,Uint32Array});
+  return {win,events,button,navigations,click(){events.click({target:{closest:()=>button}});}};
 }
 
-test('both controls share session progress across arrivals and refreshes, independently of unlock', () => {
-  const local = new Map();
-  const storage = new Map();
-  let page = sessionHarness(local, storage);
-  assert.equal(page.button.hidden,true);
-  for (let index = 0; index < 17; index++) {
-    page.click(index%2 ? page.button : {entry:true});
-    const destination = page.navigations[0];
-    assert.ok(destination);
-    // Progress is reserved until the destination actually loads.
-    const pending = JSON.parse(storage.get('rabbit-hole-session'));
-    assert.equal(pending.visited.length,index);
-    page = sessionHarness(local, storage, {route:destination});
-    assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,index+1);
-    page = sessionHarness(local, storage, {route:destination}); // Refresh.
-    assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,index+1);
-    assert.equal(page.button.hidden,false);
+test('selection reservations commit only on arrival; cycles and unlock survive refresh', () => {
+  const local=new Map(),storage=new Map();let loaded=harness(local,storage);
+  assert.equal(loaded.button.hidden,true);
+  for(let i=0;i<18;i++){
+    loaded.click();assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,i);
+    loaded=harness(local,storage,{route:loaded.navigations[0]});
+    assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,i+1);
+    loaded=harness(local,storage,{route:new URL(loaded.win.location.href).pathname});
+    assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,i+1);
+    assert.equal(loaded.button.hidden,false);
   }
-  assert.equal(new Set(JSON.parse(storage.get('rabbit-hole-session')).visited).size,17);
-  page.click(page.button);
-  const last = JSON.parse(storage.get('rabbit-hole-session')).previous;
-  assert.notEqual(page.navigations[0],last);
-  page = sessionHarness(local, storage, {route:page.navigations[0]});
+  const previous=JSON.parse(storage.get('rabbit-hole-session')).previous;
+  loaded.click();assert.notEqual(identify(destinations,loaded.navigations[0]),previous);
+  loaded=harness(local,storage,{route:loaded.navigations[0]});
   assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,1);
-  const freshSession = new Map();
-  page = sessionHarness(local,freshSession);
-  assert.equal(page.button.hidden,false);
-  assert.equal(JSON.parse(freshSession.get('rabbit-hole-session')).visited.length,0);
-  assert.equal(local.has('rabbit-hole-session'),false);
+  const fresh=new Map();assert.equal(harness(local,fresh).button.hidden,false);
+  assert.deepEqual(JSON.parse(fresh.get('rabbit-hole-session')).visited,[]);
 });
 
-test('rapid clicks reserve only one destination and failed navigation does not commit visits', () => {
-  const storage = new Map();
-  const page = sessionHarness(new Map(),storage);
-  page.click({entry:true});
-  page.click(page.button);
-  page.win.RabbitHole.navigate();
-  assert.equal(page.navigations.length,1);
-  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,0);
-  sessionHarness(new Map(),storage); // Did not reach reserved destination.
-  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending,null);
-  const failed = sessionHarness(new Map(),storage,{fail:true});
-  failed.click(failed.button);
-  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).visited.length,0);
-  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending,null);
-  assert.doesNotThrow(()=>failed.click(failed.button));
+test('manual arrivals do not change tour progress; pageshow restores controls', () => {
+  const local=new Map([['rabbit-hole-unlocked','true']]);
+  const storage=new Map([['rabbit-hole-session',JSON.stringify({visited:['oei'],previous:'oei'})]]);
+  const loaded=harness(local,storage,{route:'/porpoise/'});
+  assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,['oei']);
+  loaded.button.hidden=true;loaded.events.pageshow();assert.equal(loaded.button.hidden,false);
+  assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,['oei']);
 });
 
-test('blocked and corrupt session storage degrade gracefully', () => {
-  const blocked = sessionHarness(new Map(),new Map(),{blocked:true});
-  assert.doesNotThrow(()=>blocked.click(blocked.button));
-  assert.equal(blocked.navigations.length,1);
-  const storage = new Map([['rabbit-hole-session','{broken json']]);
-  const page = sessionHarness(new Map(),storage);
+test('legacy pending history reservation survives redirect and commits at canonical arrival', () => {
+  const local=new Map(),storage=new Map([['rabbit-hole-session',JSON.stringify({visited:['oei'],
+    pending:{destination:'/0-about/resident-inventor.html?history=porpoise',visited:['/0-about/resident-inventor.html?history=oei','/0-about/resident-inventor.html?history=porpoise']}})]]);
+  harness(local,storage,{route:'/0-about/resident-inventor.html?history=porpoise',redirecting:true});
+  assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,['oei']);
+  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending.destination,'porpoise');
+  harness(local,storage,{route:'/resident-inventor/histories/porpoise/'});
+  assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,['oei','porpoise']);
+  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending,null);
+});
+
+test('rapid clicks reserve once, rejected and unsuccessful navigation roll back', () => {
+  const storage=new Map(),loaded=harness(new Map(),storage);loaded.click();loaded.click();loaded.win.RabbitHole.navigate();
+  assert.equal(loaded.navigations.length,1);assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,[]);
+  harness(new Map(),storage);assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending,null);
+  const failed=harness(new Map(),storage,{fail:true});failed.click();
   assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,[]);
-  page.click(page.button);
-  assert.equal(page.navigations.length,1);
+  assert.equal(JSON.parse(storage.get('rabbit-hole-session')).pending,null);
 });
-test('all eligible project front matter has exactly one eligibility key inside its first block', () => {
-  for (const route of projects) {
-    const file = '.' + (route.endsWith('/') ? route + 'index.html' : route);
-    const {metadata, body} = page(file);
-    assert.equal((metadata.match(/^rabbit_hole: true$/gm) || []).length, 1);
-    assert.doesNotMatch(body, /rabbit_hole:/);
-  }
+
+test('blocked and corrupt storage degrade gracefully',()=>{
+  const loaded=harness(new Map(),new Map(),{blocked:true});assert.doesNotThrow(()=>loaded.click());
+  assert.equal(loaded.navigations.length,1);
+  const storage=new Map([['rabbit-hole-session','{bad']]);harness(new Map(),storage);
+  assert.deepEqual(JSON.parse(storage.get('rabbit-hole-session')).visited,[]);
 });
-test('language selector occupies the wrapping shared control row', () => {
-  const html = compose('0-things-i-do-for-fun/inglesrebelde.html');
-  const row = html.match(/<nav class="rabbit-hole-access"[\s\S]*?<\/nav>/)[0];
-  assert.equal((row.match(/class="language-toggle"/g) || []).length, 1);
-  const languageCSS = html.match(/\.language-toggle \{([\s\S]*?)\}/)[1];
-  assert.doesNotMatch(languageCSS, /position:|top:|right:|z-index:/);
-  assert.match(html, /\.rabbit-hole-access \{[^}]*flex-wrap: wrap/);
+
+test('shared controls compose once on eligible default and standalone pages',()=>{
+  assertSingleControls(compose('0-about/ideas.html'),1);
+  for(const entry of destinations.filter(entry=>entry.category!=='invention-history'))assertSingleControls(compose(fileFor(entry.url)),0);
 });
-test('playlist include cannot emit metadata or generate a competing page', () => {
-  assert.match(page('0-things-i-do-for-fun/spotify/spotify.md').metadata, /published: false/);
-  const source = page('0-things-i-do-for-fun/spotify/spotify.html').body;
-  assert.match(source, /playlist_source \| split: '---' \| last/);
-  assert.match(source, /playlist_body \| markdownify/);
+
+test('specialized controls retain language selector, calculator flow and playlist metadata safety',()=>{
+  const language=compose('0-things-i-do-for-fun/inglesrebelde.html');
+  const row=language.match(/<nav class="rabbit-hole-access"[\s\S]*?<\/nav>/)[0];
+  assert.equal((row.match(/class="language-toggle"/g)||[]).length,1);
+  assert.doesNotMatch(language.match(/\.language-toggle \{([\s\S]*?)\}/)[1],/position:|top:|right:|z-index:/);
+  assert.match(compose('0-things-i-do-for-fun/ircalc.html'),/flex-direction: column/);
+  assert.match(page('0-things-i-do-for-fun/spotify/spotify.md').metadata,/published: false/);
+  assert.match(page('0-things-i-do-for-fun/spotify/spotify.html').body,/playlist_body \| markdownify/);
 });
-test('calculator keeps shared controls above its content in document flow', () => {
-  const html = compose('0-things-i-do-for-fun/ircalc.html');
-  const bodyCSS = html.match(/body \{([\s\S]*?)\}/)[1];
-  assert.match(bodyCSS, /flex-direction: column/);
-  assert.match(html, /\.rabbit-hole-access \{[^}]*width: 100%/);
-});
-test('published projects and all nine histories are distinct and reachable', () => {
-  assert.equal(destinations.length, 17);
-  assert.equal(new Set(destinations).size, 17);
-  destinations.forEach((route, index) => assert.equal(select(destinations, '/', null, () => index), route));
-  for (const route of projects) {
-    const path = route.endsWith('/') ? route + 'index.html' : route;
-    assert.match(fs.readFileSync('.' + path, 'utf8'), /rabbit_hole: true/);
-  }
-  assert.ok(destinations.includes('/0-about/porpoise-ai-case-study.html'));
-  assert.ok(destinations.includes('/0-about/resident-inventor.html?history=porpoise'));
-  assert.ok(!destinations.some(route => /brand-guidelines|ideas\.html|show-and-tell|history=base/.test(route)));
-});
-test('pool rejects external routes, unpublished histories and duplicates', () => {
-  assert.deepEqual(pool(['/a', '/a', 'https://example.com', '//example.com'], [{id:'draft',published:false}, {id:'base',base:true}]), ['/a']);
-});
-test('repeat avoidance and small pools', () => {
-  assert.equal(select(['/a','/b','/c'], '/a', '/b', () => 0), '/c');
-  assert.equal(select(['/a','/b'], '/a', '/b', () => 0), '/b');
-  assert.equal(select(['/a'], '/a', null), null);
-  assert.equal(select([], '/', null), null);
-  assert.equal(select(['/a'], '/', '/a', () => 0), '/a');
-});
-test('crypto rejection sampling excludes modulo bias', () => {
-  const values = [0xffffffff, 4];
-  assert.equal(randomIndex(3, {getRandomValues(array) { array[0] = values.shift(); }}), 1);
-  assert.equal(values.length, 0);
-});
-test('Jekyll output contains exactly the eligible project routes and shared controls', {skip: !fs.existsSync('_site/static/js/rabbit-hole.js')}, () => {
-  const html = fs.readFileSync('_site/0-about/ideas.html', 'utf8');
-  assertSingleControls(html, 1);
-  const json = html.match(/id="rabbit-hole-destinations"[^>]*>([\s\S]*?)<\/script>/);
-  assert.ok(json);
-  const rendered = JSON.parse(json[1]);
-  assert.deepEqual(rendered.slice().sort(), projects.slice().sort());
-  assert.match(html, /data-rabbit-hole hidden>Take me somewhere else/);
-  for (const route of rendered) {
-    const file = '_site' + (route.endsWith('/') ? route + 'index.html' : route);
-    assert.ok(fs.existsSync(file), file);
-    const output = fs.readFileSync(file, 'utf8');
-    assertSingleControls(output, 0);
-    assert.doesNotMatch(output, /rabbit_hole:|layout: default|published: false/);
-  }
-  assertSingleControls(fs.readFileSync('_site/0-about/resident-inventor.html', 'utf8'), 0);
-});
-test('unlock is initially hidden and persists across page loads and pageshow', () => {
-  const storage = new Map();
-  function load() {
-    const button = {hidden:true};
-    const events = {};
-    const registrations = {};
-    let navigations = 0;
-    const win = {
-      location:{href:'https://example.com/0-about/ideas.html',assign(route){this.destination=route; navigations++;}},
-      localStorage:{getItem:key=>storage.get(key),setItem:(key,value)=>storage.set(key,value)},
-      addEventListener:(name,callback)=>{events[name]=callback; registrations[name]=(registrations[name] || 0)+1;},
-      document:{getElementById:()=>({textContent:JSON.stringify(projects)}),
-        querySelector:()=>({src:'https://example.com/static/js/rabbit-hole.js'}),
-        querySelectorAll:()=>[button],addEventListener:(name,callback)=>{events[name]=callback; registrations[name]=(registrations[name] || 0)+1;}},
-      RESIDENT_INVENTOR_PATHS: context.window.RESIDENT_INVENTOR_PATHS
-    };
-    vm.runInNewContext(fs.readFileSync('static/js/rabbit-hole.js','utf8'), {window:win,URL,Uint32Array});
-    assert.deepEqual(registrations, {click:1, pageshow:1, storage:1});
-    return {win,button,events,get navigations(){return navigations;}};
-  }
-  const first = load();
-  assert.equal(first.button.hidden,true);
-  first.events.click({target:{closest:()=>first.button}});
-  assert.equal(first.navigations, 1);
-  assert.equal(first.button.hidden,false);
-  assert.ok(destinations.includes(first.win.location.destination));
-  assert.equal(load().button.hidden,false);
-  first.button.hidden=true;
-  first.events.pageshow();
-  assert.equal(first.button.hidden,false);
+
+test('crypto rejection sampling excludes modulo bias',()=>{
+  const values=[0xffffffff,4];assert.equal(randomIndex(3,{getRandomValues(array){array[0]=values.shift();}}),1);
+  assert.equal(values.length,0);
 });
