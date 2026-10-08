@@ -25,11 +25,75 @@ window.NOOK_PROJECTS = {
   "Swipet": { shortName: "SWP", stampColor: "#2B3B8C" },
   "Fletcher Lite": { shortName: "FL", stampColor: "#d4a574" },
   "Invisible Load": { shortName: "IL", stampColor: "#708090" },
+  "The Lemonade Economy": { shortName: "TLE", stampColor: "#8A6500" },
   "Resident Inventor": { shortName: "RI" },
   "Show & Tell Nook": { shortName: "STN" }
 };
 
 window.NOOK_UPDATES = [
+  {
+    id: "tle-two-sided-reference-system",
+    date: "2026-10-01",
+    project: "The Lemonade Economy",
+    title: "Created The Lemonade Economy as a two-sided reference system",
+    body: "The Lemonade Economy began as a public reference for executive-function friction, built around recognizable problems rather than diagnostic categories. From the beginning, the same problem could be entered from two positions: the person experiencing the friction and the person supporting them.",
+    url: "https://lemonadeeconomy.online/",
+    linkLabel: "Explore The Lemonade Economy"
+  },
+  {
+    id: "tle-paired-reading-perspectives",
+    date: "2026-10-01",
+    project: "The Lemonade Economy",
+    title: "Split the reading experience into Lemonless and Support perspectives",
+    body: "The project moved away from the idea of one explanation serving everyone equally. Lemonless pages were designed to reduce the work required to reach something useful while already inside a problem, while Support pages could carry more context, boundaries, and shared-system guidance. Neither became the “simpler” or more important side; both remained paired views of the same situation.",
+    url: "https://lemonadeeconomy.online/why-the-perspectives-differ",
+    linkLabel: "See why the perspectives differ"
+  },
+  {
+    id: "tle-model-behind-the-metaphor",
+    date: "2026-10-05",
+    project: "The Lemonade Economy",
+    title: "Made the model behind the metaphor explicit",
+    body: "The project’s identity shifted from mainly using the lemonade metaphor to stating the underlying model directly: executive capacity varies, while many environments, routines, and expectations assume that it will be reliably available. “Lemonless” remained a casual metaphor for that mismatch rather than a clinical label or universal theory of ADHD.",
+    url: "https://lemonadeeconomy.online/#what-is-the-lemonade-economy",
+    linkLabel: "Read what The Lemonade Economy means"
+  },
+  {
+    id: "tle-reference-and-software-separation",
+    date: "2026-10-05",
+    project: "The Lemonade Economy",
+    title: "Separated the free reference system from the software built around it",
+    body: "As LemonlessTMS became its own product, The Lemonade Economy clarified its role as the free reference, learning, and troubleshooting system around executive-function friction. The software could apply the same design principles, but using or buying it would never be required to benefit from the reference project.",
+    url: "https://lemonadeeconomy.online/lemonless-tms",
+    linkLabel: "Explore LemonlessTMS"
+  },
+  {
+    id: "tle-growing-reference-system",
+    date: "2026-10-07",
+    project: "The Lemonade Economy",
+    title: "Established the project as a growing reference system rather than a finished publication",
+    body: "The site gained a dated Website Updates history, a permanent current-site baseline, clearer orientation material, and a public commitment that the reference system will remain free to access. The project now treats new problems, principles, connections, and explanatory material as an evolving body of reference work rather than a static launch.",
+    url: "https://lemonadeeconomy.online/release-notes",
+    linkLabel: "Browse Website updates"
+  },
+  {
+    id: "tle-designing-for-return",
+    date: "2026-10-07",
+    project: "The Lemonade Economy",
+    title: "Began designing for people who leave and come back",
+    body: "The project expanded its idea of accessibility beyond making individual pages easier to use. It began treating disengagement and return as normal behavior: systems should make re-entry cheap, avoid turning absence into debt, and help people recover enough context to continue when they are ready.",
+    url: "https://lemonadeeconomy.online/release-notes",
+    linkLabel: "Browse Website updates"
+  },
+  {
+    id: "tle-lower-cognitive-load-reading",
+    date: "2026-10-08",
+    project: "The Lemonade Economy",
+    title: "Began adapting explanatory material for lower-cognitive-load reading",
+    body: "The project started restructuring its denser reference pages so readers could understand the core idea without having to process an uninterrupted essay first. The first experiment added a visible quick version, clearer conceptual landmarks, and optional depth while keeping the full meaning and important boundaries intact.",
+    url: "https://lemonadeeconomy.online/why-the-perspectives-differ",
+    linkLabel: "See why the perspectives differ"
+  },
   {
     id: "oei-commercial-pathways-capability-intervention",
     date: "2026-09-25",
