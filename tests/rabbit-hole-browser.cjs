@@ -72,8 +72,9 @@ function overlap(a,b){return a.x<b.x+b.width-1&&b.x<a.x+a.width-1&&a.y<b.y+b.hei
           for(const other of boxes)assert.ok(!overlap(box,other),entry.url+' overlapping controls');boxes.push(box);
         }
         if(entry.id==='job-search-timeline'){
-          assert.equal(await tab.locator('.entry').count(),13);
-          await tab.locator('.pin-btn').last().click();assert.ok(await tab.locator('#entry-13').isVisible());
+          assert.equal(await tab.locator('.entry').count(),12);
+          const timelineControl=tab.locator(width<=860?'.scrub-btn':'.pin-btn').last();
+          await timelineControl.focus();await tab.keyboard.press('Enter');assert.ok(await tab.locator('#entry-12').isVisible());
         }
         if(entry.id==='job-search-lessons')assert.equal(await tab.locator('.commandment').count(),10);
         if(entry.id==='ingles-rebelde'){
@@ -88,6 +89,11 @@ function overlap(a,b){return a.x<b.x+b.width-1&&b.x<a.x+a.width-1&&a.y<b.y+b.hei
           const entry=registry.find(entry=>entry.id===history.id);
           await tab.goto(origin+entry.url);
           await tab.evaluate(theme=>{localStorage.setItem('theme',theme);document.documentElement.setAttribute('data-theme',theme);},theme);
+          const breadcrumbColors=await tab.locator('.ri-breadcrumb a').evaluate(el=>{
+            const probe=document.createElement('span');probe.style.color='var(--fg)';document.body.append(probe);
+            const colors={actual:getComputedStyle(el).color,expected:getComputedStyle(probe).color};probe.remove();return colors;
+          });
+          assert.equal(breadcrumbColors.actual,breadcrumbColors.expected,'Breadcrumb must retain readable theme foreground');
           const article=tab.locator('.ri-history-page');
           assert.equal(await article.locator('h1').innerText(),history.title);
           assert.equal(await article.locator('.ri-node').count(),history.loops.reduce((n,loop)=>n+loop.nodes.length,0));
@@ -98,7 +104,7 @@ function overlap(a,b){return a.x<b.x+b.width-1&&b.x<a.x+a.width-1&&a.y<b.y+b.hei
           if(width>650){
             await sequence.evaluate(el=>{el.scrollLeft=el.scrollWidth;});
             await tab.waitForFunction(()=>document.querySelector('.ri-sequence-shell').classList.contains('is-at-end'));
-            assert.equal(await article.locator('.ri-scroll-hint').first().innerText(),'End of this path');
+            assert.equal(await article.locator('.ri-scroll-hint').first().textContent(),'End of this path');
           }else assert.equal(await article.locator('.ri-scroll-hint').first().isVisible(),false);
           assert.ok(await tab.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow '+entry.url);
           if(['oei','ech','inventors-lab'].includes(history.id)){
@@ -131,7 +137,6 @@ function overlap(a,b){return a.x<b.x+b.width-1&&b.x<a.x+a.width-1&&a.y<b.y+b.hei
       assert.equal(new URL(tab.url()).pathname,'/0-about/resident-inventor.html');
     }
     await tab.emulateMedia({reducedMotion:'reduce'});
-    await tab.goto(origin+'/resident-inventor/histories/oei/').catch(()=>{});
     await tab.goto(origin+'/resident-inventor/histories/operational-entropy-index/');
     assert.equal(await tab.locator('.ri-sequence').first().evaluate(el=>getComputedStyle(el).scrollBehavior),'auto');
     assert.deepEqual(errors,[],'Browser runtime errors');

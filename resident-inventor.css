@@ -72,50 +72,6 @@
 .ri-section-heading h2 { margin: 0; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; }
 .ri-section-heading > p:last-child { align-self: end; margin: 0; color: var(--text-muted); font-size: .92rem; line-height: 1.6; }
 
-.ri-explorer { border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-
-.ri-tabs-wrap { position: relative; border-bottom: 1px solid var(--border-color); }
-.ri-tabs-wrap::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 2rem;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, var(--bg));
-  pointer-events: none;
-  content: "";
-}
-
-.ri-tabs {
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-color) transparent;
-}
-
-.ri-tab {
-  flex: 0 0 auto;
-  padding: 1rem .9rem .85rem;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: .67rem;
-  font-weight: 700;
-  letter-spacing: .06em;
-  line-height: 1.25;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.ri-tab:hover { background: transparent; color: var(--fg); }
-.ri-tab[aria-selected="true"] { border-bottom-color: var(--accent); color: var(--fg); }
-
-.ri-panel { padding: clamp(1.5rem, 5vw, 2.75rem) 0 0; outline: 0; }
-.ri-panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
 .ri-panel-intro { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); gap: 1.5rem 3rem; padding: 0 clamp(1rem, 3vw, 1.5rem) 2.25rem; }
 .ri-panel-intro h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.75rem, 4vw, 2.4rem); font-weight: 500; line-height: 1.05; }
 .ri-panel-intro p { margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
@@ -302,7 +258,6 @@
 
 .ri-insight { margin: 0; padding: 1.4rem clamp(1rem, 3vw, 1.5rem); border-top: 1px solid var(--border-color); color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.08rem; line-height: 1.5; }
 .ri-insight-label { color: var(--accent); }
-.ri-noscript { padding: 1rem; }
 
 .ri-articles { padding: 0; }
 .ri-article { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem clamp(1.5rem, 5vw, 3.5rem); padding: clamp(3.5rem, 8vw, 6rem) 0; border-bottom: 1px solid var(--border-color); }
@@ -368,7 +323,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ri-tabs, .ri-sequence { scroll-behavior: auto; }
+  .ri-sequence { scroll-behavior: auto; }
 }
 
 /* Optional loop emphasis and separate-project continuation use the map's existing palette. */
@@ -383,10 +338,16 @@
 .ri-loop-name { display: block; font-size: .7rem; line-height: 1.5; }
 
 /* Static destinations retain the explorer's sequences and visual vocabulary. */
+.resident-inventor-page nav,
+.site-navigation-page nav[aria-label="Invention histories"] { position: static; width: auto; z-index: auto; background: transparent; box-shadow: none; }
+.resident-inventor-page nav a,
+.site-navigation-page nav[aria-label="Invention histories"] a { display: inline; padding: 0; color: var(--fg); text-decoration: underline; }
+.resident-inventor-page nav a:hover,
+.site-navigation-page nav[aria-label="Invention histories"] a:hover { background: transparent; transform: none; }
 .ri-directory-section { padding: 0 0 2.5rem; border-bottom: 1px solid var(--border-color); }
 .ri-directory-section h2, .ri-history-footer h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
 .ri-history-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2rem; list-style: none; padding: 0; }
-.ri-history-directory li { min-width: 0; padding: 1rem 0; border-top: 1px solid var(--border-color); }
+.ri-history-directory li { min-width: 0; margin: 0; padding: 1rem 0; border-top: 1px solid var(--border-color); }
 .ri-history-directory a { color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; }
 .ri-history-directory p { margin: .6rem 0 0; color: var(--text-muted); font-size: .85rem; line-height: 1.6; }
 .ri-history-header { padding: 2rem 0; }

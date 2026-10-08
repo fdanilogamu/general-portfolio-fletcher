@@ -1,66 +1,58 @@
-# Rabbit Hole
+# Curated Rabbit Hole V2
 
-The entry control sits at the bottom of TL;DR. Shared layout pages and standalone
-project/Show & Tell pages expose the unlocked shortcut beside “I'm lost”.
+`_data/rabbit_hole.json` is the only destination registry. JSON is native Jekyll
+structured data, so neither the build nor the Node checks need a YAML dependency.
+Each entry has a stable `id`, `title`, canonical `url`, `status`, and optional
+`category`. Valid statuses are `approved`, `draft`, and `retired`. Only approved
+entries ship in `_includes/rabbit-hole.html`'s destination manifest.
 
-Jekyll generates project destinations from `site.pages` with `rabbit_hole: true`
-in their front matter. Add that flag to a published individual project, case
-study, or future dedicated Show & Tell page. Do not mark orientation pages,
-category indexes, external links, or placeholders. Jekyll's unpublished pages
-are absent from the production page collection. No parallel route list ships.
+The currently approved tour has 18 destinations: nine invention histories and
+nine other exhibits. Adding a page, a history record, or page metadata never adds
+it to the tour. Editorial approval is required before adding an approved registry
+entry; update the explicit membership expectations in the regression tests as
+part of an approved membership change. IDs must remain stable when URLs change.
+Do not reuse retired IDs for unrelated exhibits.
 
-Invention histories currently share an interactive explorer rather than separate
-HTML files. Each non-base published record in `RESIDENT_INVENTOR_PATHS` becomes a
-distinct `resident-inventor.html?history=<id>` destination. The query restores the
-selected history on direct loads and back/forward. New records automatically
-join the pool; `published: false` opts out. These are dedicated history views of
-the existing page, not newly generated standalone history documents. Show & Tell
-currently has no dedicated entry pages, so its feed is excluded.
+The Resident Inventor index, Porpoise case study, older OEI page, pricing
+calculator, playlists, orientation pages, statistics and supporting downloads
+remain accessible but are excluded from the tour. History and product/library
+pages are distinct exhibits where explicitly approved.
 
-The eight project routes and nine histories each receive equal probability.
-Selection draws only from destinations not yet selected in this tab's session.
-It excludes the current destination and avoids the previous selection when
-possible. After every destination has been selected, a new cycle begins. If the
-sole remaining unvisited destination is the current page, activation does nothing
-until the visitor moves elsewhere; it does not repeat a visited destination or
-reset early. Empty pools or a sole current page also do nothing. Crypto uses rejection sampling
-to avoid modulo bias, with Math.random as fallback. Ordinary location.assign
-navigation preserves the site's full-page routing and browser history.
+## Session behavior
 
-`rabbit-hole-unlocked` remains in localStorage. `rabbit-hole-session` lives in
-sessionStorage and contains visited canonical routes, the previous selection and
-an optional pending navigation. Query parameters distinguish history views;
-query order, fragments, index.html aliases and unreserved path encoding are
-normalized. Obsolete routes are removed when reading session state. A destination
-is reserved before navigation and committed only when its page loads, preserving
-the old cycle if navigation throws or the visitor returns without arriving.
-Repeated clicks are ignored while navigation is pending. pageshow restores
-controls and session state after cached back/forward navigation; storage events
-sync permanent unlock between tabs. The legacy localStorage previous-selection
-key is no longer used. If storage is blocked, navigation and controls work within
-the current document, but session progress cannot survive full-page navigation.
+Permanent unlock uses `rabbit-hole-unlocked` in localStorage. Version 2 state in
+`rabbit-hole-session` sessionStorage contains `visited` stable IDs, `previous`,
+and an optional `pending: {destination, visited}` reservation. Only Rabbit Hole
+selections count; manual browsing does not modify visited progress.
 
-Run `node --test tests/rabbit-hole.test.cjs`. CI also runs these checks alongside
-the Jekyll build. Desktop/mobile visual verification requires a rendered Jekyll
-site; local Ruby/Jekyll is unavailable in the current development environment.
+A selection draws uniformly from approved, unvisited exhibits except the current
+page. After exhaustion, or when the sole remaining unselected exhibit is current,
+a new cycle starts. Current and previous selections are avoided across cycle
+boundaries when alternatives exist. Cryptographic rejection sampling avoids
+modulo bias; Math.random is the fallback.
 
-Session-memory regression results: 17 tests pass, with the production Jekyll
-output check skipped locally. The optional browser regression
-`node tests/rabbit-hole-browser.cjs --source-preview --session-only` also passed
-in Chrome: all 17 selections, alternating entry controls, refresh after each
-arrival, cycle reset, rapid repeated activation, and fresh-tab session history
-with permanent unlock retained. This source preview uses real CSS/JavaScript,
-but does not verify production Jekyll output. The browser module/executable may
-be supplied through PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE without adding a
-project dependency.
+The selection is reserved before location.assign and committed only on successful
+arrival. Repeated clicks are suppressed. Failed navigation and arrivals elsewhere
+discard the reservation without changing the old cycle. pageshow handles cached
+Back/Forward. Blocked storage falls back to memory; progress cannot persist across
+full page loads without sessionStorage.
 
-Changed files: `_layouts/default.html`, `_includes/rabbit-hole.html`,
-`_includes/rabbit-hole-standalone.html`, `static/js/rabbit-hole.js`, `styles.css`,
-`0-about/ideas.html`, `0-about/js/resident-inventor.js`,
-`0-about/lemonless-tms-case-study.html`, `0-about/porpoise-ai-case-study.html`,
-`0-resources/oei.html`, `0-things-i-do-for-fun/prison-planet.html`,
-`0-things-i-do-for-fun/spotify/spotify.html`,
-`0-things-i-do-for-fun/inglesrebelde.html`, `0-things-i-do-for-fun/ircalc.html`,
-`porpoise/index.html`, `porpoise/statistics.html`, `show-and-tell/index.html`,
-`_config.yml`, `.github/workflows/pages.yml`, `tests/rabbit-hole.test.cjs`,
-and this document.
+Recognized old URL-based visited/previous/pending entries migrate to stable IDs.
+Old `resident-inventor.html?history=<id>` entries resolve to their history ID;
+canonical URL aliases deduplicate and removed/unapproved destinations are pruned.
+The index compatibility adapter preserves a pending old-history reservation
+through its location.replace redirect before the canonical page commits it.
+
+## Verification
+
+- `node --test tests/rabbit-hole.test.cjs`
+- `bundle exec jekyll build`
+- `python tests/verify-resident-inventor.py --site _site`
+- `python porpoise/verify-integration.py --site _site`
+- `node tests/rabbit-hole-browser.cjs`
+
+Generated-output checks are mandatory before CI uploads the Pages artifact.
+Browser QA requires an existing Playwright installation and Chromium. Set
+PLAYWRIGHT_MODULE, BROWSER_EXECUTABLE, SITE_DIR and QA_ARTIFACTS to use existing
+local runtimes and a temporary generated site. No source-preview approximation is
+used for the static-history audit.

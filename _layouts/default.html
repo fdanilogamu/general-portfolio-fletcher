@@ -4,10 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="portfolio-version" content="{{ site.data.release.current_version }}">
-  {% assign history_metadata = site.data.resident_inventor | where: 'id', page.history_id | first %}
+  {% assign history_metadata = nil %}
+  {% if page.history_id and page.history_id != '' and page.history_id != 'base' %}
+    {% assign history_metadata = site.data.resident_inventor | where: 'id', page.history_id | first %}
+  {% endif %}
   {% assign document_title = page.title %}{% assign document_description = page.description %}
   {% if history_metadata %}{% assign document_title = history_metadata.title | append: ' — Invention History · Resident Inventor' %}{% assign document_description = history_metadata.summary %}{% endif %}
   <title>{{ document_title | escape }}</title>
+  {% if page.keywords %}<meta name="keywords" content="{{ page.keywords | escape }}">{% endif %}
   {% if page.description or history_metadata %}
   <meta name="description" content="{{ document_description | escape }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">

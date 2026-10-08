@@ -186,7 +186,7 @@ body {
 }
 
 .receipt.is-printing {
-  animation: feed-paper var(--feed-duration, 5s) linear both;
+  animation: feed-paper var(--feed-duration, 4.75s) linear both;
 }
 
 .printer.is-printing {
@@ -384,7 +384,7 @@ h1 span {
 }
 
 .paper-end.is-printing {
-  animation: follow-paper var(--feed-duration, 25s) linear both;
+  animation: follow-paper var(--feed-duration, 4.75s) linear both;
 }
 
 .noscript-note { padding: 2rem 0; font-size: 0.85rem; }
@@ -393,11 +393,14 @@ a:focus-visible { outline: 3px solid var(--signal); outline-offset: 4px; }
 
 @keyframes feed-paper {
   from { clip-path: inset(0 0 96%); transform: translateY(-1.5rem); }
+  /* 3.5 / 4.75 seconds: 20% of both reveal and travel, then fast printing. */
+  73.6842105263% { clip-path: inset(0 0 76.8%); transform: translateY(-1.2rem); }
   to { clip-path: inset(0); transform: translateY(0); }
 }
 
 @keyframes follow-paper {
   from { transform: translateY(var(--paper-start, 0)); }
+  73.6842105263% { transform: translateY(calc(var(--paper-start, 0px) * 0.8)); }
   to { transform: translateY(0); }
 }
 

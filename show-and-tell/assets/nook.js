@@ -131,11 +131,11 @@
     const paperEnd = document.querySelector(".paper-end");
     if (!receipt || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    receipt.style.setProperty("--feed-duration", "25s");
+    receipt.style.setProperty("--feed-duration", "4.75s");
     if (paperEnd) {
       const startingOffset = Math.round((receipt.offsetHeight * 0.96) + 24);
       paperEnd.style.setProperty("--paper-start", `-${startingOffset}px`);
-      paperEnd.style.setProperty("--feed-duration", "25s");
+      paperEnd.style.setProperty("--feed-duration", "4.75s");
     }
 
     window.requestAnimationFrame(function () {

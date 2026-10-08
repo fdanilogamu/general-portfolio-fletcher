@@ -195,3 +195,30 @@ test('crypto rejection sampling excludes modulo bias',()=>{
   const values=[0xffffffff,4];assert.equal(randomIndex(3,{getRandomValues(array){array[0]=values.shift();}}),1);
   assert.equal(values.length,0);
 });
+
+test('index adapter replaces recognized histories and retains only meaningful loop fragments',()=>{
+  const code=fs.readFileSync('0-about/js/resident-inventor-compatibility.js','utf8');
+  function redirect(query){
+    const calls=[];
+    vm.runInNewContext(code,{URL,document:{getElementById:()=>({textContent:JSON.stringify({
+      oei:{url:'/resident-inventor/histories/operational-entropy-index/',sections:7}})})},
+      window:{location:{href:'https://example.com/0-about/resident-inventor.html'+query,replace:url=>calls.push(url)}}});
+    return calls;
+  }
+  assert.deepEqual(redirect('?history=oei#oei-loop-5'),['/resident-inventor/histories/operational-entropy-index/#oei-loop-5']);
+  for(const hash of ['#oei-loop-7','#ech-loop-0','#the-field'])
+    assert.deepEqual(redirect('?history=oei'+hash),['/resident-inventor/histories/operational-entropy-index/']);
+  for(const query of ['', '?history=base','?history=unknown','?history=__proto__'])assert.deepEqual(redirect(query),[]);
+});
+
+test('all nested history data and order match the original snapshot except approved ECH interface wording',()=>{
+  const original=JSON.parse(fs.readFileSync('tests/fixtures/resident-inventor/original-records.json','utf8')
+    .replace('Explore its continuation in the ECH tab.','Explore its continuation in the ECH history.'));
+  const data=require('../_data/resident_inventor.json');
+  assert.deepEqual(data,original);
+  const histories=data.filter(entry=>!entry.base);
+  assert.equal(histories.length,9);
+  assert.equal(histories.reduce((n,entry)=>n+entry.loops.length,0),16);
+  assert.equal(histories.flatMap(entry=>entry.loops).reduce((n,loop)=>n+loop.nodes.length,0),89);
+  assert.equal(data[0].nodes.length,6);
+});

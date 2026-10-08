@@ -115,7 +115,7 @@ def read(url):
     return html, Document(html).root
 
 
-def controls(root, entry_count=0):
+def controls(root, entry_count=0, document_ids=False):
     assert len(root.all(lambda node: 'data-rabbit-hole' in node.attrs)) == entry_count + 1
     assert len(nodes(root, 'rabbit-hole-nav')) == 1
     scripts = root.all(lambda node: node.tag == 'script' and node.attrs.get('src', '').endswith('/static/js/rabbit-hole.js'))
@@ -126,8 +126,9 @@ def controls(root, entry_count=0):
     expected_manifest = [{**entry, 'url': base + entry['url']} for entry in approved]
     assert manifest == expected_manifest, 'Output membership differs from explicit approved registry'
     assert not any('?' in entry['url'] for entry in manifest)
-    ids = [node.attrs['id'] for node in root.all(lambda node: 'id' in node.attrs)]
-    assert len(ids) == len(set(ids)), 'Duplicate document IDs'
+    if document_ids:
+        ids = [node.attrs['id'] for node in root.all(lambda node: 'id' in node.attrs)]
+        assert len(ids) == len(set(ids)), 'Duplicate document IDs'
 
 
 def links(root, current_url):
@@ -151,7 +152,7 @@ kind_names = {'field': 'Field', 'collision': 'Collision', 'ding': 'Ding 💡', '
 for history in histories:
     url = base + history_entries[history['id']]['url']
     html, root = read(url)
-    controls(root)
+    controls(root, document_ids=True)
     article = one(root, 'ri-history-page')
     assert article.attrs['data-history-id'] == history['id']
     assert not article.all(lambda item: item.tag == 'script'), 'Article content must be HTML, not a script payload'
@@ -169,11 +170,12 @@ for history in histories:
     for i, (actual_loop, loop) in enumerate(zip(loops, history['loops'])):
         heading = one(actual_loop, 'ri-loop-label')
         assert heading.tag == 'h2' and heading.attrs['id'] == f"{history['id']}-loop-{i}"
-        heading_label = loop['label'].replace(' · ', '') if loop['label'].startswith('Loop ') else loop['label']
+        heading_label = loop['label'].replace(' · ', ' ') if loop['label'].startswith('Loop ') else loop['label']
         equivalent(heading.text(), heading_label)
         assert actual_loop.has('ri-loop--featured') == bool(loop.get('featured'))
         sequence = one(actual_loop, 'ri-sequence')
         assert sequence.tag == 'ol' and sequence.attrs.get('tabindex') == '0'
+        assert sequence.attrs.get('role', 'list') == 'list', 'Scroll container must retain ordered-list semantics'
         actual_nodes = nodes(sequence, 'ri-node')
         assert len(actual_nodes) == len(loop['nodes'])
         for actual_node, node in zip(actual_nodes, loop['nodes']):
@@ -212,7 +214,7 @@ for history in histories:
 
 index_url = base + '/0-about/resident-inventor.html'
 html, index = read(index_url)
-controls(index)
+controls(index, document_ids=True)
 original = Document((source / 'tests/fixtures/resident-inventor/original-index.html.txt').read_text(encoding='utf-8')).root
 for class_name in ['ri-hero', 'ri-articles', 'ri-ending', 'ri-section-heading']:
     equivalent(one(index, class_name).text(), one(original, class_name).text())

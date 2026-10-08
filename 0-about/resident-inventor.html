@@ -26,7 +26,8 @@ description: "A model of invention derived from the origin histories of nine rea
       <h2 id="paths-title">A single model<br>with no standard route.</h2>
       <p>The model is retrospective. Each project preserves its actual sequence, including dormancy, repeated collisions, returns to the Field, and missing parts of the record.</p>
     </div>
-    <div class="ri-panel-intro"><h3>The smallest model</h3><p>{{ site.data.resident_inventor[0].summary | escape }}</p></div>
+    {% assign base_model = site.data.resident_inventor | where: 'id', 'base' | first %}
+    <div class="ri-panel-intro"><h3>{{ base_model.title | escape }}</h3><p>{{ base_model.summary | escape }}</p></div>
     {% include resident-inventor/model.html %}
     <p><a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Porpoise: read the project case study <span aria-hidden="true">→</span></a></p>
   </section>
