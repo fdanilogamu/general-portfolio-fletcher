@@ -1,5 +1,5 @@
 {% assign history_pages = site.pages | where_exp: "item", "item.history_id != nil" | sort: "history_order" %}
-<nav aria-label="Invention histories">
+<nav class="ri-directory-nav" aria-label="Invention histories">
   <ul class="ri-history-directory">
     {% for history_page in history_pages %}
     {% unless history_page.history_id == include.exclude %}

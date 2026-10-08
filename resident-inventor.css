@@ -339,17 +339,20 @@
 
 /* Static destinations retain the explorer's sequences and visual vocabulary. */
 .resident-inventor-page nav,
-.site-navigation-page nav[aria-label="Invention histories"] { position: static; width: auto; z-index: auto; background: transparent; box-shadow: none; }
+.ri-directory-nav { position: static; width: auto; z-index: auto; background: transparent; box-shadow: none; }
 .resident-inventor-page nav a,
-.site-navigation-page nav[aria-label="Invention histories"] a { display: inline; padding: 0; color: var(--fg); text-decoration: underline; }
+.ri-directory-nav a { display: inline; padding: 0; color: var(--fg); text-decoration: underline; }
 .resident-inventor-page nav a:hover,
-.site-navigation-page nav[aria-label="Invention histories"] a:hover { background: transparent; transform: none; }
+.ri-directory-nav a:hover { background: transparent; transform: none; }
 .ri-directory-section { padding: 0 0 2.5rem; border-bottom: 1px solid var(--border-color); }
 .ri-directory-section h2, .ri-history-footer h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
-.ri-history-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2rem; list-style: none; padding: 0; }
-.ri-history-directory li { min-width: 0; margin: 0; padding: 1rem 0; border-top: 1px solid var(--border-color); }
-.ri-history-directory a { color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; }
-.ri-history-directory p { margin: .6rem 0 0; color: var(--text-muted); font-size: .85rem; line-height: 1.6; }
+.ri-history-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; list-style: none; padding: 0; background: transparent; }
+.ri-history-directory li { min-width: 0; margin: 0; padding: clamp(1.15rem, 3vw, 1.5rem); border: 1px solid var(--border-color); background: var(--blockquote-bg); }
+.ri-directory-nav .ri-history-directory a { color: var(--fg); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.3rem, 3vw, 1.55rem); font-weight: 500; line-height: 1.25; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.ri-history-directory p { margin: .85rem 0 0; color: var(--text-muted); font-size: .9rem; line-height: 1.65; }
+.ri-history-directory li:hover, .ri-history-directory li:focus-within { border-color: var(--text-muted); }
+.ri-directory-nav .ri-history-directory a:hover { text-decoration-thickness: 2px; }
+.ri-directory-nav .ri-history-directory a:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
 .ri-history-header { padding: 2rem 0; }
 .ri-history-header h1 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.05; overflow-wrap: anywhere; }
 .ri-breadcrumb { margin-bottom: 2rem; font-size: .8rem; }
@@ -360,7 +363,7 @@
 .ri-section-nav ol { padding-left: 1.5rem; }
 .ri-section-nav li + li { margin-top: .6rem; }
 .ri-history-page .ri-loop-label { font-size: .7rem; }
-.ri-sequence:focus-visible, .ri-history-directory a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.ri-sequence:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .ri-branch-control { display: inline-block; }
 .ri-loop-label { scroll-margin-top: 1rem; }
 @media (max-width: 650px) {
