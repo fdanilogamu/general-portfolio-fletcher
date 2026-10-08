@@ -1,100 +1,66 @@
 <button class="mobile-menu-toggle" type="button" aria-controls="site-sidebar" aria-expanded="false">
-  <span class="mobile-menu-icon" aria-hidden="true"></span>
-  <span>Menu</span>
+  <span class="mobile-menu-icon" aria-hidden="true"></span><span>Menu</span>
 </button>
-
-<div class="sidebar" id="site-sidebar">
+<nav class="sidebar" id="site-sidebar" aria-label="Portfolio navigation">
   <h2>Navigation</h2>
-  <h3 class="sidebar-label">➜ The Meat of the Site</h3>
-  <ul class="sidebar-section-links">
-    <li><a href="/index.html">Home</a></li>
-    <li><a href="/0-about/ideas.html">TL;DR</a></li>
-    <li><a href="/0-about/intro.html">About</a></li>
-    <li><a href="/0-about/testimonials.html">Testimonials</a></li>
-    <li><a href="/0-about/mindsystem.html">What it's like to work with me</a></li>
-  </ul>
-
-  <h3 class="sidebar-label">➜ Current Events</h3>
-  <ul class="sidebar-section-links">
-    <li><a href="/0-about/job-search-timeline.html">My Recent Job Search</a></li>
-  </ul>
-
-  <h3 class="sidebar-label">➜ Fletcher as the Inventor</h3>
-  <ul class="sidebar-section-links">
-    <li><a href="/0-about/resident-inventor.html">What is a Resident Inventor?</a></li>
-    <li><a href="/0-about/how-i-collaborate-with-ai.html">How I collaborate with AI</a></li>
-    <li><a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Porpoise: Case Study</a></li>
-    <li><a href="https://operationalentropy.com">OEI Institute</a></li>
-    <li><a href="{{ '/0-about/custom-software-builder.html' | relative_url }}">Custom Software Builder</a></li>
-  </ul>
-
-  <!-- Recent Work Experience -->
-  <h3 class="collapsible" onclick="toggleSection('recent-work', this)" aria-controls="recent-work" aria-expanded="false">➜ Professional Experiences</h3>
-  <ul id="recent-work" class="collapsible-content" style="display: none;">
-    <li><a href="/0-experience/coupa.html">Coupa</a></li>
-    <li><a href="/0-experience/qount.html">Qount</a></li>
-    <li><a href="/0-experience/superna.html">Superna</a></li>
-    <li><a href="/0-experience/traze.html">Traze</a></li>
-    <li><a href="/0-experience/twl.html">TWL</a></li>
-    <li class="sidebar-subgroup">
-      <button class="sidebar-subgroup-toggle" type="button" onclick="toggleSection('old-jobs', this)" aria-controls="old-jobs" aria-expanded="false">➜ Jobs prior to 2020</button>
-      <ul id="old-jobs" class="collapsible-content" style="display: none;">
-        <li><a href="/0-experience/jobs-prior-to-2020/old_jobs.html">Experience as far back as 2008</a></li>
-      </ul>
-    </li>
-  </ul>
-
-  <!-- What I do for Fun -->
-  <h3 class="collapsible" onclick="toggleSection('fun-things')">➜ Things I do for Fun</h3>
-  <ul id="fun-things" class="collapsible-content" style="display: none;">
-    <li class="sidebar-subgroup">
-      <button class="sidebar-subgroup-toggle" type="button" onclick="toggleSection('unhinged-things', this)" aria-controls="unhinged-things" aria-expanded="false">➜ A little unhinged</button>
-      <ul id="unhinged-things" class="collapsible-content" style="display: none;">
-        <li><a href="https://inventors-lab.vercel.app/index.html">Inventor's Lab</a></li>
-        <li><a href="/0-things-i-do-for-fun/prison-planet.html">&quot;Prison Planet&quot;</a></li>
-      </ul>
-    </li>
-    <li><a href="{{ '/porpoise/' | relative_url }}">Porpoise Stances</a></li>
-    <li><a href="https://lemonadeeconomy.online/">Lemonade Economy</a></li>
-    <li><a href="/0-things-i-do-for-fun/spotify/spotify.html">My never-ending quest for the perfect playlist</a></li>
-    <li><a href="/0-things-i-do-for-fun/inglesrebelde.html">Inglés Rebelde: A unique teaching methodology</a></li>
-    <li><a href="https://fletchergaleano.substack.com/">Longer Thoughts (Substack)</a></li>
-    <li><a href="https://ttitmnabyco.substack.com/p/how-do-you-prepare-a-child-for-a">&quot;The Toddler in The Machine&quot;</a></li>
-    <li><a href="https://fletchergaleano.gumroad.com/">My Gumroad Products</a></li>
-  </ul>
-
-  <!-- My books -->
-  <h3 class="collapsible" onclick="toggleSection('books')">➜ Books I've Published</h3>
-  <ul id="books" class="collapsible-content" style="display: none;">
-    <li><a href="https://www.amazon.com/Pantry-Behavior-Relax-Youre-failing-ebook/dp/B0GQQZ2J61/">Pantry Behavior</a></li>
-  </ul>
-
-  <!-- Writing samples -->
-  <h3 class="collapsible" onclick="toggleSection('writing-samples')">➜ Technical Writing Samples</h3>
-  <ul id="writing-samples" class="collapsible-content" style="display: none;">
-    <li><a href="/0-resources/technical-writing-samples/writing.html"><strong>Browse Writing Samples</strong></a></li>
-  </ul>
-
-  <!-- Resources -->
-  <h3 class="collapsible" onclick="toggleSection('other')">➜ Resources</h3>
-  <ul id="other" class="collapsible-content">
-    <li><a href="/0-resources/Fletcher_Galeano_Knowledge_Leader.pdf">Professional Background (PDF)</a></li>
-    <li><a href="{{ site.data.contact.booking_url }}">Contact</a></li>
-  </ul>
-</div>
-
+<h3 class="sidebar-label">Start Here</h3>
+<ul class="sidebar-section-links"><li><a href="/index.html">Home</a></li>
+<li><a href="/site-navigation.html">Site Navigation</a></li>
+<li><a href="/0-about/ideas.html">TL;DR</a></li>
+<li><a href="/0-about/intro.html">About</a></li>
+<li><a href="/0-about/mindsystem.html">What It’s Like to Work With Me</a></li>
+<li><a href="/0-about/testimonials.html">Testimonials</a></li>
+</ul>
+<details class="sidebar-disclosure"><summary>Inventions &amp; Frameworks</summary>
+<ul class="sidebar-section-links"><li><a href="/0-about/resident-inventor.html">Resident Inventor</a></li>
+<li><a href="https://operationalentropy.com/">Operational Entropy Index</a></li>
+<li><a href="https://lemonadeeconomy.online/">The Lemonade Economy</a></li>
+</ul>
+</details>
+<details class="sidebar-disclosure"><summary>Software &amp; AI</summary>
+<ul class="sidebar-section-links"><li><a href="/0-about/custom-software-builder.html">Custom Software Builder</a></li>
+<li><a href="/0-about/lemonless-tms-case-study.html">LemonlessTMS: Case Study</a></li>
+<li><a href="/0-about/how-i-collaborate-with-ai.html">How I Collaborate With AI</a></li>
+<li><a href="/0-about/porpoise-ai-case-study.html">Porpoise: Case Study</a></li>
+<li><a href="/porpoise/">Porpoise Stances</a></li>
+<li><a href="https://operationalentropy.com/entropy-compatible-hiring/">Entropy Compatible Hiring</a></li>
+</ul>
+</details>
+<details class="sidebar-disclosure"><summary>Teaching &amp; Learning</summary>
+<ul class="sidebar-section-links"><li><a href="/0-things-i-do-for-fun/inglesrebelde.html">Inglés Rebelde</a></li>
+</ul>
+</details>
+<details class="sidebar-disclosure"><summary>Writing &amp; Publications</summary>
+<ul class="sidebar-section-links"><li><a href="https://fletchergaleano.substack.com/">Longer Thoughts (Substack)</a></li>
+<li><a href="https://ttitmnabyco.substack.com/p/how-do-you-prepare-a-child-for-a">The Toddler in The Machine</a></li>
+<li><a href="https://www.amazon.com/Pantry-Behavior-Relax-Youre-failing-ebook/dp/B0GQQZ2J61/">Pantry Behavior</a></li>
+<li><a href="/0-resources/technical-writing-samples/writing.html">Technical Writing Samples</a></li>
+</ul>
+</details>
+<details class="sidebar-disclosure"><summary>Music &amp; Other Mischief</summary>
+<ul class="sidebar-section-links"><li><a href="/0-things-i-do-for-fun/spotify/spotify.html">My never-ending quest for the perfect playlist</a></li>
+<li><a href="https://inventors-lab.vercel.app/index.html">Inventor’s Lab</a></li>
+<li><a href="/0-things-i-do-for-fun/prison-planet.html">“Prison Planet”</a></li>
+</ul>
+</details>
+<details class="sidebar-disclosure"><summary>Experience &amp; Updates</summary>
+<ul class="sidebar-section-links"><li><details class="sidebar-experience"><summary>Professional Experience</summary><ul><li><a href="/0-experience/coupa.html">Coupa</a></li>
+<li><a href="/0-experience/qount.html">Qount</a></li>
+<li><a href="/0-experience/superna.html">Superna</a></li>
+<li><a href="/0-experience/traze.html">Traze</a></li>
+<li><a href="/0-experience/twl.html">TWL</a></li>
+<li><a href="/0-experience/jobs-prior-to-2020/old_jobs.html">Jobs prior to 2020</a></li>
+</ul></details></li>
+<li><a href="/0-about/job-search-timeline.html">My Recent Job Search</a></li>
+<li><a href="/show-and-tell/">Show &amp; Tell Nook</a></li>
+</ul>
+</details>
+<ul class="sidebar-utilities" aria-label="Contact and resources"><li><a href="/0-resources/Fletcher_Galeano_Knowledge_Leader.pdf">Professional Background (PDF)</a></li>
+<li><a href="{{ site.data.contact.booking_url }}">Contact</a></li>
+<li><a href="https://fletchergaleano.gumroad.com/">My Gumroad Products</a></li>
+</ul>
+</nav>
 <script>
-  function toggleSection(id, control) {
-    const section = document.getElementById(id);
-    if (section.style.display === "none" || !section.style.display) {
-      section.style.display = "block";
-      control?.setAttribute('aria-expanded', 'true');
-    } else {
-      section.style.display = "none";
-      control?.setAttribute('aria-expanded', 'false');
-    }
-  }
-
   const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
   const siteSidebar = document.getElementById('site-sidebar');
 
