@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="portfolio-version" content="v1.0.0">
   <title>{{ page.title }}</title>
+  {% if page.url == "/resident-inventor/brand-guidelines/" %}
+  <meta name="description" content="{{ page.description | escape }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% endif %}
   <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}">
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon"> 
 </head>

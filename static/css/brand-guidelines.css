@@ -1,0 +1,57 @@
+.brand-guidelines {
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+}
+
+.brand-guidelines h1 {
+  margin: 0 0 .75rem;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1.1;
+}
+
+.brand-guidelines h2 {
+  margin: 0 0 1.5rem;
+  color: var(--accent);
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+}
+
+.brand-guidelines h3 {
+  margin: 3rem 0 1.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 3vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.brand-guidelines h4 {
+  display: flex;
+  align-items: baseline;
+  gap: .85rem;
+  margin: 2.75rem 0 1.25rem;
+  color: var(--accent);
+  font-size: clamp(1.25rem, 3vw, 1.45rem);
+  line-height: 1.4;
+}
+
+.brand-guidelines .guideline-number {
+  flex-shrink: 0;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+
+.brand-guidelines p { margin: 0 0 1.4rem; }
+.brand-guidelines > h2 + p { color: var(--text-muted); font-size: .9rem; }
+.brand-guidelines > h2 + p + p { color: var(--accent); font-size: 1.2rem; }
+.brand-guidelines ul { margin: 0 0 1.5rem; padding-left: 1.5rem; }
+.brand-guidelines li { margin-bottom: 1rem; padding-left: .25rem; }
+.brand-guidelines li::marker { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .brand-guidelines { font-size: 1rem; }
+}
