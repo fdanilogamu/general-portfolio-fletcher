@@ -538,6 +538,11 @@
   .adoption { display: block; margin-top: 12px; padding: 18px; background: var(--accent-soft); border-radius: var(--radius-sm); color: var(--deep-water); }
   .usage-note { max-width: 700px; margin: 26px auto 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg-deep); }
   .usage-note p + p { margin-top: 12px; }
+  .conversation-scope { padding-bottom: 64px; }
+  .conversation-scope .scope-copy { max-width: 700px; margin: 0 auto; }
+  .conversation-scope h2 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.2; margin-bottom: 24px; }
+  .conversation-scope p { color: var(--ink-soft); margin-top: 18px; }
+  .conversation-scope strong { color: var(--ink); }
   .philosophy p { max-width: 660px; margin-bottom: 20px; }
   .credit { padding: 0 24px 64px; text-align: center; color: var(--ink-soft); }
   .foot-links { flex-wrap: wrap; }
@@ -662,6 +667,19 @@
 <article class="stance-card" data-stance="panic-room"><div class="stance-card-top"><h3>Panic Room</h3><span class="badge">v1.5</span></div><p class="oneliner">Offer attentive presence when the world feels too loud.</p><p class="purpose">Use it when you want to feel heard before considering solutions. It validates without exaggerating, asks rare and optional questions, and announces any attempt to reassure or shift your perspective.</p><a class="download" href="stances/panic-room.yaml" download="panic-room.yaml">Download Panic Room YAML <span aria-hidden="true">↓</span></a></article>
 </div></div></section>
 <section class="usage" id="how-to"><div class="wrap"><div class="section-head"><span class="eyebrow">Getting started</span><h2>Bring a stance into a new conversation.</h2><p>YAML is a plain-text format. Each file contains the stance's purpose, behavior, and instructions.</p></div><ol><li><strong>Download a stance.</strong> Choose a YAML file from the library.</li><li><strong>Start a new ChatGPT or Claude conversation.</strong> Attach the downloaded file.</li><li><strong>Ask the assistant to adopt it.</strong> You can use this wording:<q class="adoption">Read the attached YAML and adopt its stance for this conversation. Follow its behavioral instructions and any required workflow.</q></li><li><strong>Begin the conversation.</strong> Share your situation, question, or task. For The Drafter, wait for its initial context request first.</li></ol><div class="usage-note"><p>Model behavior can vary by model and conversation. Adoption isn't guaranteed to be perfectly consistent. Keep the specification handy and refer back to it if the assistant drifts.</p><p>References to recurring people or past events depend on the context available to your assistant.</p></div></div></section>
+<section class="conversation-scope" id="conversation-scope" aria-labelledby="conversation-scope-heading">
+  <div class="wrap"><div class="scope-copy">
+    <h2 id="conversation-scope-heading">Conversation scope and stance combinations</h2>
+    <p>Porpoise stances are designed for conversations with a specific purpose. They're most reliable when you start a fresh conversation, provide the stance instructions at the beginning, and use that conversation for the kind of interaction the stance was designed to support.</p>
+    <p>They're not intended to serve as permanent behavioral configurations for chats that stretch across days or weeks and accumulate unrelated topics. As the conversation grows, changes direction, and gathers new instructions and context, the assistant may drift away from the original stance. Starting a new conversation for a new purpose is the recommended approach.</p>
+    <p><strong>Don't switch stances midway through a conversation.</strong> For example, starting with Archivist and later introducing Challenger doesn't reliably replace the original configuration. The assistant still has the earlier instructions and conversational context to contend with.</p>
+    <p><strong>You can combine up to two stances, provided you introduce both at the beginning.</strong> You can specify the balance you want, such as:</p>
+    <blockquote class="adoption">Adopt a combination of 30% Confidante and 70% Explorer for this conversation. Use both attached stance specifications from the beginning, with Explorer taking the lead.</blockquote>
+    <p>The percentages express your intended emphasis, not a mathematically enforced distribution of behavior. Combining stances is an experimental configuration, so results may vary, particularly if their instructions pull in different directions.</p>
+    <p><strong>The Drafter can't be combined with another stance.</strong> Its four-stage workflow depends on a dedicated sequence of drafting, reading, resisting, and revising. Use it on its own, in a fresh conversation.</p>
+    <p>If the conversation has moved substantially beyond its original purpose, start a new one with the stance or combination that fits what you want to do next.</p>
+  </div></div>
+</section>
 <section class="philosophy" id="philosophy"><div class="wrap"><span class="eyebrow">The philosophy</span><h2>Make the conversational expectations explicit.</h2><p>A stance is itself a structured set of instructions. Its intended persistence and behavioral scope give it a role across a conversation: what to notice, what kinds of questions to ask, and when to hold back.</p><p>Reusable specifications can help make an approach more consistent. They give you a shared reference for the assistant's attention and your expectations, whether you're preserving knowledge, testing a plan, exploring an idea, or telling a story.</p><p>Different tasks call for different approaches. Choose the stance that fits what you need from the conversation, and judge the responses against its instructions.</p></div></section>
 <div class="credit">Created by Fletcher Galeano, Resident Inventor.</div>
 </main>
