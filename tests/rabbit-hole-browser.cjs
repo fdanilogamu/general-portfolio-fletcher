@@ -1,173 +1,153 @@
-// Optional browser QA: PLAYWRIGHT_MODULE points to an existing Playwright installation.
-// --source-preview checks source-composed HTML; otherwise checks the actual _site build.
-const fs = require('node:fs');
-const path = require('node:path');
-const http = require('node:http');
-const assert = require('node:assert/strict');
-const vm = require('node:vm');
-const {page: sourcePage, compose} = require('./rabbit-hole-source.cjs');
-const {pool} = require('../static/js/rabbit-hole.js');
-const {chromium} = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const preview = process.argv.includes('--source-preview');
-const projectFiles = ['0-about/lemonless-tms-case-study.html','0-about/porpoise-ai-case-study.html',
-  '0-resources/oei.html','0-things-i-do-for-fun/prison-planet.html',
-  '0-things-i-do-for-fun/spotify/spotify.html','porpoise/index.html',
-  '0-things-i-do-for-fun/inglesrebelde.html','0-things-i-do-for-fun/ircalc.html'];
-const projects = projectFiles.map(file => '/' + file.replace(/index\.html$/, ''));
-const data = {window:{}};
-vm.runInNewContext(fs.readFileSync('0-about/js/resident-inventor-data.js','utf8'), data);
-const histories = data.window.RESIDENT_INVENTOR_PATHS.filter(item => !item.base);
-const routes = ['/0-about/ideas.html', ...pool(projects, histories)];
-function previewHTML(file) {
-  let html = compose(file);
-  if (file.endsWith(path.join('spotify','spotify.html'))) {
-    const body = sourcePage(path.join(path.dirname(file),'spotify.md')).body;
-    const lines = body.trim().split(/\r?\n/);
-    const items = lines.filter(line=>/^\d+\./.test(line)).map(line=>line.replace(/^\d+\. \[([^\]]+)\]\(([^)]+)\)$/, '<li><a href="$2">$1</a></li>'));
-    html = html.replace('{{ playlist_body | markdownify }}', `<p>${lines[0]}</p><ol>${items.join('')}</ol>`);
-  }
-  html = html.replace(/<script id="rabbit-hole-destinations"[\s\S]*?<\/script>/,
-    `<script id="rabbit-hole-destinations" type="application/json">${JSON.stringify(projects)}</script>`);
-  html = html.replace(/{% include_relative ([\w.-]+) %}/g, (_, name) => {
-    const body = sourcePage(path.join(path.dirname(file), name)).body;
-    // Only the short playlist index uses Markdown in this audit. This is a preview,
-    // not a Kramdown renderer; production output is independently checked by CI.
-    return body.replace(/^\d+\. \[([^\]]+)\]\(([^)]+)\)$/gm, '<p><a href="$2">$1</a></p>');
-  });
-  return html.replace(/{{ page.title }}/g, 'Portfolio QA')
-    .replace(/{%[\s\S]*?%}/g, '').replace(/{{[\s\S]*?}}/g, '');
-}
-function overlaps(a, b) {
-  return a.x < b.x+b.width-1 && b.x < a.x+a.width-1 && a.y < b.y+b.height-1 && b.y < a.y+a.height-1;
-}
-(async () => {
-  const server = http.createServer((req,res) => {
-    const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-    const file = path.resolve(preview ? '.' : '_site', '.' + (pathname.endsWith('/') ? pathname+'index.html' : pathname));
-    const base = path.resolve(preview ? '.' : '_site');
-    if (!file.startsWith(base+path.sep) || !fs.existsSync(file)) {res.writeHead(404);res.end();return;}
-    try {
-      const type = {'.html':'text/html','.js':'application/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml'}[path.extname(file)] || 'application/octet-stream';
-      res.setHeader('Content-Type',type);
-      res.end(preview && file.endsWith('.html') ? previewHTML(file) : fs.readFileSync(file));
-    } catch(error) {res.writeHead(500);res.end(String(error));}
+// Real generated-site browser QA. No source-preview renderer or project dependency.
+// PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE may point to existing local tooling.
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const registry=require('../_data/rabbit_hole.json').filter(entry=>entry.status==='approved');
+const histories=require('../_data/resident_inventor.json').filter(entry=>!entry.base);
+const output=path.resolve(process.env.SITE_DIR||'_site');
+const artifacts=path.resolve(process.env.QA_ARTIFACTS||'tests/.qa');
+function overlap(a,b){return a.x<b.x+b.width-1&&b.x<a.x+a.width-1&&a.y<b.y+b.height-1&&b.y<a.y+a.height-1;}
+(async()=>{
+  assert.ok(fs.existsSync(path.join(output,'resident-inventor/histories/porpoise/index.html')),'Build Jekyll first');
+  const server=http.createServer((req,res)=>{
+    const route=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+    const file=path.resolve(output,'.'+(route.endsWith('/')?route+'index.html':route));
+    if(!file.startsWith(output+path.sep)||!fs.existsSync(file)){res.writeHead(404);res.end();return;}
+    res.setHeader('Content-Type',({'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png'})[path.extname(file)]||'application/octet-stream');
+    res.end(fs.readFileSync(file));
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-  const origin = `http://127.0.0.1:${server.address().port}`;
+  const origin='http://127.0.0.1:'+server.address().port;
   let browser;
-  try {
-    browser = await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE,headless:true});
-    const context = await browser.newContext();
-    const tab = await context.newPage();
-    // No preload unlock: check the real entry action and refresh persistence first.
-    await tab.goto(origin+routes[0]);
+  try{
+    browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE,headless:true});
+    const context=await browser.newContext();
+    // External fonts/services are outside this regression; exercise fallback typography.
+    await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+    const tab=await context.newPage();
+    const errors=[];tab.on('pageerror',error=>errors.push(String(error)));
+    await tab.goto(origin+'/0-about/ideas.html');
     assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),0);
-    await tab.getByRole('button',{name:'Enter the Rabbit Hole',exact:true}).focus();
-    await tab.keyboard.press('Enter');
-    await tab.waitForURL(url=>url.pathname!=='/0-about/ideas.html');
-    await tab.waitForLoadState('load');
-    assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),1);
-    await tab.reload();
-    assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),1);
-    if (process.argv.includes('--session-only')) {
-      const selected = [new URL(tab.url()).pathname + new URL(tab.url()).search];
-      for (let index = 1; index < 17; index++) {
-        if (index % 2 === 0) await tab.goto(origin+routes[0]);
-        const oldURL = tab.url();
-        const control = index % 2 === 0 ? '[aria-label="Enter the Rabbit Hole"]' : '.rabbit-hole-nav';
-        await tab.locator(control).focus();
-        await tab.keyboard.press('Enter');
-        await tab.waitForURL(url=>url.href!==oldURL);
-        await tab.waitForLoadState('load');
-        const destination = new URL(tab.url()).pathname+new URL(tab.url()).search;
-        assert.ok(!selected.includes(destination));
-        selected.push(destination);
-        await tab.reload();
-        const state = await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')));
-        assert.equal(state.visited.length,index+1);
-      }
-      assert.deepEqual(selected.slice().sort(),routes.slice(1).sort());
-      const previous = tab.url();
-      await tab.evaluate(()=>{window.RabbitHole.navigate();window.RabbitHole.navigate();});
-      await tab.waitForURL(url=>url.href!==previous);
-      await tab.waitForLoadState('load');
-      assert.equal(await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),1);
-      const newTab = await context.newPage();
-      await newTab.goto(origin+routes[0]);
-      assert.equal(await newTab.locator('.rabbit-hole-nav:visible').count(),1);
-      assert.equal(await newTab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),0);
-      console.log('PASS browser session cycle: all 17 once, both controls, refreshes, reset, boundary exclusion, fresh-tab history and permanent unlock. Source-preview mode: '+preview);
-      return;
+    await tab.getByRole('button',{name:'Enter the Rabbit Hole',exact:true}).focus();await tab.keyboard.press('Enter');
+    await tab.waitForURL(url=>url.pathname!=='/0-about/ideas.html');await tab.waitForLoadState('load');
+    const selected=[new URL(tab.url()).pathname];
+    for(let i=1;i<18;i++){
+      if(i%2===0)await tab.goto(origin+'/0-about/ideas.html');
+      const previous=tab.url();
+      const control=i%2===0?'[aria-label="Enter the Rabbit Hole"]':'.rabbit-hole-nav';
+      await tab.locator(control).focus();await tab.keyboard.press('Enter');
+      await tab.waitForURL(url=>url.href!==previous);await tab.waitForLoadState('load');
+      const route=new URL(tab.url()).pathname;assert.ok(!selected.includes(route));selected.push(route);
+      await tab.reload();assert.equal(await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),i+1);
     }
-    const artifacts = path.resolve('tests/.qa');
-    fs.mkdirSync(artifacts,{recursive:true});
-    let checked = 0;
-    for (const width of [1440,768,390]) {
+    assert.deepEqual(selected.slice().sort(),registry.map(entry=>entry.url).sort());
+    const previous=tab.url();await tab.evaluate(()=>{RabbitHole.navigate();RabbitHole.navigate();});
+    await tab.waitForURL(url=>url.href!==previous);await tab.waitForLoadState('load');
+    assert.equal(await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),1);
+    const fresh=await context.newPage();await fresh.goto(origin+'/0-about/ideas.html');
+    assert.equal(await fresh.locator('.rabbit-hole-nav:visible').count(),1);
+    assert.equal(await fresh.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),0);await fresh.close();
+    const memory=await tab.evaluate(()=>sessionStorage.getItem('rabbit-hole-session'));
+    await tab.goto(origin+'/resident-inventor/histories/porpoise/');
+    assert.equal(await tab.evaluate(()=>sessionStorage.getItem('rabbit-hole-session')),memory);
+    // Last unvisited is current: restart without tracking that manual arrival.
+    await tab.evaluate(ids=>sessionStorage.setItem('rabbit-hole-session',JSON.stringify({version:2,visited:ids.filter(id=>id!=='porpoise'),previous:'oei',pending:null})),registry.map(entry=>entry.id));
+    await tab.reload();const current=tab.url();await tab.locator('.rabbit-hole-nav').click();
+    await tab.waitForURL(url=>url.href!==current);await tab.waitForLoadState('load');
+    assert.equal(await tab.evaluate(()=>JSON.parse(sessionStorage.getItem('rabbit-hole-session')).visited.length),1);
+    console.log('PASS browser: 18-destination cycle, both entry controls, refresh, reset, rapid clicks, fresh-tab unlock, manual browsing unchanged, current-only remainder');
+
+    fs.mkdirSync(artifacts,{recursive:true});let historyChecks=0,controlChecks=0;
+    for(const width of [1440,768,390]){
       await tab.setViewportSize({width,height:900});
-      for (let index=0;index<routes.length;index++) {
-        const route = routes[index];
-        // The layout audit tests each route independently. Use --session-only
-        // for complete-cycle coverage, including manual visits to the entry page.
-        await tab.evaluate(()=>sessionStorage.removeItem('rabbit-hole-session'));
-        const response = await tab.goto(origin+route);
-        assert.equal(response.status(),200,route);
-        const nav = tab.locator('.rabbit-hole-nav');
-        assert.equal(await nav.count(),1,route);
-        assert.equal(await nav.isVisible(),true,route);
-        assert.equal(await tab.locator('[aria-label="Enter the Rabbit Hole"]').count(),index===0?1:0);
-        assert.doesNotMatch(await tab.locator('body').innerText(), /rabbit_hole:|layout: default/);
-        const row = tab.locator('.header-actions, .rabbit-hole-access').first();
-        const controls = await row.locator('a, button').all();
-        const boxes = [];
-        for (const control of controls) {
-          if (!await control.isVisible()) continue;
-          const box = await control.boundingBox();
-          assert.ok(box.x>=-1 && box.x+box.width<=width+1,`${route}: control outside viewport ${width}`);
-          boxes.forEach(other=>assert.ok(!overlaps(box,other),`${route}: controls overlap ${width}`));
-          boxes.push(box);
+      for(const entry of registry){
+        assert.equal((await tab.goto(origin+entry.url)).status(),200);
+        assert.equal(await tab.locator('.rabbit-hole-nav:visible').count(),1,entry.url);
+        assert.equal(await tab.locator('script[src$="/static/js/rabbit-hole.js"]').count(),1);
+        const row=tab.locator('.header-actions, .rabbit-hole-access').first();
+        const boxes=[];
+        for(const control of await row.locator('a,button').all()){
+          if(!await control.isVisible())continue;const box=await control.boundingBox();
+          assert.ok(box.x>=-1&&box.x+box.width<=width+1,entry.url+' outside viewport');
+          for(const other of boxes)assert.ok(!overlap(box,other),entry.url+' overlapping controls');boxes.push(box);
         }
-        assert.equal(await row.locator('a[href="https://fdanilogamu.github.io/fletcherlite/"]').count(),1);
-        const id = new URL(route,origin).searchParams.get('history');
-        if (id) {
-          assert.equal(await tab.locator('[role="tab"][aria-selected="true"]').getAttribute('id'), 'ri-tab-'+id);
-          assert.equal(await tab.locator('.ri-panel-intro h3').innerText(),histories.find(item=>item.id===id).title);
+        if(entry.id==='job-search-timeline'){
+          assert.equal(await tab.locator('.entry').count(),13);
+          await tab.locator('.pin-btn').last().click();assert.ok(await tab.locator('#entry-13').isVisible());
         }
-        if (route.includes('inglesrebelde.html')) {
-          await tab.locator('.language-toggle').focus();
-          await tab.keyboard.press('Enter');
-          assert.equal(await tab.locator('html').getAttribute('lang'),'en');
-          await tab.reload();
-          assert.equal(await tab.locator('html').getAttribute('lang'),'en');
+        if(entry.id==='job-search-lessons')assert.equal(await tab.locator('.commandment').count(),10);
+        if(entry.id==='ingles-rebelde'){
+          await tab.locator('.language-toggle').click();assert.equal(await tab.locator('html').getAttribute('lang'),'en');
+          await tab.reload();assert.equal(await tab.locator('html').getAttribute('lang'),'en');
           await tab.locator('.language-toggle').click();
-          assert.equal(await tab.locator('html').getAttribute('lang'),'es');
         }
-        if (route.includes('ircalc.html')) {
-          const rowBox = await row.boundingBox();
-          const cardBox = await tab.locator('.container').boundingBox();
-          assert.ok(rowBox.y+rowBox.height<=cardBox.y, 'Calculator controls must be above the card');
-          const range = tab.locator('input[type="range"]').first();
-          await range.focus();
-          await tab.keyboard.press('ArrowRight');
-          assert.ok(await range.isEnabled());
-        }
-        await tab.evaluate(()=>window.scrollTo(0,0));
-        await tab.screenshot({path:path.join(artifacts,`${width}-${index}.png`),animations:'disabled'});
-        await nav.focus();
-        await tab.keyboard.press('Enter');
-        await tab.waitForURL(url=>url.pathname+url.search!==route);
-        await tab.waitForLoadState('load');
-        assert.ok(routes.slice(1).includes(new URL(tab.url()).pathname+new URL(tab.url()).search));
-        checked++;
+        controlChecks++;
       }
-      console.log(`PASS ${width}px: TL;DR and all 17 destinations; controls, histories, keyboard navigation, language selector`);
+      for(const theme of ['dark','light']){
+        for(const history of histories){
+          const entry=registry.find(entry=>entry.id===history.id);
+          await tab.goto(origin+entry.url);
+          await tab.evaluate(theme=>{localStorage.setItem('theme',theme);document.documentElement.setAttribute('data-theme',theme);},theme);
+          const article=tab.locator('.ri-history-page');
+          assert.equal(await article.locator('h1').innerText(),history.title);
+          assert.equal(await article.locator('.ri-node').count(),history.loops.reduce((n,loop)=>n+loop.nodes.length,0));
+          assert.equal(await article.locator('.ri-loop').count(),history.loops.length);
+          const sequence=article.locator('.ri-sequence').first();
+          assert.equal(await sequence.evaluate(el=>getComputedStyle(el).display),width<=650?'block':'grid');
+          assert.ok(await sequence.isVisible());await sequence.focus();await tab.keyboard.press('ArrowRight');
+          if(width>650){
+            await sequence.evaluate(el=>{el.scrollLeft=el.scrollWidth;});
+            await tab.waitForFunction(()=>document.querySelector('.ri-sequence-shell').classList.contains('is-at-end'));
+            assert.equal(await article.locator('.ri-scroll-hint').first().innerText(),'End of this path');
+          }else assert.equal(await article.locator('.ri-scroll-hint').first().isVisible(),false);
+          assert.ok(await tab.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow '+entry.url);
+          if(['oei','ech','inventors-lab'].includes(history.id)){
+            await sequence.evaluate(el=>{el.scrollLeft=0;});await tab.evaluate(()=>scrollTo(0,0));
+            await tab.screenshot({path:path.join(artifacts,width+'-'+theme+'-'+history.id+'.png'),animations:'disabled'});
+          }
+          historyChecks++;
+        }
+        await tab.goto(origin+'/0-about/resident-inventor.html');
+        await tab.evaluate(theme=>document.documentElement.setAttribute('data-theme',theme),theme);
+        assert.equal(await tab.locator('#invention-paths .ri-history-directory a').count(),9);
+        await tab.screenshot({path:path.join(artifacts,width+'-'+theme+'-index.png'),animations:'disabled'});
+      }
     }
-    // Tab changes and browser back/forward restore the selected history.
-    await tab.goto(origin+'/0-about/resident-inventor.html?history=porpoise');
-    await tab.locator('#ri-tab-oei').click();
-    await tab.goBack();
-    assert.equal(await tab.locator('[aria-selected="true"]').getAttribute('id'),'ri-tab-porpoise');
-    await tab.goForward();
-    assert.equal(await tab.locator('[aria-selected="true"]').getAttribute('id'),'ri-tab-oei');
-    console.log(`PASS ${checked} page/viewport checks; unlock refresh persistence; history back/forward. Mode: ${preview?'source preview (not Jekyll)':'Jekyll output'}`);
-  } finally {if(browser) await browser.close();server.close();}
+    console.log('PASS browser: '+historyChecks+' direct-history/theme/viewport checks and '+controlChecks+' exhibit-control/viewport checks');
+    await tab.goto(origin+'/resident-inventor/histories/operational-entropy-index/');
+    await tab.locator('.ri-branch-control').click();await tab.waitForURL('**/histories/entropy-compatible-hiring/');
+    await tab.goBack();assert.equal(await tab.locator('.ri-history-page').getAttribute('data-history-id'),'oei');
+    await tab.goForward();assert.equal(await tab.locator('.ri-history-page').getAttribute('data-history-id'),'ech');
+    await tab.locator('.ri-breadcrumb a').click();await tab.waitForURL('**/0-about/resident-inventor.html');
+    await tab.locator('#invention-paths a').filter({hasText:'Dream Machine'}).click();await tab.waitForURL('**/histories/dream-machine/');
+    await tab.goto(origin+'/0-about/ideas.html');
+    await tab.goto(origin+'/0-about/resident-inventor.html?history=oei#oei-loop-5');
+    await tab.waitForURL('**/histories/operational-entropy-index/#oei-loop-5');
+    await tab.goBack();assert.equal(new URL(tab.url()).pathname,'/0-about/ideas.html');
+    await tab.goto(origin+'/0-about/resident-inventor.html?history=porpoise#the-field');
+    await tab.waitForURL('**/histories/porpoise/');assert.equal(new URL(tab.url()).hash,'');
+    for(const id of ['base','unknown']){
+      await tab.goto(origin+'/0-about/resident-inventor.html?history='+id);
+      assert.equal(new URL(tab.url()).pathname,'/0-about/resident-inventor.html');
+    }
+    await tab.emulateMedia({reducedMotion:'reduce'});
+    await tab.goto(origin+'/resident-inventor/histories/oei/').catch(()=>{});
+    await tab.goto(origin+'/resident-inventor/histories/operational-entropy-index/');
+    assert.equal(await tab.locator('.ri-sequence').first().evaluate(el=>getComputedStyle(el).scrollBehavior),'auto');
+    assert.deepEqual(errors,[],'Browser runtime errors');
+
+    const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:900}});
+    await noJS.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+    const reader=await noJS.newPage();
+    for(const history of histories){
+      await reader.goto(origin+registry.find(entry=>entry.id===history.id).url);
+      assert.equal(await reader.locator('.ri-node').count(),history.loops.reduce((n,loop)=>n+loop.nodes.length,0));
+      assert.equal(await reader.locator('.ri-history-page h1').innerText(),history.title);
+    }
+    await reader.goto(origin+'/0-about/resident-inventor.html?history=oei');
+    assert.equal(await reader.locator('#invention-paths a').count(),9);
+    assert.equal(await reader.locator('.ri-field-environment').count(),1);
+    await noJS.close();
+    console.log('PASS browser: JS-disabled histories and index fallback, branch/back/forward, breadcrumbs/directory, legacy redirects and fragments, reduced motion, no runtime errors');
+  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
