@@ -92,7 +92,7 @@ test('schema contains only aggregate columns and preserves counts on initializat
 });
 test('production frontend configuration retains six static download URLs and permits disabling counting', async () => {
   const root = new URL('../../porpoise/', import.meta.url);
-  const html = await readFile(new URL('index.html', root), 'utf8');
+  const html = await readFile(new URL('../../0-porpoise/index.html', import.meta.url), 'utf8');
   for (const stance of STANCES) assert.ok(html.includes(`href="stances/${stance}.yaml"`));
   const config = await readFile(new URL('api-config.js', root), 'utf8');
   const script = await readFile(new URL('downloads.js', root), 'utf8');
