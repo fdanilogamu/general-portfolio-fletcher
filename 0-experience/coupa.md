@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Coupa"
+permalink: /0-experience/coupa.html
 ---
 
 # Coupa

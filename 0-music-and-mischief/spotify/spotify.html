@@ -1,0 +1,11 @@
+---
+layout: default
+title: "My Playlists"
+permalink: /0-things-i-do-for-fun/spotify/spotify.html
+---
+
+<article class="left-aligned-content">
+  {% capture playlist_source %}{% include_relative spotify.md %}{% endcapture %}
+  {% assign playlist_body = playlist_source | split: '---' | last %}
+  {{ playlist_body | markdownify }}
+</article>

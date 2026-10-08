@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Traze"
+permalink: /0-experience/traze.html
 ---
 
 # Traze

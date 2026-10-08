@@ -1,0 +1,67 @@
+---
+permalink: /show-and-tell/
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A continuously printing record of things Fletcher has been making.">
+    <meta name="theme-color" content="#e9e4d8">
+    <title>Show &amp; Tell Nook</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/nook.css">
+    <script src="updates.js" defer></script>
+    <script src="assets/nook.js" defer></script>
+  </head>
+  <body>
+{% include rabbit-hole-standalone.html %}
+    <a class="skip-link" href="#dispatches">Skip to dispatches</a>
+
+    <aside class="next-display" aria-labelledby="next-display-label">
+      <div class="next-display__screen" aria-live="polite">
+        <p class="next-display__label" id="next-display-label">Coming up next...</p>
+        <p class="next-display__project" id="next-project" hidden></p>
+        <p class="next-display__message" id="next-message">PROCESSING</p>
+      </div>
+    </aside>
+
+    <div class="printer" aria-hidden="true">
+      <span class="printer__light"></span>
+      <span class="printer__label">NOOK PRINTER 01</span>
+      <span class="printer__slot"></span>
+    </div>
+
+    <main class="receipt" id="main-content">
+      <header class="masthead">
+        <h1><span>Show &amp; Tell</span> Nook</h1>
+        <p class="tagline">A continuously printing record<br>of things I've been making.</p>
+        <div class="receipt-meta" aria-label="Publication details">
+          <span>ISSUE: ONGOING</span>
+          <span>FEED: LIVE</span>
+        </div>
+      </header>
+
+      <section class="dispatches" id="dispatches" aria-labelledby="dispatches-heading">
+        <div class="section-rule">
+          <h2 id="dispatches-heading">Latest dispatches</h2>
+          <span aria-hidden="true">↓ newest first ↓</span>
+        </div>
+        <div id="update-feed">
+          <noscript>
+            <p class="noscript-note">This feed needs JavaScript to print its entries. The rest of the nook still works without it.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <footer class="receipt-footer">
+        <p class="end-mark" aria-hidden="true">✦ ✦ ✦</p>
+        <p>Caught up for now.<br>More paper soon.</p>
+        <a href="/">Return to The Stuff I Have Online</a>
+        <small>SHOW &amp; TELL NOOK · MEDELLÍN</small>
+      </footer>
+    </main>
+
+    <div class="paper-end" aria-hidden="true"></div>
+  </body>
+</html>

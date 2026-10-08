@@ -1,0 +1,97 @@
+---
+layout: default
+title: "Resident Inventor"
+description: "A model of invention derived from the origin histories of nine real projects by Fletcher Galeano."
+permalink: /0-about/resident-inventor.html
+---
+
+<link rel="stylesheet" href="{{ '/resident-inventor.css' | relative_url }}">
+
+<article class="resident-inventor-page">
+  <header class="ri-hero">
+    <p class="ri-kicker">An archaeology of nine inventions</p>
+    <h1>Resident<br>Inventor</h1>
+    <p class="ri-deck">I keep a large Field of things I’ve noticed, learned, made, experienced, and wondered about. Sometimes two of them touch. When I hear something in that collision, I give it form and see what reality does with it. Whatever happens becomes part of the Field again.</p>
+    <a class="ri-jump" href="#invention-paths">Inspect the paths <span aria-hidden="true">↓</span></a>
+  </header>
+
+  <section class="ri-directory-section" id="invention-paths" aria-labelledby="histories-title">
+    <p class="ri-kicker">Nine invention histories</p>
+    <h2 id="histories-title">Explore the evidence</h2>
+    {% include resident-inventor/history-directory.html %}
+  </section>
+
+  <section class="ri-diagram-section" id="invention-model" aria-labelledby="paths-title">
+    <div class="ri-section-heading">
+      <p class="ri-kicker">The model, then the evidence</p>
+      <h2 id="paths-title">A single model<br>with no standard route.</h2>
+      <p>The model is retrospective. Each project preserves its actual sequence, including dormancy, repeated collisions, returns to the Field, and missing parts of the record.</p>
+    </div>
+    {% assign base_model = site.data.resident_inventor | where: 'id', 'base' | first %}
+    <div class="ri-panel-intro"><h3>{{ base_model.title | escape }}</h3><p>{{ base_model.summary | escape }}</p></div>
+    {% include resident-inventor/model.html %}
+    <p><a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Porpoise: read the project case study <span aria-hidden="true">→</span></a></p>
+  </section>
+
+  <section class="ri-articles" aria-label="Parts of the invention model">
+    <article class="ri-article" id="the-field">
+      <p class="ri-article-number">01</p>
+      <div>
+        <h2>The Field</h2>
+        <p>The Field is everything available for an active path to emerge from. It holds observations, questions, skills, constraints, stories, old documents, abandoned projects, previous inventions, and things life kept before I knew they mattered.</p>
+        <p>Retention takes several forms. Sometimes I save something because it interests me. Sometimes an artifact, memory, or fifteen years of professional experience does the saving. Material can stay for seconds or decades. Most of it never needs to become an invention.</p>
+        <p class="ri-pull">Dormancy is not failure. It is one of the Field’s normal states.</p>
+      </div>
+    </article>
+
+    <article class="ri-article" id="a-collision">
+      <p class="ri-article-number">02</p>
+      <div>
+        <h2>A Collision</h2>
+        <p>A collision occurs when retained pieces, or something retained and something newly available, come into meaningful contact. A conversation can do it. So can research, a new technology, an old document, a physical constraint, time, or enough examples becoming comparable.</p>
+        <p>There’s no single mechanism. Inventor’s Lab is the deliberate edge case: unrelated prompts create a constraint field and shake what is already there. The system manufactures collisions. It can’t decide which sound is worth following.</p>
+      </div>
+    </article>
+
+    <article class="ri-article" id="a-ding">
+      <p class="ri-article-number">03</p>
+      <div>
+        <h2>A Ding 💡</h2>
+        <p>A collision alone is just contact. A Ding is the moment I perceive that the things together mean something they didn’t mean separately. It may arrive as a question, category recognition, a renamed pattern, or a newly visible mechanism.</p>
+        <blockquote>“Wait, what if there was a way to play Portal without playing Portal?”</blockquote>
+        <p>The Ding is recognition. It can happen after a decade of dormancy or almost immediately when the Field already contains everything it needs.</p>
+      </div>
+    </article>
+
+    <article class="ri-article" id="a-form">
+      <p class="ri-article-number">04</p>
+      <div>
+        <h2>A Form</h2>
+        <p>After a Ding, I make what I noticed concrete enough to interact with it. That might mean naming, questioning, writing, sketching, coding, mechanizing, prototyping, or designing a framework.</p>
+        <p>The forms have included software, physical products, books, games, interview instruments, teaching methodologies, media formats, websites, and AI behavioral specifications. The medium is a consequence of the idea.</p>
+      </div>
+    </article>
+
+    <article class="ri-article" id="meet-reality">
+      <p class="ri-article-number">05</p>
+      <div>
+        <h2>Meet Reality</h2>
+        <p>Then reality can enter through building, testing, competitors, technical limits, economics, collaborators, publication, use, stewardship, or a decision to park the idea. Reality gets a vote more precise than success or failure.</p>
+        <p>It can shrink a chair into an attachment, turn competitors into a reason for a dream product to deepen, or reveal that interview packets are specifications for a generator. The result, whether validation, redirection, a new artifact, or a better question, returns to the Field. An invention may leave again later.</p>
+      </div>
+    </article>
+  </section>
+
+  <footer class="ri-ending">
+    <p class="ri-kicker">Resident Inventor</p>
+    <h2>I don’t sit down and try to generate inventions.</h2>
+    <nav aria-label="Continue exploring">
+      <a href="{{ '/resident-inventor/brand-guidelines/' | relative_url }}">Resident Inventor Brand Guidelines</a>
+      <a href="{{ '/0-about/ideas.html' | relative_url }}">Learn more about me <span aria-hidden="true">→</span></a>
+      <a href="{{ '/0-about/how-i-collaborate-with-ai.html' | relative_url }}">See what changes when AI enters the Field <span aria-hidden="true">→</span></a>
+    </nav>
+  </footer>
+</article>
+
+{% include resident-inventor/compatibility.html %}
+<script src="{{ '/0-about/js/resident-inventor.js' | relative_url }}"></script>

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Friendcodes"
+permalink: /0-experience/jobs-prior-to-2020/friendcodes.html
 ---
 
 # FriendCodes

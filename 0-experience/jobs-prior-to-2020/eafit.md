@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at EAFIT"
+permalink: /0-experience/jobs-prior-to-2020/eafit.html
 ---
 
 # EAFIT University

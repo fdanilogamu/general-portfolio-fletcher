@@ -1,0 +1,527 @@
+---
+permalink: /0-things-i-do-for-fun/ircalc.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inglés Rebelde - Calculadora de Precios</title>
+    <link rel="stylesheet" href="/static/css/standalone-return.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            flex-shrink: 0;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #764ba2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+
+        .control-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="checkbox"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            min-width: 45px;
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .breakdown {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .breakdown-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .breakdown-label {
+            font-weight: 500;
+        }
+
+        .breakdown-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .discount-row {
+            color: #27ae60;
+        }
+
+        .discount-row .breakdown-value {
+            color: #27ae60;
+        }
+
+        .divider {
+            height: 1px;
+            background: #ddd;
+            margin: 12px 0;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: 8px;
+        }
+
+        .total-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .currency {
+            font-size: 16px;
+            margin-right: 4px;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #333;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .total-value {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include rabbit-hole-standalone.html %}
+    <a class="standalone-return" href="/index.html">Return to The Stuff I Have Online</a>
+    <div class="container">
+        <div class="header">
+            <h1>Inglés Rebelde</h1>
+            <p>Tu cotización personalizada</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Elige Tu Estilo de Aprendizaje</div>
+            
+            <div class="control-group">
+                <label for="teachingStyle">¿Cuál es tu estilo?</label>
+                <select id="teachingStyle">
+                    <option value="curiosity">Curiosity Engagement (60 min)</option>
+                    <option value="exposition">Traditional Exposition (40 min)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Clases y Horario</div>
+            
+            <div class="control-group">
+                <label for="sessions">Sesiones por mes</label>
+                <div class="slider-container">
+                    <input type="range" id="sessions" min="2" max="12" value="8" step="1">
+                    <span class="slider-value" id="sessionsValue">8</span>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px;">Ideal: 2x/semana (8-9 sesiones)</small>
+            </div>
+
+            <div class="control-group">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="levelPlacement" value="levelPlacement">
+                    <label for="levelPlacement">Entrevista de ubicación de nivel</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px;">$12.000 pesos</small>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Tipo de Clase y Descuentos</div>
+            
+            <div class="control-group">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="groupClass" value="groupClass">
+                    <label for="groupClass">Clase de grupo (5% de descuento)</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px;">Clase compartida con otros estudiantes</small>
+            </div>
+
+            <div class="control-group">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="vetsADomicilio" value="vetsADomicilio">
+                    <label for="vetsADomicilio">Soy miembro Corporativo</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px;">Acceso al descuento del 15% en clases</small>
+            </div>
+
+            <div class="control-group">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="advancePayment" value="advancePayment">
+                    <label for="advancePayment">Pagar el mes completo por adelantado</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px;">Obtén un 10% adicional de descuento en tu total</small>
+            </div>
+        </div>
+
+        <div class="breakdown">
+            <div class="breakdown-row">
+                <span class="breakdown-label">Costo base de la clase</span>
+                <span class="breakdown-value">$<span id="basePrice">60,000</span></span>
+            </div>
+
+            <div class="breakdown-row" id="vetsDiscountRow" style="display: none;">
+                <span class="breakdown-label">Descuento Corporativo (15%)</span>
+                <span class="breakdown-value discount-row">-$<span id="vetsDiscount">0</span></span>
+            </div>
+
+            <div class="breakdown-row" id="groupDiscountRow" style="display: none;">
+                <span class="breakdown-label">Descuento de grupo (5% por miembro)</span>
+                <span class="breakdown-value discount-row">-$<span id="groupDiscount">0</span></span>
+            </div>
+
+            <div class="breakdown-row" id="levelPlacementRow" style="display: none;">
+                <span class="breakdown-label">Entrevista de ubicación de nivel</span>
+                <span class="breakdown-value">+$<span id="levelPlacementCost">12,000</span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="breakdown-row">
+                <span class="breakdown-label">Subtotal (por sesión)</span>
+                <span class="breakdown-value">$<span id="subtotal">60,000</span></span>
+            </div>
+
+            <div class="breakdown-row">
+                <span class="breakdown-label">Total mensual (<span id="sessionCount">8</span> sesiones)</span>
+                <span class="breakdown-value">$<span id="monthlyTotal">480,000</span></span>
+            </div>
+
+            <div class="breakdown-row" id="perClassMonthlyRow" style="display: none;">
+                <span class="breakdown-label"><small style="color: #999;">Costo por clase (sin entrevista)</small></span>
+                <span class="breakdown-value"><small style="color: #999;">$<span id="perClassMonthly">60,000</span></small></span>
+            </div>
+
+            <div class="breakdown-row" id="advanceDiscountRow" style="display: none;">
+                <span class="breakdown-label">Bonus de pago por adelantado (10%)</span>
+                <span class="breakdown-value discount-row">-$<span id="advanceDiscount">0</span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="total-section">
+                <span class="total-label">Total del mes<br><small style="font-size: 12px; font-weight: 400; color: #666;">por estudiante</small></span>
+                <span class="total-value"><span class="currency">$</span><span id="finalTotal">480,000</span></span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            💬 <strong>"NOTAS"</strong>           
+            <br>
+            - Grupos organizados por nivel y horario.
+            <br>
+            - Si planeas pagar por sesión, divide el total por el número de sesiones al mes. 
+            <br>
+            - Recuerda tomarle un pantallazo a tu cotización.
+            <br>
+            - Ya estás listo para registrarte en <a href="https://forms.gle/JKtrKPkT3oUVcwEM8">el Formulario.</a>
+
+
+        </div>
+
+        <button class="cta-button" onclick="window.location.href='/0-things-i-do-for-fun/inglesrebelde.html'">Comenzar</button>
+    </div>
+
+    <script>
+        const sessionsInput = document.getElementById('sessions');
+        const sessionsValue = document.getElementById('sessionsValue');
+        const teachingStyleSelect = document.getElementById('teachingStyle');
+        const groupClassCheckbox = document.getElementById('groupClass');
+        const levelPlacementCheckbox = document.getElementById('levelPlacement');
+        const vetsADomicilioCheckbox = document.getElementById('vetsADomicilio');
+        const advancePaymentCheckbox = document.getElementById('advancePayment');
+
+        // Pricing by teaching style
+        const teachingStyles = {
+            curiosity: { price: 60000, duration: '60 min' },
+            exposition: { price: 75000, duration: '40 min' }
+        };
+
+        const vetsDiscount = 0.15; // 15% discount for vets members
+        const levelPlacementCost = 12000;
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function updateCalculation() {
+            const sessions = parseInt(sessionsInput.value);
+            const teachingStyle = teachingStyleSelect.value;
+            const isGroupClass = groupClassCheckbox.checked;
+            const hasLevelPlacement = levelPlacementCheckbox.checked;
+            const isVetsMember = vetsADomicilioCheckbox.checked;
+            const hasAdvancePayment = advancePaymentCheckbox.checked;
+
+            // Get base class cost based on teaching style
+            const baseClassCost = teachingStyles[teachingStyle].price;
+
+            // Update session display
+            sessionsValue.textContent = sessions;
+            document.getElementById('sessionCount').textContent = sessions;
+
+            // Calculate base class cost after vets discount
+            let classBaseCost = baseClassCost;
+            if (isVetsMember) {
+                classBaseCost = baseClassCost * (1 - vetsDiscount); // Apply 15% discount
+            }
+
+            // Calculate group discount (5% if group class is selected)
+            const groupDiscount = isGroupClass ? Math.round(classBaseCost * 0.05) : 0;
+            const costPerSession = classBaseCost - groupDiscount;
+
+            // Show/hide vets discount in breakdown
+            const vetsDiscountRow = document.getElementById('vetsDiscountRow');
+            if (isVetsMember) {
+                vetsDiscountRow.style.display = 'flex';
+                document.getElementById('vetsDiscount').textContent = formatNumber(Math.round(baseClassCost * vetsDiscount));
+            } else {
+                vetsDiscountRow.style.display = 'none';
+            }
+
+            // Show/hide group discount row
+            const groupDiscountRow = document.getElementById('groupDiscountRow');
+            if (isGroupClass) {
+                groupDiscountRow.style.display = 'flex';
+                document.getElementById('groupDiscount').textContent = formatNumber(groupDiscount);
+            } else {
+                groupDiscountRow.style.display = 'none';
+            }
+
+            // Calculate subtotal
+            let subtotal = costPerSession;
+            if (hasLevelPlacement) {
+                subtotal += levelPlacementCost;
+            }
+
+            // Show/hide level placement row
+            const levelPlacementRow = document.getElementById('levelPlacementRow');
+            if (hasLevelPlacement) {
+                levelPlacementRow.style.display = 'flex';
+            } else {
+                levelPlacementRow.style.display = 'none';
+            }
+
+            // Update price displays
+            document.getElementById('basePrice').textContent = formatNumber(classBaseCost);
+            document.getElementById('subtotal').textContent = formatNumber(Math.round(subtotal));
+
+            // Calculate monthly total (WITH interview fee if selected)
+            let monthlyTotal = (costPerSession * sessions);
+            if (hasLevelPlacement) {
+                monthlyTotal += levelPlacementCost;
+            }
+
+            // Calculate per-class cost (WITHOUT interview fee, divided by sessions)
+            const perClassCost = costPerSession;
+
+            document.getElementById('monthlyTotal').textContent = formatNumber(Math.round(monthlyTotal));
+            document.getElementById('perClassMonthly').textContent = formatNumber(Math.round(perClassCost));
+
+            // Always show the per-class row
+            const perClassMonthlyRow = document.getElementById('perClassMonthlyRow');
+            perClassMonthlyRow.style.display = 'flex';
+
+            // Calculate advance payment discount (applied to the full monthly total WITH interview)
+            let finalTotal = monthlyTotal;
+            const advanceDiscountRow = document.getElementById('advanceDiscountRow');
+            if (hasAdvancePayment) {
+                const advanceDiscount = Math.round(monthlyTotal * 0.10);
+                finalTotal = monthlyTotal - advanceDiscount;
+                advanceDiscountRow.style.display = 'flex';
+                document.getElementById('advanceDiscount').textContent = formatNumber(advanceDiscount);
+            } else {
+                advanceDiscountRow.style.display = 'none';
+            }
+
+            // Update final total
+            document.getElementById('finalTotal').textContent = formatNumber(Math.round(finalTotal));
+        }
+
+        // Event listeners
+        teachingStyleSelect.addEventListener('change', updateCalculation);
+        sessionsInput.addEventListener('input', updateCalculation);
+        groupClassCheckbox.addEventListener('change', updateCalculation);
+        levelPlacementCheckbox.addEventListener('change', updateCalculation);
+        vetsADomicilioCheckbox.addEventListener('change', updateCalculation);
+        advancePaymentCheckbox.addEventListener('change', updateCalculation);
+
+        // Initial calculation
+        updateCalculation();
+    </script>
+</body>
+</html>

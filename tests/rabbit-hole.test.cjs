@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const {page, compose} = require('./rabbit-hole-source.cjs');
+const {page, compose, pageSources, sourceFor} = require('./rabbit-hole-source.cjs');
 const {pool, normalize, identify, cleanState, selectCycle, randomIndex} = require('../static/js/rabbit-hole.js');
 const registry = require('../_data/rabbit_hole.json');
 const destinations = pool(registry);
@@ -15,7 +15,7 @@ const expectedIds = ['lemonade-economy','oei','dream-machine','anchorpoint','way
   'porpoise','cyoa','inventors-lab','lemonless-tms-case-study','prison-planet','porpoise-library',
   'ingles-rebelde','ai-collaboration','technical-writing-samples','job-search-timeline',
   'job-search-lessons','show-and-tell-nook'];
-const fileFor = url => '.' + (url.endsWith('/') ? url + 'index.html' : url);
+const fileFor = sourceFor;
 function assertSingleControls(html, entryCount = 0) {
   assert.equal((html.match(/aria-label="Enter the Rabbit Hole"/g) || []).length, entryCount);
   assert.equal((html.match(/data-rabbit-hole hidden>Take me somewhere else/g) || []).length, 1);
@@ -182,13 +182,13 @@ test('shared controls compose once on eligible default and standalone pages',()=
 });
 
 test('specialized controls retain language selector, calculator flow and playlist metadata safety',()=>{
-  const language=compose('0-things-i-do-for-fun/inglesrebelde.html');
+  const language=compose(sourceFor('/0-things-i-do-for-fun/inglesrebelde.html'));
   const row=language.match(/<nav class="rabbit-hole-access"[\s\S]*?<\/nav>/)[0];
   assert.equal((row.match(/class="language-toggle"/g)||[]).length,1);
   assert.doesNotMatch(language.match(/\.language-toggle \{([\s\S]*?)\}/)[1],/position:|top:|right:|z-index:/);
-  assert.match(compose('0-things-i-do-for-fun/ircalc.html'),/flex-direction: column/);
-  assert.match(page('0-things-i-do-for-fun/spotify/spotify.md').metadata,/published: false/);
-  assert.match(page('0-things-i-do-for-fun/spotify/spotify.html').body,/playlist_body \| markdownify/);
+  assert.match(compose(sourceFor('/0-things-i-do-for-fun/ircalc.html')),/flex-direction: column/);
+  assert.match(page('0-music-and-mischief/spotify/spotify.md').metadata,/published: false/);
+  assert.match(page(sourceFor('/0-things-i-do-for-fun/spotify/spotify.html')).body,/playlist_body \| markdownify/);
 });
 
 test('crypto rejection sampling excludes modulo bias',()=>{
@@ -221,4 +221,9 @@ test('all nested history data and order match the original snapshot except appro
   assert.equal(histories.reduce((n,entry)=>n+entry.loops.length,0),16);
   assert.equal(histories.flatMap(entry=>entry.loops).reduce((n,loop)=>n+loop.nodes.length,0),89);
   assert.equal(data[0].nodes.length,6);
+});
+
+// Detect source publication collisions before building, including HTML/Markdown pairs.
+test('page directories declare unique public routes',()=>{
+  assert.equal(pageSources().size,50);
 });

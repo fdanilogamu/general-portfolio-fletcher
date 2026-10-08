@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at TWL"
+permalink: /0-experience/twl.html
 ---
 
 # TWL

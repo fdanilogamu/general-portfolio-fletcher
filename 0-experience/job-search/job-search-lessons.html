@@ -1,0 +1,276 @@
+---
+permalink: /0-about/job-search-lessons.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ten lessons Fletcher Galeano took from a ten-month job search.">
+<title>The 10 Commandments of My Job Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/standalone-return.css">
+<style>
+  :root{
+    --page:#171b1a;
+    --surface:#202623;
+    --surface-soft:#26302c;
+    --text:#efeee8;
+    --muted:#a9b0ac;
+    --teal:#94cfbd;
+    --teal-strong:#b3e1d4;
+    --border:#35403c;
+    --orange:#e9a23b;
+    --orange-light:#f0b85f;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--page);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--orange); color:var(--page);}
+
+  .lessons-status{
+    position:sticky;
+    top:0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:11px clamp(18px,4vw,34px);
+    border-bottom:1px solid var(--border);
+    background:rgba(23,27,26,0.94);
+    backdrop-filter:blur(6px);
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .lessons-status a{
+    color:var(--teal);
+    text-decoration:none;
+  }
+  .lessons-status a:hover{color:var(--teal-strong);}
+
+  .lessons-shell{
+    width:min(920px,100%);
+    margin:0 auto;
+    padding:clamp(48px,8vw,86px) clamp(20px,5vw,54px) 100px;
+  }
+  .lessons-kicker{
+    margin:0 0 16px;
+    color:var(--orange-light);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+  }
+  h1{
+    max-width:760px;
+    margin:0;
+    color:var(--text);
+    font-family:'Anton', sans-serif;
+    font-size:clamp(42px,8vw,76px);
+    font-weight:400;
+    letter-spacing:0.01em;
+    line-height:1.02;
+    text-transform:uppercase;
+  }
+  .lessons-intro{
+    max-width:650px;
+    margin:20px 0 50px;
+    color:var(--muted);
+    font-size:17px;
+    font-style:italic;
+    line-height:1.65;
+  }
+
+  .commandments{
+    margin:0;
+    padding:0;
+    list-style:none;
+    counter-reset:commandment;
+  }
+  .commandment{
+    counter-increment:commandment;
+    display:grid;
+    grid-template-columns:58px minmax(0,1fr);
+    gap:18px;
+    padding:30px 0;
+    border-top:1px solid var(--border);
+  }
+  .commandment:last-child{border-bottom:1px solid var(--border);}
+  .commandment::before{
+    content:counter(commandment, decimal-leading-zero);
+    padding-top:3px;
+    color:var(--orange-light);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.06em;
+  }
+  .commandment h2{
+    margin:0 0 12px;
+    color:var(--text);
+    font-family:'Anton', sans-serif;
+    font-size:clamp(23px,4vw,32px);
+    font-weight:400;
+    letter-spacing:0.015em;
+    line-height:1.15;
+    text-transform:uppercase;
+  }
+  .explanation{
+    max-width:700px;
+    padding:16px 18px;
+    border-left:3px solid var(--teal);
+    background:var(--surface);
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.7;
+  }
+  .explanation p{margin:0;}
+  .explanation p + p{margin-top:12px;}
+  .explanation ol{margin:0; padding-left:20px;}
+  .explanation li + li{margin-top:10px;}
+  .explanation em{color:var(--text);}
+
+  .lessons-deeper{
+    margin:54px 0 0 76px;
+    padding:24px;
+    border:1px solid var(--border);
+    background:var(--surface-soft);
+  }
+  .lessons-deeper p{
+    margin:0 0 12px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+  .lessons-deeper a{
+    color:var(--teal);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    font-weight:600;
+    text-underline-offset:4px;
+  }
+
+  @media(max-width:600px){
+    .lessons-status span{display:none;}
+    .commandment{grid-template-columns:1fr; gap:8px;}
+    .commandment::before{padding:0;}
+    .lessons-deeper{margin-left:0;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+{% include rabbit-hole-standalone.html %}
+  <a class="standalone-return" href="/index.html">Return to The Stuff I Have Online</a>
+  <header class="lessons-status">
+    <span>Job Search Case File · Condensed</span>
+    <a href="/0-about/job-search-timeline.html">Return to the timeline</a>
+  </header>
+
+  <main class="lessons-shell">
+    <p class="lessons-kicker">The condensed field notes</p>
+    <h1>The 10 Commandments of My Job Search</h1>
+    <p class="lessons-intro">The lessons I’d carry into another search, and the parts that may be useful in yours.</p>
+
+    <ol class="commandments">
+      <li class="commandment">
+        <div>
+          <h2>If you can say the same thing with fewer words, do it</h2>
+          <div class="explanation"><p>That.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>Treat linkedin messages like emails.</h2>
+          <div class="explanation"><p>You shouldn't only be saying hi. You wouldn't email someone just "hi how are you, glad to connect". Emails have parts. The more context you give offhand without pitchslapping, the better the chances are that if <em>they’d</em> reply to your context, they will. Because they'll know it immediately. You might be losing potentially warm leads to being polite before being direct.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>If you get the chance to document the things you think and the way you get there, you should do it.</h2>
+          <div class="explanation"><p>The less you have to manually explain, the better. This also helps with consolidation. Seeing it written down is a different experience from holding it in your mind.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>If you're doubting an answer in an interview you have two paths:</h2>
+          <div class="explanation">
+            <ol>
+              <li>express this fact directly, and explain why. If you have a better answer prepared, offer it instead.</li>
+              <li>decide to trust the story, and finish telling it. Allow them to tell you if it was irrelevant.</li>
+            </ol>
+          </div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>Don't send applications to jobs you wouldn't enjoy doing.</h2>
+          <div class="explanation"><p>This means that if you're going for volume, you should be working on refining your filters to surface things that interest you more often.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>Applying on the company's portal does help.</h2>
+          <div class="explanation">
+            <p>Some jobs never even get posted to job boards and it's better to crawl than to browse through what made it onto your chosen site.</p>
+            <p>Two months ago I dropped LinkedIn job applications altogether. From that moment on I worked strictly with Jack &amp; Jill, continuously tweaking the filters and constraints. According to its stats, from june until august, we processed 160 roles, I applied to 53, interviewed for 5, and received 1 offer. It mattered how I did it (on the portal directly) and how much it made sense for my profile (super specific searches). I’d spent the previous 8 months working almost exclusively with Linkedin.</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>Networking is always going to be worth it, even if it's just for fun.</h2>
+          <div class="explanation"><p>among everything that happened during the job search, part of it was finding a group of friends with whom I collaborate, chat, and think. The more people you know, the more you'll hear "Oh, I know a guy for that"</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>Remember to keep doing the things you love, even if they don't feel productive.</h2>
+          <div class="explanation"><p>I wouldn't have survived this era emotionally if I didn't have laughter, good food, good sleep, and lots of other stuff that will always matter. This can include your hobbies. This must include your hobbies.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>If the vibes are off with the people in the interview, don't fret if you don't get it.</h2>
+          <div class="explanation"><p>Those were likely the people you were going to work with.</p><p>I know it feels awful to see rejection after rejection, but some rejections came as a relief tbh.</p></div>
+        </div>
+      </li>
+
+      <li class="commandment">
+        <div>
+          <h2>There’s a job that you can do well, and people need someone who does it.</h2>
+          <div class="explanation"><p>When you figure out exactly what it can be, life will move faster.</p></div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="lessons-deeper">
+      <p>Want the full story behind these lessons?</p>
+      <a href="/0-about/job-search-timeline.html">Go deeper: read the full timeline →</a>
+    </div>
+  </main>
+</body>
+</html>

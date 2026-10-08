@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Superna"
+permalink: /0-experience/superna.html
 ---
 
 # Superna

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Fig Tree"
+permalink: /0-experience/jobs-prior-to-2020/figtree.html
 ---
 
 # Fig Tree (Call Center) 

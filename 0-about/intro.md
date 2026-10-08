@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "About"
+permalink: /0-about/intro.html
 ---
 
 <article class="left-aligned-content">

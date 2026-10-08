@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Coltejer"
+permalink: /0-experience/jobs-prior-to-2020/coltejer.html
 ---
 
 # Coltejer

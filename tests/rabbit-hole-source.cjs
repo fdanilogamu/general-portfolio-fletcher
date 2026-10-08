@@ -26,4 +26,29 @@ function compose(file) {
     ? fs.readFileSync('_layouts/default.html', 'utf8').replace('{{ content }}', body)
     : body);
 }
-module.exports = { page, expand, compose };
+// Public routes are independent of repository paths. Read explicit permalinks
+// from the navigable source directories; unpublished wrappers are companions.
+function pageSources() {
+  const routes = new Map();
+  function visit(file) {
+    if (fs.statSync(file).isDirectory()) {
+      for (const name of fs.readdirSync(file)) visit(file + '/' + name);
+    } else if (/\.(html|md)$/.test(file)) {
+      const source = fs.readFileSync(file, 'utf8');
+      const block = source.match(/^---\r?\n([\s\S]*?)^---(?:\r?\n|$)/m);
+      if (!block || /^published: false\s*$/m.test(block[1])) return;
+      const route = block[1].match(/^permalink: (\S+)\s*$/m)?.[1];
+      if (!route) return;
+      if (routes.has(route)) throw new Error(`Duplicate published route ${route}: ${routes.get(route)} and ${file}`);
+      routes.set(route, file);
+    }
+  }
+  for (const name of fs.readdirSync('.')) {
+    if (name.startsWith('0-') && fs.statSync(name).isDirectory()) visit(name);
+  }
+  return routes;
+}
+function sourceFor(url) {
+  return pageSources().get(url) || url.replace(/^\//, '') + (url.endsWith('/') ? 'index.html' : '');
+}
+module.exports = { page, expand, compose, pageSources, sourceFor };

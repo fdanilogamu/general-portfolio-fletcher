@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Working at Qount"
+permalink: /0-experience/qount.html
 ---
 
 # Qount
