@@ -2,3 +2,7 @@ markdown: kramdown
 url: "https://thestuffihave.online"
 plugins:
   - jekyll-sitemap
+exclude:
+  - "Porpoise AI"
+  - porpoise/verify-site.py
+  - porpoise/verify-integration.py

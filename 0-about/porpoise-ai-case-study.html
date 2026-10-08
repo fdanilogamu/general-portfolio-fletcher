@@ -1,0 +1,57 @@
+---
+layout: default
+title: Porpoise AI
+description: A collection of portable behavioral specifications that help people establish different ways of working with existing AI assistants.
+---
+
+<article class="tldr-page software-case-study">
+  <header>
+    <p class="writing-samples-kicker">Resident Inventor · Project case study</p>
+    <h1>Porpoise AI</h1>
+    <p>A collection of portable behavioral specifications that help people establish different ways of working with existing AI assistants.</p>
+    <p>Created by Fletcher Galeano — Resident Inventor</p>
+    <p><strong><a href="{{ '/porpoise/' | relative_url }}">Explore Porpoise AI <span aria-hidden="true">→</span></a></strong></p>
+  </header>
+
+  <section>
+    <h2>From George Modes to portable specifications</h2>
+    <p>I use AI assistants extensively. One recurring frustration was how easily the interaction style I wanted could drift over a conversation. An assistant might begin by exploring an idea with me, then start offering solutions before I was ready to stop exploring.</p>
+    <p>In August 2026, I began exploring what I called “George Modes”: distinct, reusable ways of interacting with an assistant. Early concepts included Curious George, Devil’s George, Gossip George, and Panic Room George. They began as conversational dispositions I could invoke when I wanted a different kind of attention.</p>
+    <p>Eventually, I recognized that these could become portable behavioral specifications. I could make their purposes, expectations, and boundaries explicit enough for someone else to bring them into their own conversation.</p>
+    <p>Around the same period, I was doing extensive manual editorial work on AI-generated writing. I kept encountering patterns that required me to read and revise the whole piece. That friction contributed to The Drafter: a more structured stance that asks the assistant to inspect and evaluate its own writing patterns.</p>
+    <p>The broader idea became Porpoise AI: reusable instructions people can bring to the AI models they already use.</p>
+  </section>
+
+  <section>
+    <h2>What I built</h2>
+    <p>Porpoise currently includes six downloadable YAML stances. Archivist preserves and structures knowledge; Challenger tests assumptions and ideas; Confidante engages with personal stories through curiosity and presence. The Drafter guides drafting and revision through an explicit multi-step workflow; Explorer follows unexpected connections and possibilities; Panic Room offers conversational presence without prematurely turning to solutions.</p>
+    <p>Each file defines an interaction purpose, behavioral expectations, and boundaries. These are instructions for existing AI assistants, not separate models or standalone chatbots. The product website contains the downloads, usage instructions, and detailed demonstrations.</p>
+  </section>
+
+  <section>
+    <h2>Making an interaction preference explicit</h2>
+    <p>The design work involved translating informal preferences into instructions that an assistant could act on repeatedly. “Be curious” leaves a lot open to interpretation. A useful specification has to say what deserves attention, what kinds of questions help, and when the assistant should hold back.</p>
+    <p>Different stances require different kinds of behavioral control. Explorer needs enough freedom to follow surprising connections without prematurely closing down exploration. Its boundaries protect that openness from a rush toward advice, productivity, or a tidy conclusion.</p>
+    <p>The Drafter needs a much more constrained workflow. Drafting, reading the whole draft, evaluating observed patterns, and redrafting happen in distinct stages. Separating those stages gives the assistant a whole piece to inspect before it decides what should change, and gives the person using it control over advancing the process.</p>
+    <p>I revised the specifications as testing exposed ambiguous instructions, drifting behaviors, and requirements the models interpreted differently than I intended. A revision might clarify a boundary, make a decision rule explicit, or tighten the conditions for moving to the next stage.</p>
+  </section>
+
+  <section>
+    <h2>Testing the behavior in conversation</h2>
+    <p>The stances have undergone informal iterative testing, including trials with ChatGPT and Claude. I looked at whether the assistants followed the intended behaviors, respected the boundaries, and maintained the relevant workflow across responses.</p>
+    <div class="case-rule-block">
+      <h3>The Drafter: a concrete example</h3>
+      <p class="case-hierarchy">Draft → Read → Resist → Redraft</p>
+      <p>A complete Claude test demonstrated this sequence. The assistant drafted a piece, read it as a whole, evaluated the patterns it observed, and then revised it. During evaluation, it distinguished meaningful repetition from unnecessary rhetorical habits instead of treating all repetition as something to remove.</p>
+    </div>
+    <p>That test gave me a concrete example to inspect and share on the product website. These trials are informal development evidence. They are not formal validation, benchmarks, or proof of cross-model reliability. Behavior can still vary by model and conversation, so the specification remains a reference people can return to when an assistant drifts.</p>
+  </section>
+
+  <section>
+    <h2>What this invention demonstrates</h2>
+    <p>Porpoise makes my work in behavioral specification design tangible: the files turn recurring conversational friction into reusable purposes, constraints, decision rules, and boundaries. Explorer’s room for discovery and The Drafter’s staged process show two different approaches to interaction and workflow architecture.</p>
+    <p>The testing and revisions are part of that architecture. Observing how an assistant actually responds helps me find where the written instructions need to become clearer. The resulting system is usable through a plain-text attachment and an adoption request, without requiring someone to build their own software.</p>
+    <p><strong><a href="{{ '/porpoise/' | relative_url }}">Explore Porpoise AI <span aria-hidden="true">→</span></a></strong></p>
+    <p class="case-return"><a href="{{ '/0-about/resident-inventor.html' | relative_url }}">← Back to Resident Inventor</a></p>
+  </section>
+</article>
