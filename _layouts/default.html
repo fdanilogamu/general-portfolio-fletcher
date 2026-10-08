@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="portfolio-version" content="v1.0.0">
+  <meta name="portfolio-version" content="v2.0.0">
   <title>{{ page.title }}</title>
   {% if page.url == "/resident-inventor/brand-guidelines/" %}
   <meta name="description" content="{{ page.description | escape }}">
@@ -23,6 +23,7 @@
         <span class="knowledge-architect-button">I'm lost</span>
         <span class="knowledge-architect-prompt">Looking for the knowledge architect?</span>
       </a>
+      <button class="rabbit-hole-nav" type="button" data-rabbit-hole hidden>Take me somewhere else</button>
       <button id="theme-toggle" type="button" aria-label="Toggle color theme">
         🌓
       </button>
@@ -35,8 +36,10 @@
     </div>
   </div>
   <footer>
-   <p>&copy; 2026 Built with <a href="https://github.com/fdanilogamu/fdanilogamu.github.io" target="_blank" rel="noopener noreferrer">Git</a> and grit by Fletcher Galeano &middot; v1.0.0 &middot; <a href="/show-and-tell/">Show &amp; Tell Nook</a> &middot; {% include contact-emails.html %}</p>
+   <p>&copy; 2026 Built with <a href="https://github.com/fdanilogamu/fdanilogamu.github.io" target="_blank" rel="noopener noreferrer">Git</a> and grit by Fletcher Galeano &middot; v2.0.0 &middot; {% include contact-emails.html %}</p>
   </footer>
+
+{% include rabbit-hole.html %}
 
 <script>
   const toggle = document.getElementById('theme-toggle');
