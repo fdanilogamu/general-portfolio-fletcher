@@ -1,14 +1,15 @@
 # Resident Inventor static histories
 
 `_data/resident_inventor.json` is the sole editable content source: one base model
-and nine histories. Thin ordinary Jekyll pages under `resident-inventor/histories/`
+and nine histories. Thin ordinary Jekyll pages under `0-resident-inventor/histories/`
 identify records through `history_id`, declare approved permalinks, and use the
 shared `resident-inventor-history` layout and `resident-inventor` includes.
 `history_order` preserves the former explorer's latest-updated ordering, followed
 by the original order of undated histories. This is navigation order, not event
 chronology. When updating a history's updatedAt, review its directory order.
 
-The existing `/0-about/resident-inventor.html` is the introduction, linked history
+The source `0-resident-inventor/index.html` retains the public permalink
+`/0-about/resident-inventor.html`. It is the introduction, linked history
 directory, static base diagram and five explanatory articles. Every history page
 contains its complete HTML sequences without JavaScript. Desktop sequences scroll
 horizontally; mobile sequences flow vertically. JavaScript updates overflow hints
