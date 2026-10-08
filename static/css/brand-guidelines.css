@@ -52,6 +52,28 @@
 .brand-guidelines li { margin-bottom: 1rem; padding-left: .25rem; }
 .brand-guidelines li::marker { color: var(--accent); }
 
+.guidelines-quick-reference {
+  margin: 2rem 0 3rem;
+  padding: 1.5rem clamp(1rem, 3vw, 1.75rem);
+  border-left: 3px solid var(--accent);
+  background: var(--blockquote-bg);
+}
+
+.guidelines-quick-reference h3 {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+}
+
+.guidelines-quick-reference > p:last-child,
+.guidelines-voice-group > p:last-child { margin-bottom: 0; }
+
+.guidelines-voice-group + .guidelines-voice-group {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
 @media (max-width: 600px) {
   .brand-guidelines { font-size: 1rem; }
 }
