@@ -18,16 +18,27 @@ the existing page, not newly generated standalone history documents. Show & Tell
 currently has no dedicated entry pages, so its feed is excluded.
 
 The eight project routes and nine histories each receive equal probability.
-Selection removes the current destination and then the previous selection when
-possible. With two conflicting exclusions the current page takes priority;
-empty pools or a sole current page do nothing. Crypto uses rejection sampling
+Selection draws only from destinations not yet selected in this tab's session.
+It excludes the current destination and avoids the previous selection when
+possible. After every destination has been selected, a new cycle begins. If the
+sole remaining unvisited destination is the current page, activation does nothing
+until the visitor moves elsewhere; it does not repeat a visited destination or
+reset early. Empty pools or a sole current page also do nothing. Crypto uses rejection sampling
 to avoid modulo bias, with Math.random as fallback. Ordinary location.assign
 navigation preserves the site's full-page routing and browser history.
 
-`rabbit-hole-unlocked` and `rabbit-hole-previous` live in localStorage. pageshow
-restores controls after cached back/forward navigation; storage events sync tabs.
-If storage is blocked, controls and navigation work within the current document,
-but persistence cannot survive a page load.
+`rabbit-hole-unlocked` remains in localStorage. `rabbit-hole-session` lives in
+sessionStorage and contains visited canonical routes, the previous selection and
+an optional pending navigation. Query parameters distinguish history views;
+query order, fragments, index.html aliases and unreserved path encoding are
+normalized. Obsolete routes are removed when reading session state. A destination
+is reserved before navigation and committed only when its page loads, preserving
+the old cycle if navigation throws or the visitor returns without arriving.
+Repeated clicks are ignored while navigation is pending. pageshow restores
+controls and session state after cached back/forward navigation; storage events
+sync permanent unlock between tabs. The legacy localStorage previous-selection
+key is no longer used. If storage is blocked, navigation and controls work within
+the current document, but session progress cannot survive full-page navigation.
 
 Run `node --test tests/rabbit-hole.test.cjs`. CI also runs these checks alongside
 the Jekyll build. Desktop/mobile visual verification requires a rendered Jekyll
