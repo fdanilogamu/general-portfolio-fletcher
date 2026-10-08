@@ -219,7 +219,7 @@ window.NOOK_UPDATES = [
     project: "Fletcher Lite",
     title: "Made Knowledge Architect the focus of Fletcher Lite",
     body: "Repositioned the site as a specialized companion to The Stuff I Have Online, changed the visible professional identity from Documentation Engineer to Knowledge Architect, and added a direct call-booking path.",
-    url: "/fletcherlite/",
+    url: "https://fdanilogamu.github.io/fletcherlite/",
     linkLabel: "Visit Fletcher Lite",
     mark: "FL"
   },
@@ -229,7 +229,7 @@ window.NOOK_UPDATES = [
     project: "Fletcher Lite",
     title: "Focused Fletch Lite on preserving organizational knowledge",
     body: "Reframed the portfolio around documentation, knowledge management, organizational learning, institutional memory, and expertise transfer. Added real writing samples and a downloadable résumé.",
-    url: "/fletcherlite/",
+    url: "https://fdanilogamu.github.io/fletcherlite/",
     linkLabel: "Visit Fletcher Lite",
     mark: "FL"
   },
@@ -239,7 +239,7 @@ window.NOOK_UPDATES = [
     project: "Fletcher Lite",
     title: "Built the first recorded version of Fletch Lite",
     body: "Created a responsive multi-page portfolio presenting Fletcher as a Documentation Engineer, with professional experience, writing, contact information, and light and dark themes.",
-    url: "/fletcherlite/",
+    url: "https://fdanilogamu.github.io/fletcherlite/",
     linkLabel: "Visit Fletcher Lite",
     mark: "FL"
   },
