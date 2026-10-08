@@ -61,10 +61,14 @@ In the Vercel project's environment settings:
 
 | Variable | Value |
 | --- | --- |
-| `DATABASE_URL` | Neon runtime-role PostgreSQL connection string, including TLS configuration |
+| `PORPOISE_DATABASE_URL` | Server-only Neon runtime-role PostgreSQL connection string targeting the Porpoise database, including TLS configuration |
 | `ALLOWED_ORIGINS` | Comma-separated exact website origins, e.g. `https://thestuffihave.online,http://localhost:4000,http://127.0.0.1:4000` |
 
-Do not use a public/frontend-prefixed credential variable. Do not place the connection string in `porpoise/api-config.js`, Git, browser JavaScript, logs, or screenshots. Configure production and preview environments separately; use a separate Neon branch for preview tests if desired. Adding or changing variables requires a redeployment.
+For the existing Neon project `peacegh`, select `porpoise-database` in Neon's connection dialog and copy that database's TLS-enabled connection string directly into the Vercel API project's `PORPOISE_DATABASE_URL` environment variable. Configure it for Production and any Preview environments where this API should run. Do not paste credentials into Codex. The six counters are already initialized in that database; this connection-variable change requires no schema change or counter reset.
+
+The API reads only `PORPOISE_DATABASE_URL` and never falls back to the integration-managed `DATABASE_URL`. Leave the Neon integration's `DATABASE_URL` and other applications' settings untouched. If `PORPOISE_DATABASE_URL` is missing, the existing database-unavailable behavior applies: YAML downloads remain available without an acknowledged increment, and statistics return 503.
+
+Do not use a public/frontend-prefixed credential variable. Do not place the connection string in `porpoise/api-config.js`, Git, browser JavaScript, logs, or screenshots. Configure production and preview environments separately; use a separate Neon branch for preview tests if desired. Adding or changing variables requires a redeployment of the API with the updated code.
 
 The default CORS list already includes the current production origin and Jekyll's usual local port. Add other exact local origins if needed. CORS enables browser reads; it is not authentication or protection against scripted downloads. Do not enable credentials or wildcard origins. Public production endpoints must be accessible without Vercel login/deployment protection; preview deployments may retain protection.
 

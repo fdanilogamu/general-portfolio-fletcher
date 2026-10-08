@@ -74,7 +74,7 @@ test('public stats preserve bigint precision, fixed library order, and overall t
   assert.equal(denied.headers['Access-Control-Allow-Origin'], undefined);
 });
 test('stats failure returns unavailable, never invented zeros or internal details', async () => {
-  for (const run of [async () => { throw new Error('SECRET DATABASE_URL'); }, async () => []]) {
+  for (const run of [async () => { throw new Error('SECRET PORPOISE_DATABASE_URL'); }, async () => []]) {
     const res = await call(statsHandler({ run }));
     assert.equal(res.statusCode, 503);
     assert.deepEqual(JSON.parse(res.body), { error: 'Statistics temporarily unavailable' });
