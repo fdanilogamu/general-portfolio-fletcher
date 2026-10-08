@@ -453,10 +453,40 @@ body > header > h1 {
 }
 
 .header-actions {
+  flex-wrap: wrap;
   display: flex;
   align-items: flex-start;
   gap: .8rem;
   margin-left: auto;
+}
+
+.rabbit-hole-nav {
+  padding: .5rem .85rem;
+  border: 1px solid #4DB8D4;
+  border-radius: 7px;
+  background: transparent;
+  color: #4DB8D4;
+  font: inherit;
+  font-size: .82rem;
+  cursor: pointer;
+}
+.rabbit-hole-nav[hidden] { display: none; }
+.rabbit-hole-entry { margin-top: 2rem; text-align: right; }
+.rabbit-hole-entry button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.rabbit-hole-entry button:focus-visible, .rabbit-hole-nav:focus-visible {
+  outline: 2px solid #4DB8D4;
+  outline-offset: 3px;
+}
+@media (max-width: 800px) {
+  body > header { flex-wrap: wrap; }
+  .header-actions { max-width: 100%; }
 }
 
 .knowledge-architect-link {

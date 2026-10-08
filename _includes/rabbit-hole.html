@@ -1,0 +1,6 @@
+<script id="rabbit-hole-destinations" type="application/json">[
+{% assign destinations = site.pages | where: "rabbit_hole", true %}
+{% for destination in destinations %}{% unless forloop.first %},{% endunless %}{{ destination.url | relative_url | jsonify }}{% endfor %}
+]</script>
+<script src="{{ '/0-about/js/resident-inventor-data.js' | relative_url }}" defer></script>
+<script src="{{ '/static/js/rabbit-hole.js' | relative_url }}" defer></script>

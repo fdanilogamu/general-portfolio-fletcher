@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -598,7 +600,8 @@
 [hidden] { display:none !important; }
 .nav-links { flex-wrap:wrap; }
 @media (max-width:600px) { .stat-list { grid-template-columns:1fr; } .stats-main { padding-top:40px; } }
-</style></head><body><nav class="nav" aria-label="Main navigation"><div class="wrap"><a class="brand" href="./"><svg aria-hidden="true" class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+</style></head><body>
+{% include rabbit-hole-standalone.html %}<nav class="nav" aria-label="Main navigation"><div class="wrap"><a class="brand" href="./"><svg aria-hidden="true" class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 20c3-8 9-13 16-13 3 0 6 1 8 3-2 1-4 1-6 1 2 3 3 6 3 9-3-1-6-3-8-6-2 4-6 7-11 8-1-1-2-2-2-2z" fill="#0E3A52"/>
       </svg>Porpoise</a><div class="nav-links"><a href="./#demo">Examples</a><a href="./#stances">Library</a><a href="./#how-to">How to use</a><a href="./#philosophy">Philosophy</a></div><a class="nav-cta" href="./#stances">Get a stance</a></div></nav><main class="stats-main"><div class="wrap"><span class="eyebrow">Public statistics</span><h1>Recorded downloads</h1><p>A shared view of the six Porpoise stances. These are aggregate request counts, shown in library order.</p><p id="stats-status" role="status" aria-live="polite">Loading recorded download counts…</p><button id="stats-retry" type="button" hidden>Try again</button><noscript><p>Enable JavaScript to load the counts. The stance library remains available without it.</p></noscript><div id="stats-panel" hidden><div class="total-card"><span>Total recorded downloads</span><strong id="stats-total">—</strong></div><h2>Downloads by stance</h2><ul class="stat-list" style="margin-top:24px"><li class="stat-row"><div class="stat-label"><h3>Archivist</h3><span id="count-archivist">—</span></div><div class="stat-track" aria-hidden="true"><div class="stat-bar" id="bar-archivist"></div></div></li>
 <li class="stat-row"><div class="stat-label"><h3>Challenger</h3><span id="count-challenger">—</span></div><div class="stat-track" aria-hidden="true"><div class="stat-bar" id="bar-challenger"></div></div></li>

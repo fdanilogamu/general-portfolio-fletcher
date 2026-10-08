@@ -3,6 +3,7 @@ url: "https://thestuffihave.online"
 plugins:
   - jekyll-sitemap
 exclude:
+  - tests
   - porpoise-api
   - "Porpoise AI"
   - porpoise/verify-site.py

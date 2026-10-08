@@ -147,8 +147,14 @@
     });
   }
 
-  function selectPath(index, moveFocus) {
+  function selectPath(index, moveFocus, updateUrl = true) {
     const path = paths[index];
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      if (path.base) url.searchParams.delete('history');
+      else url.searchParams.set('history', path.id);
+      if (url.href !== window.location.href) window.history.pushState(null, '', url);
+    }
     const buttons = Array.from(tabs.querySelectorAll('[role="tab"]'));
     buttons.forEach((button, buttonIndex) => {
       const selected = buttonIndex === index;
@@ -189,5 +195,11 @@
   });
 
   panel.id = "invention-path-panel";
-  selectPath(0, false);
+  function restorePath() {
+    const id = new URL(window.location.href).searchParams.get('history');
+    const index = paths.findIndex(path => path.id === id);
+    selectPath(index < 0 ? 0 : index, false, false);
+  }
+  window.addEventListener('popstate', restorePath);
+  restorePath();
 })();

@@ -38,6 +38,9 @@ jobs:
         env:
           JEKYLL_ENV: production
 
+      - name: Verify Rabbit Hole
+        run: node --test tests/rabbit-hole.test.cjs
+
       - name: Verify Porpoise integration
         run: python3 porpoise/verify-integration.py --site _site
 
