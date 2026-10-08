@@ -301,7 +301,7 @@ window.RESIDENT_INVENTOR_PATHS = [
   {
     id: "porpoise",
     label: "Porpoise",
-    title: "Porpoise AI",
+    title: "Porpoise",
     summary: "Several independently useful AI stances existed before I could see the unnamed category they shared.",
     loops: [{
       label: "Instances → category",
@@ -311,7 +311,7 @@ window.RESIDENT_INVENTOR_PATHS = [
         { kind: "form", title: "More useful instances", text: "Devil’s George stress-tests. Gossip George XOXO supports storytelling. Panic Room George uses different persuasion rules." },
         { kind: "collision", title: "The instances become comparable", text: "Each works independently. Comparison exposes a shared behavior: changing the kind of attention an AI brings." },
         { kind: "ding", title: "The category becomes visible", quote: "Portable behavioral specifications that change the kind of attention an AI brings to a conversation." },
-        { kind: "form", title: "Porpoise AI", text: "AI instances with a purpose; documentation usable inside ChatGPT, Claude, Gemini, and other existing tools." },
+        { kind: "form", title: "Porpoise", text: "Portable behavioral specifications for AI assistants, usable inside ChatGPT, Claude, Gemini, and other existing tools." },
         { kind: "field", title: "A named category with growing instances", text: "Porpoise now exists as a product concept and a growing set of reusable stances. YAML came later as a cleaner implementation format." }
       ]
     }],

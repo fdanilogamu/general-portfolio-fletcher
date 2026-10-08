@@ -56,7 +56,7 @@ GitHub Pages
 ```
 Intentionally lightweight.
 
-Porpoise AI's original standalone website lives in `porpoise/index.html` and is copied unchanged by Jekyll to `/porpoise/`, together with its six `stances/*.yaml` downloads and supporting PDF. Its portfolio case study lives at `/0-about/porpoise-ai-case-study.html` and uses the shared default layout. The `Porpoise AI/` folder retains authoring notes and editing scripts and is excluded from deployment.
+Porpoise's original standalone website lives in `porpoise/index.html` and is copied unchanged by Jekyll to `/porpoise/`, together with its six `stances/*.yaml` downloads and supporting PDF. Its portfolio case study lives at `/0-about/porpoise-ai-case-study.html` and uses the shared default layout. The `Porpoise AI/` folder retains authoring notes and editing scripts and is excluded from deployment.
 
 Build with `bundle exec jekyll build`. Check the product site's anchors, stance versions, and HTTP downloads with `python verify-site.py` from `porpoise/`. GitHub Pages builds and deploys automatically on a push to `main` through `.github/workflows/pages.yml`. The product page uses external Google Fonts; it has system-font fallbacks.
 

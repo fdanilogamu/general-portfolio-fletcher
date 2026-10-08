@@ -49,6 +49,7 @@ Thread(target=server.serve_forever, daemon=True).start()
 base = f'http://127.0.0.1:{server.server_port}'
 try:
     assert urlopen(base + '/porpoise/').read() == (root / 'porpoise/index.html').read_bytes()
+    assert urlopen(base + '/porpoise/porpoise.pdf').read() == (source / 'porpoise/porpoise.pdf').read_bytes()
     for link in page.links:
         target = urlsplit(urljoin('/porpoise/', link))
         if target.scheme or target.netloc:
