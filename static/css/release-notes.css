@@ -1,0 +1,15 @@
+.release-notes { max-width: 820px; overflow-wrap: anywhere; }
+.release-notes-intro { margin-bottom: 3rem; }
+.release-notes h1 { font-size: clamp(2.7rem, 7vw, 4.5rem); line-height: 1.1; }
+.release-index { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; position: static; width: auto; margin: 1.5rem 0; padding: 0; background: transparent; box-shadow: none; }
+.release-index a { text-decoration: underline; }
+.release-entry { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); scroll-margin-top: 1.5rem; }
+.release-header h2 { margin-bottom: .75rem; font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.2; }
+.release-date { color: var(--text-muted); font-size: .9rem; }
+.release-entry section { margin-top: 2rem; }
+.release-entry h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+.release-entry ul { padding-left: 1.4rem; }
+.release-entry li { margin-bottom: 1rem; }
+.release-notes a:focus-visible, footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.release-historical { margin-top: 4rem; }
+@media (max-width: 600px) { .release-notes-intro { margin-bottom: 2rem; } .release-entry { padding-top: 1.5rem; } }

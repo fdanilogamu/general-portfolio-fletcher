@@ -1,0 +1,90 @@
+---
+layout: default
+title: Release Notes - The Stuff I Have Online
+permalink: /release-notes/
+---
+<link rel="stylesheet" href="{{ '/static/css/release-notes.css' | relative_url }}">
+<main class="release-notes" aria-labelledby="release-notes-title">
+  <header class="release-notes-intro">
+    <p class="navigation-eyebrow">The Stuff I Have Online</p>
+    <h1 id="release-notes-title">Release notes</h1>
+    <p>A record of what's been added, changed, and repaired around here.</p>
+    <nav class="release-index" aria-label="Release versions">
+      <a href="#v2-0-0">v2.0.0</a>
+      <a href="#v1-0-0">v1.0.0</a>
+    </nav>
+  </header>
+
+  <!-- Add future releases above this entry, keeping existing version anchors stable. -->
+  <article class="release-entry" id="v2-0-0" aria-labelledby="v2-title">
+    <header class="release-header">
+      <h2 id="v2-title">The Stuff I Have Online - v2.0.0</h2>
+      <p class="release-date">Released <time datetime="2026-10-08">October 8, 2026</time></p>
+      <p>There's quite a lot here, and finding a way through it deserved some attention. This release adds guided routes, a more personal introduction, and more of the decisions behind the work. You can follow a project from its history into a case study or something you can use, or let the Rabbit Hole choose a destination. The workshop was already here. Version 2 gives it a clearer entrance and more ways to explore.</p>
+    </header>
+
+    <section aria-labelledby="v2-highlights">
+      <h3 id="v2-highlights">Release highlights</h3>
+      <ul>
+        <li><strong>Find a way in.</strong> Guided paths and a reorganized directory help you explore software, teaching, writing, frameworks, music, and other mischief.</li>
+        <li><strong>Get to know me.</strong> About now makes room for the person behind the work, including the projects that have nothing to do with my career.</li>
+        <li><strong>Inspect the machinery.</strong> Expanded invention histories and new case studies show decisions, revisions, branching, and testing.</li>
+        <li><strong>Follow the rabbit.</strong> Randomized exploration can take you to an individual project or invention history.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="v2-added">
+      <h3 id="v2-added">Added</h3>
+      <ul>
+        <li><a href="{{ '/site-navigation.html' | relative_url }}">Site Navigation</a>, with suggested reading paths, a described directory, related resources, and labels for external destinations. Home and TL&#59;DR now point you toward it.</li>
+        <li><a href="{{ '/0-about/custom-software-builder.html' | relative_url }}">Custom Software Builder</a>, explaining what I bring to a software problem when you already have access to Codex.</li>
+        <li>A <a href="{{ '/0-about/lemonless-tms-case-study.html' | relative_url }}">LemonlessTMS case study</a> documenting interaction decisions, connected workflows, and release testing. It's a new portfolio exhibit about the software, rather than a claim that the project began with this release.</li>
+        <li>The <a href="{{ '/0-about/porpoise-ai-case-study.html' | relative_url }}">Porpoise case study</a> and <a href="{{ '/porpoise/' | relative_url }}">product page</a>, connecting its existing invention history to six free YAML stances, usage instructions, demonstrations, and a supporting PDF.</li>
+        <li><a href="{{ '/resident-inventor/brand-guidelines/' | relative_url }}">Resident Inventor Brand Guidelines</a>, describing the habits, voice, and editorial preferences behind this portfolio. Competent. Curious. Occasionally a nuisance.</li>
+        <li><a href="{{ '/0-about/resident-inventor.html?history=lemonade-economy' | relative_url }}">The Lemonade Economy invention history</a>, bringing the explorer to nine histories and tracing how private adaptations became a paired public reference system.</li>
+        <li>The Rabbit Hole, entered through the rabbit at the bottom of <a href="{{ '/0-about/ideas.html' | relative_url }}">TL&#59;DR</a>. It chooses among eight project destinations and nine invention histories. After you enter, “Take me somewhere else” keeps the shortcut available across visits.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="v2-improved">
+      <h3 id="v2-improved">Improved</h3>
+      <ul>
+        <li><strong>Orientation and navigation.</strong> The sidebar now starts with introductory pages and groups the work by subject. The navigation guide distinguishes introductions, case studies, usable materials, and unfinished work without asking everything to fit one professional story.</li>
+        <li><strong><a href="{{ '/0-about/intro.html' | relative_url }}">About</a>.</strong> I rewrote the introduction around the things I make and the curiosity behind them. Serious work, ridiculous work, and unrelated projects all get to stay.</li>
+        <li><strong><a href="{{ '/0-about/resident-inventor.html?history=oei' | relative_url }}">OEI's invention history</a>.</strong> A more detailed account preserves overlapping development, methodological boundaries, evidence questions, and the move toward an institution. A separate branch leads into ECH instead of folding another invention into the same sequence.</li>
+        <li><strong>Individual history links.</strong> Each invention history has a direct URL. Switching histories updates browser history, so Back and Forward restore the view you were exploring.</li>
+        <li><strong><a href="{{ '/0-about/mindsystem.html' | relative_url }}">What It's Like to Work With Me</a>.</strong> A new working-model diagram opens at full size, and the coworker section is organized around complicated problems, structure, leadership, and care.</li>
+        <li><strong>Presentation.</strong> Smaller oversized headings, more room for desktop navigation, and wrapping AI-workbench panels make better use of the space available. New case studies use comparisons and grouped examples to make decisions easier to scan.</li>
+        <li><strong><a href="{{ '/show-and-tell/' | relative_url }}">Show &amp; Tell Nook</a>.</strong> Added dispatches on OEI's development and The Lemonade Economy. The Nook already existed, and now records more of what's been happening.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="v2-updated">
+      <h3 id="v2-updated">Updated</h3>
+      <ul>
+        <li>ECH's existing history now includes its desktop-beta form and exploratory employee contribution mapping. Porpoise's documentation distinguishes the six portable stances from the broader AI-collaboration model.</li>
+        <li>The downloadable professional-background reference now points to the <a href="{{ '/0-resources/Fletcher_Galeano_Knowledge_Leader.pdf' | relative_url }}">Knowledge Leader PDF</a>.</li>
+        <li><a href="{{ '/0-about/job-search-timeline.html' | relative_url }}">My Recent Job Search</a> now closes with the hiring outcome, replacing the pending-clearance status.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="v2-fixed">
+      <h3 id="v2-fixed">Fixed</h3>
+      <ul>
+        <li>Removed duplicate Rabbit Hole entry buttons, unlocked shortcuts, and shared scripts.</li>
+        <li>Moved Inglés Rebelde's language selector into the wrapping shortcut row so the controls no longer overlap.</li>
+        <li>Removed repeated page metadata that could appear as raw text on Rabbit Hole destinations, including the playlist's included content.</li>
+        <li>Kept the Inglés Rebelde calculator's shortcut row above the calculator instead of squeezing it beside the card.</li>
+        <li>Corrected the Fletcher Lite links in the shared header and older Nook entries.</li>
+      </ul>
+    </section>
+  </article>
+
+  <article class="release-entry release-historical" id="v1-0-0" aria-labelledby="v1-title">
+    <header class="release-header">
+      <h2 id="v1-title">v1.0.0</h2>
+      <p class="release-date"><time datetime="2026-08-16">August 16, 2026</time></p>
+    </header>
+    <p>Initial documented version boundary. Detailed release notes weren't maintained for this version.</p>
+  </article>
+</main>

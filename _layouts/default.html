@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="portfolio-version" content="v2.0.0">
+  <meta name="portfolio-version" content="{{ site.data.release.current_version }}">
   <title>{{ page.title }}</title>
   {% if page.url == "/resident-inventor/brand-guidelines/" %}
   <meta name="description" content="{{ page.description | escape }}">
@@ -36,7 +36,7 @@
     </div>
   </div>
   <footer>
-   <p>&copy; 2026 Built with <a href="https://github.com/fdanilogamu/fdanilogamu.github.io" target="_blank" rel="noopener noreferrer">Git</a> and grit by Fletcher Galeano &middot; v2.0.0 &middot; {% include contact-emails.html %}</p>
+   <p>&copy; 2026 Built with <a href="https://github.com/fdanilogamu/fdanilogamu.github.io" target="_blank" rel="noopener noreferrer">Git</a> and grit by Fletcher Galeano &middot; <a href="{{ '/release-notes/' | relative_url }}#{{ site.data.release.current_version | replace: '.', '-' }}" aria-label="Release notes for {{ site.data.release.current_version }}">{{ site.data.release.current_version }}</a> &middot; {% include contact-emails.html %}</p>
   </footer>
 
 {% include rabbit-hole.html %}
