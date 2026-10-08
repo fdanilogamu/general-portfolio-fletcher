@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 import { STANCES } from '../lib/stances.js';
 const script = await readFile(new URL('../../porpoise/statistics.js', import.meta.url), 'utf8');
+const productionConfig = {};
+runInNewContext(await readFile(new URL('../../porpoise/api-config.js', import.meta.url), 'utf8'), { window: productionConfig });
 async function render({ baseUrl = 'https://api.example', fetch = async () => { throw new Error(); } } = {}) {
   const elements = new Map();
   const get = id => {
@@ -44,4 +46,19 @@ test('malformed public stats fail safely', async () => {
   const get = await render({ fetch: async () => ({ ok: true, json: async () => ({ total: '0', stances: [] }) }) });
   assert.equal(get('stats-panel').hidden, true);
   assert.match(get('stats-status').textContent, /temporarily unavailable/);
+});
+test('configured statistics render the observed production snapshot with six counters and total', async () => {
+  const get = await render({ baseUrl: productionConfig.PORPOISE_API.baseUrl, fetch: async url => {
+    assert.equal(url, 'https://general-portfolio-fletcher-porpoise.vercel.app/api/stats');
+    return { ok: true, json: async () => ({
+      stances: STANCES.map(stance => ({ stance, downloads: stance === 'archivist' ? '1' : '0' })),
+      total: '1', generatedAt: '2026-10-08T02:53:42.137Z'
+    }) };
+  } });
+  assert.equal(get('stats-total').textContent, '1');
+  assert.equal(get('stats-panel').hidden, false);
+  for (const stance of STANCES) {
+    assert.equal(get(`count-${stance}`).textContent, stance === 'archivist' ? '1' : '0');
+    assert.equal(get(`bar-${stance}`).style.width, stance === 'archivist' ? '100%' : '0%');
+  }
 });

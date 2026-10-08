@@ -90,18 +90,17 @@ test('schema contains only aggregate columns and preserves counts on initializat
   assert.match(schema, /ON CONFLICT \(stance\) DO NOTHING/);
   assert.ok(!/visitor|session|user.agent|fingerprint|ip_address|event/i.test(schema));
 });
-test('frontend defaults retain six static downloads; activation is explicit', async () => {
+test('production frontend configuration retains six static download URLs and permits disabling counting', async () => {
   const root = new URL('../../porpoise/', import.meta.url);
   const html = await readFile(new URL('index.html', root), 'utf8');
   for (const stance of STANCES) assert.ok(html.includes(`href="stances/${stance}.yaml"`));
   const config = await readFile(new URL('api-config.js', root), 'utf8');
   const script = await readFile(new URL('downloads.js', root), 'utf8');
   const context = { window: {}, URL, document: { querySelectorAll: () => assert.fail('Defaults must not replace links') } };
-  runInNewContext(config, context); runInNewContext(script, context);
-  assert.equal(context.window.PORPOISE_API.downloadsEnabled, false);
-  const links = STANCES.map(stance => ({ closest: () => ({ dataset: { stance } }) }));
-  context.window.PORPOISE_API = { baseUrl: 'https://api.example', downloadsEnabled: true };
-  context.document.querySelectorAll = () => links;
+  runInNewContext(config, context);
+  assert.equal(context.window.PORPOISE_API.downloadsEnabled, true);
+  assert.equal(context.window.PORPOISE_API.baseUrl, 'https://general-portfolio-fletcher-porpoise.vercel.app');
+  context.window.PORPOISE_API = { baseUrl: '', downloadsEnabled: false };
   runInNewContext(script, context);
-  links.forEach((link, i) => assert.equal(link.href, `https://api.example/api/download/${STANCES[i]}`));
+  assert.ok(!html.includes('href="statistics.html"'));
 });

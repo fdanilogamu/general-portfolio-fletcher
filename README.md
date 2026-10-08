@@ -62,7 +62,7 @@ Build with `bundle exec jekyll build`. Check the product site's anchors, stance 
 
 Run `python porpoise/verify-integration.py` to check source routes, or add `--site _site` to verify built output. The deployment workflow runs this check after Jekyll builds and before uploading the site, including a byte-for-byte check that the product HTML was preserved.
 
-The independent download-counting API is scaffolded in `porpoise-api/`, excluded from Jekyll. Deploy it as a separate Vercel project with **Root Directory `porpoise-api`**; see [API setup instructions](porpoise-api/README.md). The static downloads remain active until a deployed API is verified and explicitly enabled in `porpoise/api-config.js`.
+The independent download-counting API lives in `porpoise-api/`, excluded from Jekyll. Deploy it as a separate Vercel project with **Root Directory `porpoise-api`**; see [API setup instructions](porpoise-api/README.md). The frontend configuration in `porpoise/api-config.js` enables the verified production API. Original static YAML URLs remain available, with fallback on normal download clicks if the API fails. Aggregate statistics are available at `/porpoise/statistics.html` without a navigation link.
 
 ---
 

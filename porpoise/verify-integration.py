@@ -45,7 +45,9 @@ if options.site:
     assert not (root / 'Porpoise AI').exists()
     assert not (root / 'porpoise-api').exists()
 
-assert 'statistics.html' in page.links
+assert 'statistics.html' not in page.links
+assert html.index('class="download-disclosure"') < html.index('class="stance-grid"')
+assert "we don't use visitor identifiers for this tally" in html
 stats = Links((root / 'porpoise/statistics.html').read_text(encoding='utf-8'))
 assert 'stats-status' in stats.ids and 'stats-total' in stats.ids
 for slug in ('archivist', 'challenger', 'confidante', 'drafter', 'explorer', 'panic-room'):
@@ -57,6 +59,9 @@ base = f'http://127.0.0.1:{server.server_port}'
 try:
     assert urlopen(base + '/porpoise/').read() == (root / 'porpoise/index.html').read_bytes()
     assert urlopen(base + '/porpoise/porpoise.pdf').read() == (source / 'porpoise/porpoise.pdf').read_bytes()
+    assert urlopen(base + '/porpoise/statistics.html').read() == (root / 'porpoise/statistics.html').read_bytes()
+    for asset in ('api-config.js', 'downloads.js', 'statistics.js'):
+        assert urlopen(base + '/porpoise/' + asset).read() == (root / 'porpoise' / asset).read_bytes()
     for link in page.links:
         target = urlsplit(urljoin('/porpoise/', link))
         if target.scheme or target.netloc:

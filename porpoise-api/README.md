@@ -93,7 +93,9 @@ Only after verification, edit the public `porpoise/api-config.js`:
 - Set `baseUrl` to your verified HTTPS API **origin**, without a path, query, or credentials.
 - Set `downloadsEnabled: true` to activate the six counted download links.
 
-Leaving `baseUrl` empty or `downloadsEnabled` false preserves the current static YAML links. A configured base URL with downloads disabled permits testing the public statistics page first. There is no placeholder deployment URL in the frontend. The statistics page is `/porpoise/statistics.html`, linked from product navigation.
+The frontend configuration now selects `https://general-portfolio-fletcher-porpoise.vercel.app` and enables counted downloads when the updated frontend is published. Leaving `baseUrl` empty or `downloadsEnabled` false restores static YAML links. A configured base URL with downloads disabled permits testing the statistics page separately. The statistics page is `/porpoise/statistics.html`, available by direct URL, omitted from product navigation, and marked `noindex`.
+
+For normal primary clicks, the frontend fetches the YAML once with credentials omitted and saves that response. A network error, six-second timeout, non-success response, or non-YAML response downloads the original static file instead, without retrying the counted request. Repeated clicks while the request is pending do not create additional requests. Modified/new-tab clicks retain ordinary browser link behavior and target the API directly; automatic frontend fallback applies to normal primary clicks. Without JavaScript, the HTML still links to the six original static files. No cookies, browser storage, or visitor identifiers are added.
 
 Commit and push frontend configuration when ready to publish through the existing Pages workflow. Check all six links and stats after the Pages deployment. To roll back, set `downloadsEnabled: false`. The original six `/porpoise/stances/*.yaml` URLs stay freely accessible regardless of API activation and remain a recovery route if Vercel itself is unavailable.
 
