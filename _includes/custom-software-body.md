@@ -21,6 +21,8 @@ Sometimes the right improvement really is a new feature. Other times it’s one 
 
 Once there’s enough of a model to test, I use Codex to implement it quickly, and then the prototype starts giving us information back. I can see what works in practice, where my assumptions were wrong, what edge cases only became visible once the thing existed, and what needs to change before the software gets more complex.
 
+<p style="font-size: 0.9rem;">I tend to keep finding ways to improve things, but that doesn't mean a project stays open indefinitely. I've explained how I approach completion, acceptance, and handoff in <a href="{{ '/0-about/mindsystem.html#project-completion' | relative_url }}">"How do I know when a project is done?"</a></p>
+
 What you’re paying for is systems analysis, interaction design, information architecture, contingency modeling, cognitive-load reduction, prototyping, testing, and technical implementation. Codex lets me move through the implementation much faster, but the speed is useful because there’s judgment behind what gets built and how it gets revised.
 
 If you already have those skills, know exactly what you need, and you’re comfortable directing Codex through the implementation and debugging yourself, you may not need me.
