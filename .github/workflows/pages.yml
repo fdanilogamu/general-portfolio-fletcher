@@ -41,6 +41,9 @@ jobs:
       - name: Verify Rabbit Hole
         run: node --test tests/rabbit-hole.test.cjs
 
+      - name: Verify static invention histories and approved registry output
+        run: python3 tests/verify-resident-inventor.py --site _site --baseurl "${{ steps.pages.outputs.base_path }}"
+
       - name: Verify Porpoise integration
         run: python3 porpoise/verify-integration.py --site _site
 

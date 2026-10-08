@@ -14,29 +14,48 @@
     } catch (_) { return null; }
   }
 
-  function cleanState(destinations, state) {
-    const eligible = new Set(destinations);
-    const clean = routes => [...new Set((Array.isArray(routes) ? routes : []).map(normalize).filter(route => eligible.has(route)))];
-    const previous = normalize(state?.previous);
-    const destination = normalize(state?.pending?.destination);
-    return {
-      visited: clean(state?.visited),
-      previous: eligible.has(previous) ? previous : null,
-      pending: eligible.has(destination) ? {destination, visited: clean(state.pending.visited)} : null
-    };
+  // Runtime membership comes exclusively from the explicitly approved registry.
+  function pool(registry) {
+    const ids = new Set();
+    const urls = new Set();
+    return (Array.isArray(registry) ? registry : []).filter(entry => {
+      const route = normalize(entry?.url);
+      if (entry?.status !== 'approved' || !/^[a-z0-9-]+$/.test(entry.id || '') ||
+          !route || /[?#]/.test(entry.url) || ids.has(entry.id) || urls.has(route)) return false;
+      ids.add(entry.id); urls.add(route);
+      return true;
+    }).map(entry => ({...entry, url: normalize(entry.url)}));
   }
 
-  function selectCycle(destinations, current, state, pick = randomIndex) {
-    const clean = cleanState(destinations, state);
-    let visited = clean.visited;
-    let choices = destinations.filter(route => !visited.includes(route));
-    if (!choices.length) { visited = []; choices = destinations.slice(); }
-    choices = choices.filter(route => route !== normalize(current));
-    // If the only unvisited route is the current page, wait rather than repeat
-    // a visited route or prematurely discard the unfinished cycle.
-    if (!choices.length) return {destination: null, state: clean};
-    const destination = select(choices, normalize(current), clean.previous, pick);
-    return {destination, state: {...clean, pending: {destination, visited: [...visited, destination]}}};
+  function identify(destinations, value, base = '') {
+    if (typeof value !== 'string') return null;
+    if (destinations.some(entry => entry.id === value)) return value;
+    const route = normalize(value);
+    if (!route) return null;
+    const url = new URL(route, 'https://rabbit-hole.invalid');
+    const samePath = path => path === url.pathname || (base && path === base + url.pathname);
+    const canonical = destinations.find(entry => samePath(entry.url));
+    if (canonical) return canonical.id;
+    // One-way migration of old query-based history session entries.
+    if (url.pathname === base + '/0-about/resident-inventor.html' || url.pathname === '/0-about/resident-inventor.html') {
+      const id = url.searchParams.get('history');
+      return destinations.find(entry => entry.category === 'invention-history' && entry.id === id)?.id || null;
+    }
+    return null;
+  }
+
+  function cleanState(destinations, state, base = '') {
+    const clean = values => [...new Set((Array.isArray(values) ? values : [])
+      .map(value => identify(destinations, value, base)).filter(Boolean))];
+    const destination = identify(destinations, state?.pending?.destination, base);
+    const visited = clean(state?.visited);
+    const pendingVisited = clean(state?.pending?.visited);
+    return {
+      version: 2,
+      visited,
+      previous: identify(destinations, state?.previous, base),
+      pending: destination ? {destination, visited: [...new Set([...pendingVisited, destination])]} : null
+    };
   }
 
   function randomIndex(length, crypto = root.crypto, random = Math.random) {
@@ -48,23 +67,24 @@
     return value[0] % length;
   }
 
-  function pool(projects, histories, base = '') {
-    return [...new Set([
-      ...projects.filter(route => typeof route === 'string' && route.startsWith('/') && !route.startsWith('//')),
-      ...histories.filter(path => !path.base && path.id && path.published !== false).map(path =>
-        `${base}/0-about/resident-inventor.html?history=${encodeURIComponent(path.id)}`)
-    ].map(normalize).filter(Boolean))];
+  function selectCycle(destinations, current, state, pick = randomIndex) {
+    const clean = cleanState(destinations, state);
+    let visited = clean.visited;
+    let choices = destinations.filter(entry => !visited.includes(entry.id) && entry.id !== current);
+    // Exhausted includes a cycle whose sole remaining unselected exhibit is current.
+    // Manual browsing still never writes an ID to visited.
+    if (!choices.length) {
+      visited = [];
+      choices = destinations.filter(entry => entry.id !== current);
+      const fresh = choices.filter(entry => entry.id !== clean.previous);
+      if (fresh.length) choices = fresh;
+    }
+    if (!choices.length) return {destination: null, state: clean};
+    const destination = choices[pick(choices.length)].id;
+    return {destination, state: {...clean, pending: {destination, visited: [...visited, destination]}}};
   }
 
-  function select(destinations, current, previous, pick = randomIndex) {
-    let choices = destinations.filter(route => route !== current);
-    if (!choices.length) return null;
-    const fresh = choices.filter(route => route !== previous);
-    if (fresh.length) choices = fresh;
-    return choices[pick(choices.length)];
-  }
-
-  const api = { randomIndex, pool, select, normalize, cleanState, selectCycle };
+  const api = {randomIndex, pool, normalize, identify, cleanState, selectCycle};
   if (typeof module !== 'undefined') module.exports = api;
   root.RabbitHole = api;
   if (!root.document) return;
@@ -73,33 +93,37 @@
   if (!source) return;
   const script = document.querySelector('script[src$="/static/js/rabbit-hole.js"]');
   const base = new URL(script.src).pathname.replace(/\/static\/js\/rabbit-hole\.js$/, '');
-  const destinations = pool(JSON.parse(source.textContent), root.RESIDENT_INVENTOR_PATHS || [], base);
+  const destinations = pool(JSON.parse(source.textContent));
   let unlocked = false;
-  let session = cleanState(destinations, null);
+  let session = cleanState(destinations, null, base);
   let navigating = false;
   function read(key) { try { return root.localStorage.getItem(key); } catch (_) { return null; } }
-  function write(key, value) { try { root.localStorage.setItem(key, value); } catch (_) { /* Keep working in memory. */ } }
+  function write(key, value) { try { root.localStorage.setItem(key, value); } catch (_) { /* In-memory fallback. */ } }
   function saveSession() {
     try { root.sessionStorage.setItem(sessionKey, JSON.stringify(session)); } catch (_) { /* In-memory fallback. */ }
   }
-  function currentRoute() {
+  function currentId() {
     const url = new URL(root.location.href);
-    const history = url.searchParams.get('history');
-    return normalize(url.pathname + (history ? `?history=${encodeURIComponent(history)}` : ''));
+    const route = normalize(url.pathname);
+    return destinations.find(entry => entry.url === route)?.id || null;
   }
   function restoreSession() {
     try {
       const stored = root.sessionStorage.getItem(sessionKey);
-      session = cleanState(destinations, stored ? JSON.parse(stored) : null);
-    } catch (_) { session = cleanState(destinations, session); }
+      session = cleanState(destinations, stored ? JSON.parse(stored) : session, base);
+    } catch (_) { session = cleanState(destinations, session, base); }
     if (session.pending) {
-      if (session.pending.destination === currentRoute()) {
+      if (session.pending.destination === currentId()) {
         session.visited = session.pending.visited;
         session.previous = session.pending.destination;
+        session.pending = null;
+      } else {
+        const url = new URL(root.location.href);
+        const redirecting = document.getElementById('ri-history-routes') &&
+          identify(destinations, url.pathname + url.search, base) === session.pending.destination;
+        // Preserve a legacy reservation through the index's one-way redirect.
+        if (!redirecting) session.pending = null;
       }
-      // Only a successful arrival commits the reserved selection. A refresh,
-      // failed navigation or back/forward to another route discards it.
-      session.pending = null;
     }
     saveSession();
     navigating = false;
@@ -110,7 +134,7 @@
   }
   api.navigate = function () {
     if (navigating) return;
-    const result = selectCycle(destinations, currentRoute(), session);
+    const result = selectCycle(destinations, currentId(), session);
     unlocked = true;
     write(unlockKey, 'true');
     sync();
@@ -119,7 +143,7 @@
     const before = session;
     session = result.state;
     saveSession();
-    try { root.location.assign(result.destination); }
+    try { root.location.assign(destinations.find(entry => entry.id === result.destination).url); }
     catch (_) { session = before; saveSession(); navigating = false; }
   };
   document.addEventListener('click', event => {

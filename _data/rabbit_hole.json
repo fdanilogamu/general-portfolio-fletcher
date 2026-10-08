@@ -1,0 +1,20 @@
+[
+  {"id": "lemonade-economy", "title": "The Lemonade Economy — Invention History", "url": "/resident-inventor/histories/lemonade-economy/", "status": "approved", "category": "invention-history"},
+  {"id": "oei", "title": "Operational Entropy Index — Invention History", "url": "/resident-inventor/histories/operational-entropy-index/", "status": "approved", "category": "invention-history"},
+  {"id": "dream-machine", "title": "Dream Machine — Invention History", "url": "/resident-inventor/histories/dream-machine/", "status": "approved", "category": "invention-history"},
+  {"id": "anchorpoint", "title": "Anchorpoint / LeanMate — Invention History", "url": "/resident-inventor/histories/anchorpoint/", "status": "approved", "category": "invention-history"},
+  {"id": "way-they-see-it", "title": "The Way They See It — Invention History", "url": "/resident-inventor/histories/way-they-see-it/", "status": "approved", "category": "invention-history"},
+  {"id": "ech", "title": "Entropy-Compatible Hiring — Invention History", "url": "/resident-inventor/histories/entropy-compatible-hiring/", "status": "approved", "category": "invention-history"},
+  {"id": "porpoise", "title": "Porpoise — Invention History", "url": "/resident-inventor/histories/porpoise/", "status": "approved", "category": "invention-history"},
+  {"id": "cyoa", "title": "CYOA Video Game Graphic Novels — Invention History", "url": "/resident-inventor/histories/cyoa-video-game-graphic-novels/", "status": "approved", "category": "invention-history"},
+  {"id": "inventors-lab", "title": "Inventor’s Lab: The Masked Tuk-Tuk Driver — Invention History", "url": "/resident-inventor/histories/inventors-lab/", "status": "approved", "category": "invention-history"},
+  {"id": "lemonless-tms-case-study", "title": "LemonlessTMS: Case Study", "url": "/0-about/lemonless-tms-case-study.html", "status": "approved", "category": "software"},
+  {"id": "prison-planet", "title": "Prison Planet", "url": "/0-things-i-do-for-fun/prison-planet.html", "status": "approved", "category": "writing"},
+  {"id": "porpoise-library", "title": "Porpoise Stance Library", "url": "/porpoise/", "status": "approved", "category": "software"},
+  {"id": "ingles-rebelde", "title": "Inglés Rebelde", "url": "/0-things-i-do-for-fun/inglesrebelde.html", "status": "approved", "category": "teaching"},
+  {"id": "ai-collaboration", "title": "How I Collaborate With AI", "url": "/0-about/how-i-collaborate-with-ai.html", "status": "approved", "category": "software"},
+  {"id": "technical-writing-samples", "title": "Technical Writing Samples", "url": "/0-resources/technical-writing-samples/writing.html", "status": "approved", "category": "writing"},
+  {"id": "job-search-timeline", "title": "My Recent Job Search", "url": "/0-about/job-search-timeline.html", "status": "approved", "category": "experience"},
+  {"id": "job-search-lessons", "title": "The 10 Commandments of My Job Search", "url": "/0-about/job-search-lessons.html", "status": "approved", "category": "experience"},
+  {"id": "show-and-tell-nook", "title": "Show & Tell Nook", "url": "/show-and-tell/", "status": "approved", "category": "updates"}
+]

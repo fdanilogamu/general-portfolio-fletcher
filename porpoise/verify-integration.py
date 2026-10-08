@@ -41,7 +41,11 @@ assert set(page.downloads) == {
 }
 assert 'name="viewport"' in html and '@media (max-width:' in html
 if options.site:
-    assert (root / 'porpoise/index.html').read_bytes() == (source / 'porpoise/index.html').read_bytes()
+    # Jekyll now expands shared navigation. Validate the unchanged product content,
+    # assets and downloads below rather than comparing templated source to output.
+    assert '{%' not in html and '{{' not in html
+    assert len(re.findall(r'id="rabbit-hole-destinations"', html)) == 1
+    assert len(re.findall(r'src="[^"]*/static/js/rabbit-hole.js"', html)) == 1
     assert not (root / 'Porpoise AI').exists()
     assert not (root / 'porpoise-api').exists()
 
@@ -66,10 +70,13 @@ try:
         target = urlsplit(urljoin('/porpoise/', link))
         if target.scheme or target.netloc:
             continue  # Google Fonts is an external dependency.
-        if target.fragment:
+        if target.fragment and target.path == '/porpoise/':
             assert unquote(target.fragment) in page.ids, link
         if target.path != '/porpoise/':
-            assert urlopen(base + target.path).read() == (root / unquote(target.path).lstrip('/')).read_bytes()
+            file = root / unquote(target.path).lstrip('/')
+            if file.is_dir():
+                file = file / 'index.html'
+            assert urlopen(base + target.path).read() == file.read_bytes()
     for route in ('/0-about/porpoise-ai-case-study.html', '/0-about/resident-inventor.html',
                   '/0-about/how-i-collaborate-with-ai.html', '/0-about/lemonless-tms-case-study.html', '/index.html'):
         assert urlopen(base + route).status == 200, route
