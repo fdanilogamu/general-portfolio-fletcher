@@ -5,5 +5,7 @@ title: "My Playlists"
 ---
 
 <article class="left-aligned-content">
-  {% include_relative spotify.md %}
+  {% capture playlist_source %}{% include_relative spotify.md %}{% endcapture %}
+  {% assign playlist_body = playlist_source | split: '---' | last %}
+  {{ playlist_body | markdownify }}
 </article>

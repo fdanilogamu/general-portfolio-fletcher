@@ -20,6 +20,12 @@ const histories = data.window.RESIDENT_INVENTOR_PATHS.filter(item => !item.base)
 const routes = ['/0-about/ideas.html', ...pool(projects, histories)];
 function previewHTML(file) {
   let html = compose(file);
+  if (file.endsWith(path.join('spotify','spotify.html'))) {
+    const body = sourcePage(path.join(path.dirname(file),'spotify.md')).body;
+    const lines = body.trim().split(/\r?\n/);
+    const items = lines.filter(line=>/^\d+\./.test(line)).map(line=>line.replace(/^\d+\. \[([^\]]+)\]\(([^)]+)\)$/, '<li><a href="$2">$1</a></li>'));
+    html = html.replace('{{ playlist_body | markdownify }}', `<p>${lines[0]}</p><ol>${items.join('')}</ol>`);
+  }
   html = html.replace(/<script id="rabbit-hole-destinations"[\s\S]*?<\/script>/,
     `<script id="rabbit-hole-destinations" type="application/json">${JSON.stringify(projects)}</script>`);
   html = html.replace(/{% include_relative ([\w.-]+) %}/g, (_, name) => {
@@ -102,6 +108,16 @@ function overlaps(a, b) {
           await tab.locator('.language-toggle').click();
           assert.equal(await tab.locator('html').getAttribute('lang'),'es');
         }
+        if (route.includes('ircalc.html')) {
+          const rowBox = await row.boundingBox();
+          const cardBox = await tab.locator('.container').boundingBox();
+          assert.ok(rowBox.y+rowBox.height<=cardBox.y, 'Calculator controls must be above the card');
+          const range = tab.locator('input[type="range"]').first();
+          await range.focus();
+          await tab.keyboard.press('ArrowRight');
+          assert.ok(await range.isEnabled());
+        }
+        await tab.evaluate(()=>window.scrollTo(0,0));
         await tab.screenshot({path:path.join(artifacts,`${width}-${index}.png`),animations:'disabled'});
         await nav.focus();
         await tab.keyboard.press('Enter');

@@ -46,6 +46,18 @@ test('language selector occupies the wrapping shared control row', () => {
   assert.doesNotMatch(languageCSS, /position:|top:|right:|z-index:/);
   assert.match(html, /\.rabbit-hole-access \{[^}]*flex-wrap: wrap/);
 });
+test('playlist include cannot emit metadata or generate a competing page', () => {
+  assert.match(page('0-things-i-do-for-fun/spotify/spotify.md').metadata, /published: false/);
+  const source = page('0-things-i-do-for-fun/spotify/spotify.html').body;
+  assert.match(source, /playlist_source \| split: '---' \| last/);
+  assert.match(source, /playlist_body \| markdownify/);
+});
+test('calculator keeps shared controls above its content in document flow', () => {
+  const html = compose('0-things-i-do-for-fun/ircalc.html');
+  const bodyCSS = html.match(/body \{([\s\S]*?)\}/)[1];
+  assert.match(bodyCSS, /flex-direction: column/);
+  assert.match(html, /\.rabbit-hole-access \{[^}]*width: 100%/);
+});
 test('published projects and all nine histories are distinct and reachable', () => {
   assert.equal(destinations.length, 17);
   assert.equal(new Set(destinations).size, 17);
@@ -84,8 +96,11 @@ test('Jekyll output contains exactly the eligible project routes and shared cont
   for (const route of rendered) {
     const file = '_site' + (route.endsWith('/') ? route + 'index.html' : route);
     assert.ok(fs.existsSync(file), file);
-    assertSingleControls(fs.readFileSync(file, 'utf8'), 0);
+    const output = fs.readFileSync(file, 'utf8');
+    assertSingleControls(output, 0);
+    assert.doesNotMatch(output, /rabbit_hole:|layout: default|published: false/);
   }
+  assertSingleControls(fs.readFileSync('_site/0-about/resident-inventor.html', 'utf8'), 0);
 });
 test('unlock is initially hidden and persists across page loads and pageshow', () => {
   const storage = new Map();

@@ -3,7 +3,7 @@ const fs = require('node:fs');
 function page(file) {
   const source = fs.readFileSync(file, 'utf8');
   const block = source.match(/^---\r?\n([\s\S]*?)^---(?:\r?\n|$)/m);
-  if (!block) throw new Error(`${file}: missing front matter`);
+  if (!block || block.index !== 0) throw new Error(`${file}: missing front matter`);
   const keys = [...block[1].matchAll(/^([\w-]+):/gm)].map(match => match[1]);
   if (keys.length !== new Set(keys).size) throw new Error(`${file}: duplicate metadata keys`);
   const body = source.slice(block[0].length);
