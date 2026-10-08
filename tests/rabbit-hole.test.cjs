@@ -225,5 +225,8 @@ test('all nested history data and order match the original snapshot except appro
 
 // Detect source publication collisions before building, including HTML/Markdown pairs.
 test('page directories declare unique public routes',()=>{
-  assert.equal(pageSources().size,50);
+  const sources=pageSources();
+  assert.equal(sources.get('/0-about/intro.html'),'0-about/intro.md');
+  assert.equal(sources.get('/0-experience/coupa.html'),'0-experience/coupa.md');
+  for(const entry of destinations)assert.ok(sources.has(entry.url),entry.url);
 });
