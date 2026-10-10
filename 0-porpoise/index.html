@@ -476,6 +476,25 @@ permalink: /porpoise/
     color: var(--deep-water);
   }
 
+  /* ---------- FAQ ---------- */
+  .faq{
+    padding: 100px 0;
+    background: var(--bg-deep);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-list{ max-width: 820px; margin: 0 auto; }
+  .faq .test-stage{ background: var(--card); }
+  .faq .test-stage summary{ background: var(--card); }
+  .faq h3{ display: inline; font-size: 18px; font-weight: 600; }
+  .faq-answer{ padding: 0 22px 22px; color: var(--ink-soft); line-height: 1.7; }
+  .faq-answer p + p, .faq-answer ol, .faq-answer ul{ margin-top: 16px; }
+  .faq-answer ol, .faq-answer ul{ padding-left: 24px; margin-bottom: 16px; }
+  .faq-answer li + li{ margin-top: 10px; }
+  .faq-answer strong{ color: var(--ink); }
+  @media (max-width: 720px){ .faq{ padding: 64px 0; } }
+  @media (max-width: 600px){ .faq-answer{ padding: 0 18px 18px; } }
+
   /* ---------- Final CTA ---------- */
   .final-cta{
     padding: 110px 0 130px;
@@ -550,7 +569,7 @@ permalink: /porpoise/
   @media (max-width: 720px) {
     .wrap { padding: 0 20px; }
     .nav .wrap { height: auto; min-height: 68px; flex-wrap: wrap; gap: 14px; padding-top: 14px; padding-bottom: 14px; }
-    .nav-links { display: flex; order: 3; width: 100%; justify-content: space-between; gap: 12px; font-size: 13px; }
+    .nav-links { display: flex; order: 3; width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; }
     .nav-cta { padding: 9px 12px; font-size: 13px; }
     .hero { padding: 70px 0; }
     .demo, .featured, .usage, .philosophy { padding: 64px 0; }
@@ -596,7 +615,7 @@ permalink: /porpoise/
 <a class="skip-link" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main navigation"><div class="wrap"><a class="brand" href="#top"><svg aria-hidden="true" class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 20c3-8 9-13 16-13 3 0 6 1 8 3-2 1-4 1-6 1 2 3 3 6 3 9-3-1-6-3-8-6-2 4-6 7-11 8-1-1-2-2-2-2z" fill="#0E3A52"/>
-      </svg>Porpoise</a><div class="nav-links"><a href="#demo">Examples</a><a href="#stances">Library</a><a href="#how-to">How to use</a><a href="#philosophy">Philosophy</a></div><a class="nav-cta" href="#stances">Get a stance</a></div></nav>
+      </svg>Porpoise</a><div class="nav-links"><a href="#demo">Examples</a><a href="#stances">Library</a><a href="#how-to">How to use</a><a href="#philosophy">Philosophy</a><a href="#faq">FAQ</a></div><a class="nav-cta" href="#stances">Get a stance</a></div></nav>
 <main id="main" tabindex="-1">
 <section class="hero" id="top">
   <div class="ping-field" aria-hidden="true">
@@ -682,11 +701,62 @@ permalink: /porpoise/
   </div></div>
 </section>
 <section class="philosophy" id="philosophy"><div class="wrap"><span class="eyebrow">The philosophy</span><h2>Make the conversational expectations explicit.</h2><p>A stance is itself a structured set of instructions. Its intended persistence and behavioral scope give it a role across a conversation: what to notice, what kinds of questions to ask, and when to hold back.</p><p>Reusable specifications can help make an approach more consistent. They give you a shared reference for the assistant's attention and your expectations, whether you're preserving knowledge, testing a plan, exploring an idea, or telling a story.</p><p>Different tasks call for different approaches. Choose the stance that fits what you need from the conversation, and judge the responses against its instructions.</p></div></section>
+<section class="faq" id="faq" aria-labelledby="faq-heading">
+  <div class="wrap">
+    <div class="section-head"><h2 id="faq-heading">Frequently asked questions</h2></div>
+    <div class="faq-list">
+      <details class="test-stage">
+        <summary><h3>How do I fit Porpoise into my workflow?</h3></summary>
+        <div class="faq-answer">
+          <p>Think of your downloaded stances as a small library of reusable conversation instructions.</p>
+          <ol>
+            <li>Download the YAML files for the stances you want to use and keep them together in a folder that's easy to access. You could call it <code>Porpoise</code>, <code>AI Stances</code>, or anything you'll remember.</li>
+            <li>When you're about to start a conversation, choose the stance that fits what you're trying to do, attach its YAML file to a new chat.</li>
+            <li><strong>Ask the AI to adopt the stance.</strong></li>
+            <li><strong>After its initial confirmation of adoption, explain what you want to work on.</strong></li>
+          </ol>
+          <p>For example, if you want to explore an idea without immediately turning it into a plan, attach Explorer. If you want someone to examine the weaknesses in your reasoning, attach Challenger.</p>
+          <p><strong>You don't need to upload your entire collection every time. Just attach the stance you're going to use.</strong></p>
+          <p>Porpoise works best when each conversation has a reasonably clear purpose. If the conversation gradually turns into something completely different, starting a fresh chat with the appropriate stance is usually better than trying to change instructions halfway through.</p>
+          <p>You can also attach two stances at the beginning of a conversation and specify their relative emphasis, such as 70% Explorer and 30% Confidante. Treat those percentages as guidance rather than exact controls. Combinations are experimental, and The Drafter should always be used alone.</p>
+        </div>
+      </details>
+      <details class="test-stage">
+        <summary><h3>Why use a Porpoise stance instead of a regular prompt?</h3></summary>
+        <div class="faq-answer">
+          <p>You absolutely can use a regular prompt. Porpoise doesn't replace prompting, and you don't need a YAML file to ask an AI to behave differently.</p>
+          <p>The advantage is that a Porpoise stance gives you a reusable set of behavioral instructions that you don't have to reconstruct every time.</p>
+          <p>A regular prompt might say, "Challenge my thinking about this idea." That communicates what you want, but leaves many decisions to the AI.</p>
+          <p>However, consider:</p>
+          <ul>
+            <li>How aggressively should it challenge you?</li>
+            <li>Should it offer alternatives?</li>
+            <li>When should it acknowledge uncertainty?</li>
+            <li>What should it avoid doing?</li>
+          </ul>
+          <p>A Porpoise stance makes more of those expectations explicit ahead of time.</p>
+          <p>The stances describe how the AI should approach the conversation, what kinds of responses are useful, what boundaries to respect, and how to handle situations where different conversational instincts might conflict.</p>
+          <p>That doesn't guarantee perfect behavior. AI models can interpret instructions differently, and their behavior can drift as conversations grow longer. But it gives you a more consistent starting point, especially for conversations you find yourself having repeatedly.</p>
+          <p>You can still write ordinary prompts within the rest of a Porpoise conversation. The stance establishes the working relationship, while your messages provide the actual subject and instructions.</p>
+          <p><strong>Use a regular prompt when a quick instruction is enough. Use a Porpoise stance when you want to reuse a particular way of working without explaining it from scratch each time.</strong></p>
+        </div>
+      </details>
+      <details class="test-stage">
+        <summary><h3>Do I need to know what YAML is?</h3></summary>
+        <div class="faq-answer">
+          <p>No. YAML is just the text format used to organize the stance instructions.</p>
+          <p>You don't need to write code, install anything, or understand the file's structure to use a Porpoise stance. Download the file, attach it to a conversation with an AI that supports file attachments, and ask the AI to follow it.</p>
+          <p>If your AI doesn't support YAML attachments, you can open the file in a text editor and paste its contents into the conversation instead.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
 <div class="credit">Created by Fletcher Galeano, Resident Inventor.</div>
 </main>
 <footer><div class="wrap"><a class="foot-brand" href="#top"><svg aria-hidden="true" class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 20c3-8 9-13 16-13 3 0 6 1 8 3-2 1-4 1-6 1 2 3 3 6 3 9-3-1-6-3-8-6-2 4-6 7-11 8-1-1-2-2-2-2z" fill="#0E3A52"/>
-      </svg>Porpoise</a><div class="foot-links"><a href="#stances">Stance library</a><a href="#how-to">How to use</a><a href="#top">Back to top ↑</a></div><p class="copyright">A public, free-to-use library.</p></div></footer>
+      </svg>Porpoise</a><div class="foot-links"><a href="#stances">Stance library</a><a href="#how-to">How to use</a><a href="#faq">FAQ</a><a href="#top">Back to top ↑</a></div><p class="copyright">A public, free-to-use library.</p></div></footer>
 <script src="api-config.js"></script>
 <script src="downloads.js"></script>
 </body></html>
