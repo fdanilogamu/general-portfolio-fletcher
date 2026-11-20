@@ -1240,6 +1240,8 @@ footer a { color: var(--accent); }
 ul.navigation-related { margin: .6rem 0 0; padding-left: 1.25rem; }
 .navigation-related li { margin-bottom: .4rem; }
 .navigation-tag { display: inline-block; margin-left: .5rem; padding: .1rem .4rem; border: 1px solid var(--border-color); color: var(--fg); font-size: .7rem; vertical-align: middle; }
+.navigation-external-icon { display: inline-block; margin-inline-start: .25em; font-size: .85em; line-height: 1; }
+.navigation-external-icon::before { content: "↗"; }
 .navigation-closing { margin-top: 3rem; }
 @media (max-width: 600px) {
   .navigation-paths { grid-template-columns: 1fr; }
