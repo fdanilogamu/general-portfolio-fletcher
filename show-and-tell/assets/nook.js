@@ -170,5 +170,14 @@
     fragment.appendChild(makeEntry(update, index));
   });
   feed.appendChild(fragment);
+
+  // The fragment target is created by this script. Keep the paper still when
+  // opening a dispatch directly so the print animation cannot move it offscreen.
+  const dispatch = document.getElementById(window.location.hash.slice(1));
+  if (dispatch?.classList.contains("dispatch") && feed.contains(dispatch)) {
+    dispatch.scrollIntoView();
+    return;
+  }
+
   startPrintAnimation();
 })();
